@@ -1,0 +1,9 @@
+{{extend 'congo-layout.html'}}
+	<div id='intro'>
+		<h1> Videos</h1>
+	</div>
+	<div id='productList'>
+        {{features=db(db.products.type == 'Blu-Ray').select()}}
+		 {{for feature in features:}}
+            {{include 'subviews/products-display.html'}}
+	</div>

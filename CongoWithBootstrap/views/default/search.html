@@ -1,0 +1,24 @@
+{{extend 'congo-layout.html'}}
+
+<div class = 'searchAndResults'>
+
+
+    <h2>Input form</h2>
+
+        {{=form}}
+
+
+        {{=response.flash}}
+
+        {{ if features is not None:}}
+
+        {{include 'subviews/products-display.html'}}
+
+
+
+        {{pass}}
+
+
+</div>
+
+

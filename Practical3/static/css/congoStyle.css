@@ -1,0 +1,24 @@
+
+
+.formLabel{
+    display: inline-block;
+    width: 100px;
+}
+
+.formField *{
+    vertical-align: middle;
+}
+
+.addRecordForm{
+    margin-bottom: 20px;
+
+}
+
+.submitButtonContainer{
+    margin-top: 20px;
+
+}
+
+.searchAndResults{
+    margin-bottom: 50px;
+}

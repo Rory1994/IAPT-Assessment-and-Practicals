@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+	<title>Congo Online Store</title>
+	<meta charset='utf-8' />
+    <link rel='stylesheet' type='text/css' href="{{=URL('static','css/congoStyle.css')}} " media="screen" />
+</head>
+
+<body>
+    <div id='header'>
+        <div id="flag"> <img id="congoFlag" src="../static/images/congo.gif" height='75' width= '100' /> </div>
+        <div id="headerText"> <h1> Democratic Republic of Congo Official Shop</h1></div>
+    </div>
+
+    <div id="nav">
+        <ul id="navList">
+            <li class="navElement"> <a href='../default/index.html'> Home </a> </li>
+            <li class="navElement"> <a href='../store/books.html'> Books </a> </li>
+            <li class="navElement"> <a href='../store/videos.html'> Videos </a> </li>
+            <li class="navElement"> <a href='../default/search.html'> Search </a></li>
+            <li class="navElement"> <a href='../default/addproduct.html'> Add Product </a></li>
+            <li class="navElement"> <a href='../default/updateProduct.html'> Update Product </a></li>
+
+        </ul>
+    </div>
+    <div id='main'>
+        <div id='intro'>
+            <div id="tagline"> <h1> Congo: Your Best Option For Online Shopping</h1> </div>
+
+            <p> Welcome one and all to the newly released Congo Online
+                Shop. Here you will find books, videos and more all delivered to
+                your door!*
+            </p>
+            <p> *Delivery not yet avaliable</p>
+
+        </div>
+
+        <div id="productList">
+            {{include}}
+            {{pass}}
+        </div>
+
+    </div>
+
+	<footer>
+				
+					&copy; Copyright by Rory Simpson, 2014
+				
+	</footer>
+</body>
+</html>

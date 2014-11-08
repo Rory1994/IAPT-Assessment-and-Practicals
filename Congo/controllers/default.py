@@ -1,0 +1,79 @@
+# -*- coding: utf-8 -*-
+# this file is released under public domain and you can use without limitations
+
+#########################################################################
+## This is a sample controller
+## - index is the default action of any application
+## - user is required for authentication and authorization
+## - download is for downloading files uploaded in the db (does streaming)
+## - api is an example of Hypermedia API support and access control
+#########################################################################
+
+def index():
+    """
+    example action using the internationalization operator T and flash
+    rendered by views/default/index.html or views/generic.html
+
+    if you need a simple wiki simply replace the two lines below with:
+    return auth.wiki()
+    """
+    features = {'book1':{'id':'1', 'name': 'Batman: Arkham Asylum','publisher': 'DC Comics',
+                         'price': '9.00', 'format': 'Paperback', 'writer':'Grant Morrison',
+                         'pages':'216', 'description':'Written    by    Grant    Morrison.    Art    and    cover    by    Dave    McKean    In    celebration    of    the ...'},
+                'book2':{'id': '2', 'name': 'Superman: Earth One', 'publisher':'DC Comics',
+                         'price': '£7.00', 'format':'Paperback', 'writer': 'Mikey',
+                         'pages':'136', 'description': 'J.    Michael    Straczynski,    the    creator    of    Babylon    5,    joins    forces    with    rising    star    artist    Shane    Davis    (Superman/Batman:    The Search    for Kryptonite)    to    create    this    original    graphic    novel    that    gives    new    insight    into    Clark    Kents    transformation    into Superman    and    his    first    year    as    The    Man    of    Steel.    This    is    the    first    in    a    new    wave    of    original    DC    Universe    graphic    novels, featuring    top    writers    and    illustrators    unique    takes    on    DC    characters.'
+                         }}
+   
+    response.flash = T("Welcome to web2py!")
+    return dict(features=features)
+
+
+def user():
+    """
+    exposes:
+    http://..../[app]/default/user/login
+    http://..../[app]/default/user/logout
+    http://..../[app]/default/user/register
+    http://..../[app]/default/user/profile
+    http://..../[app]/default/user/retrieve_password
+    http://..../[app]/default/user/change_password
+    http://..../[app]/default/user/manage_users (requires membership in
+    use @auth.requires_login()
+        @auth.requires_membership('group name')
+        @auth.requires_permission('read','table name',record_id)
+    to decorate functions that need access control
+    """
+    return dict(form=auth())
+
+
+@cache.action()
+def download():
+    """
+    allows downloading of uploaded files
+    http://..../[app]/default/download/[filename]
+    """
+    return response.download(request, db)
+
+
+def call():
+    """
+    exposes services. for example:
+    http://..../[app]/default/call/jsonrpc
+    decorate with @services.jsonrpc the functions to expose
+    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
+    """
+    return service()
+
+
+@auth.requires_login() 
+def api():
+    """
+    this is example of API with access control
+    WEB2PY provides Hypermedia API (Collection+JSON) Experimental
+    """
+    from gluon.contrib.hypermedia import Collection
+    rules = {
+        '<tablename>': {'GET':{},'POST':{},'PUT':{},'DELETE':{}},
+        }
+    return Collection(db).process(request,response,rules)

@@ -1,0 +1,48 @@
+{{extend 'congo-layout.html'}}
+
+<div id='intro'>
+<h1> Congo: Your Best Option For Online Shopping</h1>
+
+	<p> Welcome one and all to the newly released Congo Online 
+		Shop. Here you will find books, videos and more all delivered to
+		your door!* 
+	</p>
+	<p> *Delivery not yet avaliable</p>
+
+</div>
+
+<h2> Featured Books</h2>
+
+
+
+
+{{for book in features:}}
+	<div class='product'>
+		{{=H3(features[book]['name'])}}
+		<p> <b> Details</b></p>
+		<div class='details'>
+			<ul>
+				<li> <b> Writer:</b> {{=features[book]['writer']}}</li>
+				<li> <b> Publisher</b> {{=features[book]['publisher']}}</li>
+				<li> <b> Format</b> {{=features[book]['format']}}</li>
+				<li> <b> Pages:</b> {{=features[book]['pages']}}</li>
+				<li> <b> Price:</b> {{=features[book]['price']}}</li>
+			</ul>
+		</div>
+		<div class='glance'>
+			<p>
+				<b>At a glance</b> <br/>
+				{{=features[book]['description']}}
+			</p>
+		</div>
+		{{pass}}
+	</div>
+		
+			
+		
+		
+	
+
+
+
+

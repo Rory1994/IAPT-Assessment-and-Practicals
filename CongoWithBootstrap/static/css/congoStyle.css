@@ -1,0 +1,102 @@
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html{
+    overflow-y: scroll;
+
+}
+
+
+
+body{
+    font-size: 62.5%;
+
+    height: 100%;
+
+}
+
+
+
+#header{
+    margin-top: 20px;
+}
+
+
+
+
+
+#nav{
+    padding: 5px 0;
+    background-color: white;
+    font-size: 1.2em;
+}
+
+#navList{
+    list-style:none;
+    margin:0;
+    padding:0;
+	text-align:center;
+}
+
+
+.navElement a{
+    text-decoration: none;
+    padding:2em;
+    color: lawngreen;
+    display: inline;
+}
+
+.main_slider a{
+    font-size: 2em;
+}
+
+#tagline{
+
+    color: darkblue;
+}
+
+.product{
+    margin-left: 30px;
+    font-size: 14px;
+
+}
+
+.productName{
+    color: darkblue;
+}
+
+
+#footer{
+    padding: 20px 0;
+    text-align: center;
+}
+
+
+
+
+.formLabel{
+    display: inline-block;
+    width: 100px;
+}
+
+.formField *{
+    vertical-align: middle;
+}
+
+.addRecordForm{
+    margin-bottom: 20px;
+
+}
+
+.submitButtonContainer{
+    margin-top: 20px;
+
+}
+
+.searchAndResults{
+    margin-bottom: 50px;
+}
+

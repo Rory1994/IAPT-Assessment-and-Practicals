@@ -1,0 +1,38 @@
+{{extend 'congo-layout.html'}}
+
+
+
+<h2> Featured Books</h2>
+
+   {{for feature in features:}}
+	<div class='product'>
+		{{=H3(feature.products.name,  _class='productName')}}
+		<p> <b> Details</b></p>
+		<div class='details'>
+			<ul>
+				<li> <b> Publisher</b> {{=feature.products.publisher}}</li>
+				<li> <b>Type:</b> {{=feature.products.type}}</li>
+				<li> <b> Price:</b> {{=feature.products.price}}</li>
+			</ul>
+		</div>
+		<div class='glance'>
+			<p>
+				<b>At a glance</b> <br/>
+				{{=feature.products.description}}
+			</p>
+		</div>
+    </div>
+		{{pass}}
+
+
+
+
+		
+			
+		
+		
+	
+
+
+
+
