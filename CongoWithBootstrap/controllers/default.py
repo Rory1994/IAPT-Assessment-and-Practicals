@@ -9,6 +9,7 @@
 ## - api is an example of Hypermedia API support and access control
 #########################################################################
 
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -26,7 +27,10 @@ def index():
                          }}
    
     response.flash = T("Welcome to web2py!")
-    return dict(features=db(db.products.id == db.features.product_id).select())
+    user = None
+    if auth.user is not None:
+        user = db(db.auth_user.id == auth.user_id).select()
+    return dict(features=db(db.products.id == db.features.product_id).select(), user=user)
 
 def search():
     form=FORM('Search:', INPUT(_name='search', requires=IS_NOT_EMPTY()), INPUT(_type='submit'))
@@ -52,6 +56,7 @@ def search():
 
     return dict(form=form, features = query_result)
 
+@auth.requires_login()
 def addproduct():
 
     form=FORM('New Record:', BR(), BR(), DIV( SPAN(LABEL( 'Name: ', _for='name' ), _class='formLabel'), INPUT(_name='name', requires=IS_NOT_EMPTY()), _class='formField')
@@ -78,6 +83,7 @@ def addproduct():
 
     return dict(form=form);
 
+@auth.requires_login()
 def updateProduct():
 
     db.products.description.widget = SQLFORM.widgets.text.widget

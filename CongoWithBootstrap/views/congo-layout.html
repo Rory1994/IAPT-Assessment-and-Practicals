@@ -21,14 +21,27 @@
 
                         <ul class="nav">
                             <li class="divider-vertical"></li>
-                            <li> <a href='../default/index.html'> Home </a> </li>
+
+                            <li> <a href="{{=URL('default','index.html')}} "> Home </a> </li>
                             <li class="divider-vertical"></li>
-                            <li> <a href='../store/books.html'> Books </a> </li>
+                            <li> <a href="{{=URL('store','books.html')}} "> Books </a> </li>
                             <li class="divider-vertical"></li>
-                            <li> <a href='../store/videos.html'> Videos </a> </li>
+                            <li> <a href="{{=URL('store','videos.html')}} "> Videos </a> </li>
                             <li class="divider-vertical"></li>
-                            <li> <a href='../default/search.html'> Search </a></li>
+                            <li> <a href="{{=URL('default','search.html')}} "> Search </a></li>
                             <li class="divider-vertical"></li>
+                            {{if auth.is_logged_in:
+
+                            }}
+                            <li> <a href="{{=URL('default','user/profile')}} "> Profile</a></li>
+                            <li class="divider-vertical"></li>
+
+                            {{else:  }}
+                            <li> <a href="{{=URL('default','user/login')}} "> Login</a></li>
+                            <li class="divider-vertical"></li>
+
+                            {{pass}}
+
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Admin
@@ -38,9 +51,9 @@
                                 <ul class="dropdown-menu">
 
                                     <li class="divider"></li>
-                                    <li> <a href='../default/addproduct.html'> Add Product </a></li>
+                                    <li> <a href="{{=URL('default','addproduct.html')}} "> Add Product </a></li>
                                     <li class="divider"></li>
-                                    <li> <a href='../default/updateProduct.html'> Update Product </a></li>
+                                    <li> <a href="{{=URL('default','updateProduct.html')}} "> Update Product </a></li>
 
                                 </ul>
 

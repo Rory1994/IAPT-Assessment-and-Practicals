@@ -3,6 +3,11 @@
 
 
 <h2> Featured Books</h2>
+        {{if user is not None:
+               for users in user:
+                    =users.first_name
+               pass
+         pass}}
         <div class="row">
             {{for feature in features:}}
                 <div class=' span4 product'>
