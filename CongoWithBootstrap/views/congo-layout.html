@@ -31,10 +31,12 @@
                             <li class="divider-vertical"></li>
                             <li> <a href="{{=URL('default','search.html')}} "> Search </a></li>
                             <li class="divider-vertical"></li>
-                            {{if auth.is_logged_in:
+                            {{if (auth.is_logged_in()):
 
                             }}
                             <li> <a href="{{=URL('default','user/profile')}} "> Profile</a></li>
+                            <li class="divider-vertical"></li>
+                            <li> <a href="{{=URL('default','user/logout')}} "> Logout</a></li>
                             <li class="divider-vertical"></li>
 
                             {{else:  }}

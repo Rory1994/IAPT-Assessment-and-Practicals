@@ -133,3 +133,27 @@ success!
 timestamp: 2014-11-08T16:21:12.187232
 ALTER TABLE auth_user ADD username CHAR(128);
 success!
+timestamp: 2014-11-12T21:22:44.133462
+CREATE TABLE user_addresses(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username INTEGER REFERENCES products (id) ON DELETE CASCADE,
+    street CHAR(512),
+    city CHAR(512),
+    country CHAR(512),
+    postcode CHAR(512)
+);
+success!
+timestamp: 2014-11-12T21:22:44.157382
+CREATE TABLE bank_details(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username CHAR(512),
+    card_number CHAR(512),
+    expiry_date CHAR(512),
+    security_code CHAR(512),
+    street CHAR(512),
+    city CHAR(512),
+    country CHAR(512),
+    postcode CHAR(512)
+);
+success!
+success!
