@@ -15,9 +15,9 @@ if not request.env.web2py_runtime_gae:
     db.define_table('products', Field('id'), Field('name'), Field('type'), Field('description')
                     , Field('price'), Field('publisher'))
     db.define_table('features', Field('id'), Field('product_id', 'reference products'))
-    db.define_table('user_addresses', Field('username', 'reference auth_user'), Field('street'), Field('city'),
+    db.define_table('user_addresses', Field('id'), Field('username', 'reference auth_user'), Field('street'), Field('city'),
     Field('country'), Field('postcode'))
-    db.define_table('bank_details', Field('username'), Field('card_number'), Field('expiry_date'), Field('security_code'),
+    db.define_table('bank_details', Field('id'), Field('username'), Field('card_number'), Field('expiry_date'), Field('security_code'),
                     Field('street'), Field('city'), Field('country'), Field('postcode'))
 
 else:

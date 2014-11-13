@@ -56,7 +56,7 @@ def search():
 
     return dict(form=form, features = query_result)
 
-@auth.requires_login()
+@auth.requires_login(otherwise=URL('login'))
 def addproduct():
 
     form=FORM('New Record:', BR(), BR(), DIV( SPAN(LABEL( 'Name: ', _for='name' ), _class='formLabel'), INPUT(_name='name', requires=IS_NOT_EMPTY()), _class='formField')
@@ -83,7 +83,7 @@ def addproduct():
 
     return dict(form=form);
 
-@auth.requires_login()
+@auth.requires_login(otherwise=URL('login'))
 def updateProduct():
 
     db.products.description.widget = SQLFORM.widgets.text.widget
@@ -113,6 +113,21 @@ def form_processing(form):
     if form.vars.search is None:
         form.errors.search = 'Search Box is empty'
 
+def login():
+    return dict()
+
+def register():
+
+    if(len(request.post_vars) is not 0):
+
+        user = db.auth_user.insert(first_name = request.vars.first_name, last_name = request.vars.surname,
+                                   password =  db.auth_user.password.validate(request.vars.password)[0], username = request.vars.username)
+
+        auth.login_bare(request.vars.username, request.vars.password)
+
+
+
+    return dict()
 
 
 

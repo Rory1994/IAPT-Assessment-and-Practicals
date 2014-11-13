@@ -1,6 +1,12 @@
 {{extend 'congo-layout.html'}}
 
 <form action='#' method="post">
-    <label>Username:
-        <input type="text"</label>
+    <label>
+        Username:<input type="text" name="username"/>
+    </label>
+    <label>
+        Password:<input type="password" name="password"/>
+    </label>
+    <input type="submit" value="Login" name="login"/>
+    <a href={{=URL('default','register')}}><input type="button" value="Register" name="register"/> </a>
 </form>
