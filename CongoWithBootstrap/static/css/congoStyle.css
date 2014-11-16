@@ -47,6 +47,14 @@ body{
 	text-align:center;
 }
 
+.navbar-inner{
+    padding-left: 40px;
+}
+
+.below-nav{
+    margin-top: 50px;
+}
+
 
 .navElement a{
     text-decoration: none;

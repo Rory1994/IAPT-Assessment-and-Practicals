@@ -114,6 +114,14 @@ def form_processing(form):
         form.errors.search = 'Search Box is empty'
 
 def login():
+
+    if len(request.post_vars) is not 0:
+         auth.login_bare(request.vars.username, request.vars.password)
+         if(auth.is_logged_in()):
+             redirect(URL('index'))
+
+
+
     return dict()
 
 def register():

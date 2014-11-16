@@ -1,64 +1,64 @@
 {{extend 'congo-layout.html'}}
 
-<form action='#' method="post">
+<form id="registerForm" action='#' method="post" onsubmit="return validateFormOnSubmit(this)">
 
 
 
     <label>
-        First Name:<input type="text" name="first_name" required="required"/>
+        First Name:<input type="text" name="first_name" />
     </label>
     <label>
-        Surname:<input type="text" name="surname" required="required"/>
+        Surname:<input type="text" name="surname" />
     </label>
     <label>
-        Email:<input type="text" name="email_one" required="required"/>
+        Email:<input type="text" name="email_one" />
     </label>
     <label>
-        Confirm Email:<input type="text" name="email_two" required="required"/>
+        Confirm Email:<input type="text" name="email_two" />
     </label>
     <label>
-        Username:<input type="text" name="username" required="required"/>
+        Username:<input type="text" name="username" />
     </label>
     <label>
-        Password:<input type="password" name="password" required="required"/>
+        Password:<input type="password" name="password"/>
     </label>
     <label>
-        Confirm Password:<input type="password" name="password_two" required="required"/>
+        Confirm Password:<input type="password" name="password_two"/>
     </label>
     <label>
-        Street:<input type="text" name="street" required="required"/>
+        Street:<input type="text" name="street" />
     </label>
     <label>
-        City:<input type="text" name="city" required="required"/>
+        City:<input type="text" name="city" />
     </label>
     <label>
-        Country:<input type="text" name="country" required="required"/>
+        Country:<input type="text" name="country" />
     </label>
     <label>
-        Postcode:<input type="text" name="postcode" required="required"/>
-    </label>
-
-    <label>
-        Card Number:<input type="text" name="card_number" required="required"/>
-    </label>
-    <label>
-        Expiry Date:<input type="text" name="expiry_date" required="required"/>
-    </label>
-    <label>
-        Security Code:<input type="text" name="security_code" required="required"/>
+        Postcode:<input type="text" name="postcode" />
     </label>
 
     <label>
-        Billing Street:<input type="text" name="billing_street" required="required"/>
+        Card Number:<input type="text" name="card_number" />
     </label>
     <label>
-        Billing City:<input type="text" name="billing_city" required="required"/>
+        Expiry Date:<input type="text" name="expiry_date" />
     </label>
     <label>
-        Billing Country:<input type="text" name="billing_country" required="required"/>
+        Security Code:<input type="text" name="security_code" />
+    </label>
+
+    <label>
+        Billing Street:<input type="text" name="billing_street"/>
     </label>
     <label>
-        Billing Postcode:<input type="text" name="billing_postcode" required="required"/>
+        Billing City:<input type="text" name="billing_city" />
+    </label>
+    <label>
+        Billing Country:<input type="text" name="billing_country"/>
+    </label>
+    <label>
+        Billing Postcode:<input type="text" name="billing_postcode"/>
     </label>
 
 
