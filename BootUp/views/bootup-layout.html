@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<head>
+	<title>BootUp</title>
+	<meta charset='utf-8' />
+    <link rel='stylesheet' type='text/css' href="{{=URL('static','css/bootupStyle.css')}} " media="screen" />
+    <link rel='stylesheet' type='text/css' href="{{=URL('static','css/bootstrap.min.css')}} " media="screen" />
+    <link rel='stylesheet' type='text/css' href="{{=URL('static','css/bootstrap-responsive.min.css')}} " media="screen" />
+    <link rel='stylesheet' type='text/css' href="{{=URL('static','css/web2py_bootstrap.css')}} " media="screen" />
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+     <script src="{{=URL('static','js/modernizr.custom.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static','js/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+</head>
+<body>
+
+    <div class="container main">
+        <div class="row">
+            <div class="navbar navbar-fixed-top navbar-inverse">
+                <div class="navbar-inner">
+                    <div class="container">
+                         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                         </a>
+                        <a href="{{=URL('default','index')}}" class="brand"> BootUp </a>
+
+                        <div class="nav-collapse collapse">
+
+                             <ul class="nav">
+                                <li class="divider-vertical"></li>
+                                <li> <a href="{{=URL('store','categories')}} "> Categories </a> </li>
+                                <li class="divider-vertical"></li>
+                                <li>  <form class="navbar-search ">
+                                        <input type="text" class="span4 search-query" placeholder="Search">
+                                      </form>
+
+                                </li>
+
+
+                            </ul>
+
+                            <ul class="nav pull-right ">
+
+                                {{if (auth.is_logged_in()):
+
+                                }}
+                                <li class="divider-vertical"></li>
+                                <li> <a href="{{=URL('default','create')}} "> Create</a></li>
+                                <li class="divider-vertical"></li>
+                                <li> <a href="{{=URL('default','user/profile')}} "> Profile</a></li>
+                                <li class="divider-vertical"></li>
+                                <li> <a href="{{=URL('default','user/logout')}} "> Logout</a></li>
+
+
+                                {{else:  }}
+                                <li class="divider-vertical"></li>
+                                <li> <a href="{{=URL('default','login')}} "> Login</a></li>
+                                <li class="divider-vertical"></li>
+                                <li> <a href="{{=URL('default','register')}} "> Register</a></li>
+
+
+                                {{pass}}
+
+                            </ul>
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
