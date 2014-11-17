@@ -53,3 +53,88 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
+timestamp: 2014-11-17T14:35:22.334265
+CREATE TABLE address(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    street CHAR(512),
+    city CHAR(512),
+    country CHAR(512),
+    postcode CHAR(512)
+);
+success!
+timestamp: 2014-11-17T14:36:46.648138
+ALTER TABLE auth_user ADD username CHAR(128);
+timestamp: 2014-11-17T14:36:46.692954
+ALTER TABLE auth_user ADD address_id CHAR(512);
+timestamp: 2014-11-17T14:36:46.725572
+ALTER TABLE auth_user ADD birthdate CHAR(512);
+success!
+timestamp: 2014-11-17T14:36:46.801939
+CREATE TABLE project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    short_description CHAR(512),
+    status CHAR(512),
+    image CHAR(512),
+    category CHAR(512),
+    total_raised CHAR(512),
+    story CHAR(512),
+    time_opened_for_pledges CHAR(512),
+    goal CHAR(512),
+    title CHAR(512),
+    long_description CHAR(512)
+);
+success!
+timestamp: 2014-11-17T14:36:46.850460
+CREATE TABLE pledge_levels(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project_id INTEGER REFERENCES project (id) ON DELETE CASCADE,
+    amount CHAR(512),
+    reward CHAR(512)
+);
+success!
+timestamp: 2014-11-17T14:36:46.889618
+CREATE TABLE pledges(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    pledge_levels_id INTEGER REFERENCES pledge_levels (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-11-17T14:36:46.928031
+CREATE TABLE bank_details(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    card_number CHAR(512),
+    security_code CHAR(512),
+    address_id INTEGER REFERENCES address (id) ON DELETE CASCADE,
+    expiry_date CHAR(512)
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

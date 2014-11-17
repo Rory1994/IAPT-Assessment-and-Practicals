@@ -11,7 +11,17 @@
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'])
+    db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'], lazy_tables=True)
+    db.define_table('address', Field('street'), Field('city'), Field('country'),
+                    Field('postcode'))
+    db.define_table('project',Field('username', 'reference auth_user'), Field('short_description'), Field('status'),
+                    Field('image'), Field('category'), Field('total_raised'), Field('story'),
+                    Field('time_opened_for_pledges'), Field('goal'), Field('title'), Field('long_description'))
+    db.define_table('pledge_levels', Field('project_id', 'reference project'), Field('amount'), Field('reward'))
+    db.define_table('pledges', Field('username', 'reference auth_user'), Field('pledge_levels_id', 'reference pledge_levels'))
+    db.define_table('bank_details', Field('username', 'reference auth_user'), Field('card_number'), Field('security_code'),
+                    Field('address_id', 'reference address'), Field('expiry_date'))
+
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore+ndb')
@@ -47,8 +57,12 @@ auth = Auth(db)
 service = Service()
 plugins = PluginManager()
 
+auth.settings.extra_fields['auth_user']= [Field ('birthdate'), Field('address_ID', 'reference address')]
+
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=True, signature=False)
+
+
 
 ## configure email
 mail = auth.settings.mailer
