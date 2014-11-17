@@ -20,6 +20,21 @@ def index():
     response.flash = T("Welcome to web2py!")
     return dict(message=T('Hello World'))
 
+def login():
+
+    form = FORM(LEGEND('Login'), INPUT(_type='text', _name='username', _class = 'input-block-level', _placeholder='username', requires=IS_NOT_EMPTY()),
+                 INPUT(_type='password',_name='password', _class = 'input-block-level', _placeholder='password', requires=IS_NOT_EMPTY()), INPUT(_type='submit', _class='btn btn-primary', _value='Login'),
+                 A('Register',_href="{{=URL('default','register')}}", _role='button', _class='btn btn-info'))
+    if form.accepts(request,session):
+        response.flash = 'form accepted'
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill the form'
+    return dict(form=form)
+
+
+
 
 def user():
     """
