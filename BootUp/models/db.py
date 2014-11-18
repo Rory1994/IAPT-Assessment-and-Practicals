@@ -22,6 +22,8 @@ if not request.env.web2py_runtime_gae:
     db.define_table('bank_details', Field('username', 'reference auth_user'), Field('card_number'), Field('security_code'),
                     Field('address_id', 'reference address'), Field('expiry_date'))
 
+
+
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore+ndb')
