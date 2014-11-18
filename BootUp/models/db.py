@@ -57,7 +57,8 @@ auth = Auth(db)
 service = Service()
 plugins = PluginManager()
 
-auth.settings.extra_fields['auth_user']= [Field ('birthdate'), Field('address_ID', 'reference address')]
+auth.settings.extra_fields['auth_user']= [Field ('birthdate'), Field('address_ID', 'reference address'),
+                                          Field('card_id', 'reference bank_details')]
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
