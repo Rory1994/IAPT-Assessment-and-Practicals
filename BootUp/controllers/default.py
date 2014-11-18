@@ -25,14 +25,25 @@ def login():
     form = FORM(LEGEND('Login'), INPUT(_type='text', _name='username', _class = 'input-block-level', _placeholder='username', requires=IS_NOT_EMPTY()),
                  INPUT(_type='password',_name='password', _class = 'input-block-level', _placeholder='password', requires=IS_NOT_EMPTY()), INPUT(_type='submit', _class='btn btn-primary', _value='Login'),
                  A('Register',_href="{{=URL('default','register')}}", _role='button', _class='btn btn-info'))
-    if form.accepts(request,session):
+    if form.process(onvalidation=login_validation).accepted:
         response.flash = 'form accepted'
-    elif form.errors:
-        response.flash = 'form has errors'
-    else:
-        response.flash = 'please fill the form'
+        user = auth.login_bare(request.vars.username, request.vars.password)
+        if(user is False):
+            response.flash = DIV("Invalid Username/Password Combination", _class='alert alert-error')
+        else:
+            redirect(URL('index'))
+
     return dict(form=form)
 
+def login_validation(form):
+    if form.vars.username =="cat":
+        form.errors.username= "Hello Cat"
+    if form.vars.password == None:
+        form.errors.password = "Password can not be empty"
+
+def register():
+
+    return dict()
 
 
 
