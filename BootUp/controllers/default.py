@@ -104,6 +104,18 @@ def register():
     ))
 
     if form.process().accepted:
+        dob = request.vars.day_DOB+ "/" +  request.vars.month_DOB +"/" + request.vars.year_DOB
+
+        address = db.address.insert(street = request.vars.street, city = request.vars.city, country = request.vars.country,
+                            postcode = request.vars.postcode)
+
+        bank_details = db.bank_details.insert(card_number = request.vars.card_number, security_code = request.vars.security_code,
+                                              address_id = address, expiry_date = request.vars.expiry_date)
+
+
+        db.auth_user.insert(username = request.vars.username, password = db.auth_user.password.validate(request.vars.password)[0],
+                     first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = dob,
+                     )
         response.flash = 'accepted'
 
     return dict(form=form)

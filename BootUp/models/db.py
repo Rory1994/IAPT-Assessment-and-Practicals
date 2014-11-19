@@ -19,7 +19,7 @@ if not request.env.web2py_runtime_gae:
                     Field('time_opened_for_pledges'), Field('goal'), Field('title'), Field('long_description'))
     db.define_table('pledge_levels', Field('project_id', 'reference project'), Field('amount'), Field('reward'))
     db.define_table('pledges', Field('username', 'reference auth_user'), Field('pledge_levels_id', 'reference pledge_levels'))
-    db.define_table('bank_details', Field('username', 'reference auth_user'), Field('card_number'), Field('security_code'),
+    db.define_table('bank_details', Field('card_number'), Field('security_code'),
                     Field('address_id', 'reference address'), Field('expiry_date'))
 
 
