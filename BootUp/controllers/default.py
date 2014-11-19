@@ -64,7 +64,7 @@ def register():
 
                         DIV( LABEL('Date of Birth:'),INPUT( _name='day_DOB', _type='text', _class='span1', _maxlength='2',_placeholder="dd",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
                              INPUT( _name='month_DOB', _type='text', _class='span1', _maxlength='2', _placeholder='mm',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
-                             INPUT( _name='year_DOB', _type='text', _class='span1', _maxlength='2', _placeholder='yyyy',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                             INPUT( _name='year_DOB', _type='text', _class='span1', _maxlength='4', _placeholder='yyyy',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
                              ,_class="controls controls-row"),
 
                         LEGEND('Login Credentials'),
@@ -103,19 +103,62 @@ def register():
 
     ))
 
+
+
+
+
     if form.process().accepted:
+
         dob = request.vars.day_DOB+ "/" +  request.vars.month_DOB +"/" + request.vars.year_DOB
 
-        address = db.address.insert(street = request.vars.street, city = request.vars.city, country = request.vars.country,
-                            postcode = request.vars.postcode)
+        addressAlreadyInDBQuery = db((db.address.street ==request.vars.street) and (db.address.city == request.vars.city)
+                                         and (db.address.country == request.vars.country) and
+                                        (db.address.postcode == request.vars.postcode)).select()
 
-        bank_details = db.bank_details.insert(card_number = request.vars.card_number, security_code = request.vars.security_code,
+        if(len(addressAlreadyInDBQuery) >0):
+            address = addressAlreadyInDBQuery[0].id
+        else:
+            address = db.address.insert(street = request.vars.street, city = request.vars.city, country = request.vars.country,
+                        postcode = request.vars.postcode)
+
+        bankDetailsAlreadyInDBQuery = db(db.bank_details.card_number == request.vars.card_number).select()
+
+        if(len( bankDetailsAlreadyInDBQuery) >0):
+            bank_details = bankDetailsAlreadyInDBQuery[0].id
+
+        else:
+
+            if(request.vars.billing_checkbox == 'yes'):
+                bank_details = db.bank_details.insert(card_number = request.vars.card_number, security_code = request.vars.security_code,
                                               address_id = address, expiry_date = request.vars.expiry_date)
+
+            else:
+                billingAddressAlreadyInDBQuery = db((db.address.street ==request.vars.billing_street) and (db.address.city == request.vars.billing_city)
+                                             and (db.address.country == request.vars.billing_country) and
+                                            (db.address.postcode == request.vars.billing_postcode)).select()
+
+                if(len(billingAddressAlreadyInDBQuery) >0):
+                    bank_address = billingAddressAlreadyInDBQuery[0].id
+                else:
+                    bank_address = db.address.insert(street = request.vars.billing_street, city = request.vars.billing_city, country = request.vars.billing_country,
+                                    postcode = request.vars.billing_postcode)
+
+
+
+                bank_details = db.bank_details.insert(card_number = request.vars.card_number, security_code = request.vars.security_code,
+                                                  address_id = bank_address, expiry_date = request.vars.expiry_date)
+
+
+
+
 
 
         db.auth_user.insert(username = request.vars.username, password = db.auth_user.password.validate(request.vars.password)[0],
-                     first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = dob,
-                     )
+                       first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = dob, bank_details_id = bank_details,
+                       address_id = address)
+
+        auth.login_bare(request.vars.username, request.vars.password)
+        redirect(URL('index'))
         response.flash = 'accepted'
 
     return dict(form=form)
