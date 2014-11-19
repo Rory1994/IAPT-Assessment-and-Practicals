@@ -1,1 +1,30 @@
 {{extend "bootup-profile-layout.html"}}
+
+
+<div class="page-header">
+    <h1>{{=(user.first_name + " " + user.last_name)}} <small> {{=number_of_pledges}} Pledges and {{=number_of_projects}}  Projects</small></h1>
+
+</div>
+
+
+<ul class="nav nav-tabs nav-stacked">
+    <li><a href="{{=URL('profile','projects', args=user.username)}} "> <h1>Your Projects </h1></a> </li>
+    <li><a href="{{=URL('profile','pledges', args=user.username)}} "><h1>Your Pledges </h1></a></li>
+    <li><a href="{{=URL('profile','information', args=user.username)}} "><h1>Your Information </h1></a></li>
+</ul>
+
+<div class="hero-unit">
+  <h1>Fancy Starting Something Special?</h1>
+  <p>Start your own project to finally fulfil your dreams</p>
+  <p>
+    <a class="btn btn-primary btn-large">
+      Create a Project
+    </a>
+  </p>
+</div>
+
+
+
+
+
+
