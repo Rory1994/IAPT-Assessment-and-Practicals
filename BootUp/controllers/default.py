@@ -52,6 +52,7 @@ def login_validation(form):
     if form.vars.password == None:
         form.errors.password = "Password can not be empty"
 
+
 def register():
 
     form= FORM(FIELDSET(
@@ -122,6 +123,7 @@ def register():
                         postcode = request.vars.postcode)
 
         bankDetailsAlreadyInDBQuery = db(db.bank_details.card_number == request.vars.card_number).select()
+
 
         if(len( bankDetailsAlreadyInDBQuery) >0):
             bank_details = bankDetailsAlreadyInDBQuery[0].id
