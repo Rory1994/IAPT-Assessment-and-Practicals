@@ -1,21 +1,97 @@
 {{extend "bootup-profile-layout.html"}}
+
 <div class="well">
     <div class="tabbable">
-      <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab1" data-toggle="tab">Personal Information</a></li>
-        <li><a href="#tab2" data-toggle="tab"> Home Address</a></li>
-        <li><a href="#tab3" data-toggle="tab">Billing Details</a></li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane active" id="tab1">
-          <p>Personal Information</p>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Personal Information</a></li>
+            <li><a href="#tab2" data-toggle="tab"> Home Address</a></li>
+            <li><a href="#tab3" data-toggle="tab">Billing Details</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <dl class="dl-horizontal">
+
+
+                    <dt> Username:</dt>
+                    <dd> {{=user.username}}</dd>
+                    <hr>
+
+                    <dt> First Name:</dt>
+                    <dd> {{=user.first_name}}</dd>
+                    <hr>
+
+                    <dt> Last Name:</dt>
+                    <dd> {{=user.last_name}}</dd>
+                    <hr>
+
+                    <dt> Date of Birth:</dt>
+                    <dd> {{=user.birthdate}}</dd>
+
+
+
+                </dl>
+            </div>
+            <div class="tab-pane" id="tab2">
+                 <dl class="dl-horizontal">
+
+
+                    <dt> Street:</dt>
+                    <dd> {{=address.street}}</dd>
+                    <hr>
+
+                    <dt> City:</dt>
+                    <dd> {{=address.city}}</dd>
+                    <hr>
+
+                    <dt> Country:</dt>
+                    <dd> {{=address.country}}</dd>
+                    <hr>
+
+                    <dt> Postcode:</dt>
+                    <dd> {{=address.postcode}}</dd>
+
+                </dl>
+
+
+            </div>
+            <div class="tab-pane" id="tab3">
+
+                 <dl class="dl-horizontal">
+
+
+                    <dt> Card Number:</dt>
+                    <dd> **** **** {{=bank_details.card_number[-4:]}}</dd>
+                    <hr>
+
+                    <dt> Security Code:</dt>
+                    <dd> ***</dd>
+                    <hr>
+
+                    <dt> Expiry Date:</dt>
+                    <dd> {{=bank_details.expiry_date}}</dd>
+                    <hr>
+
+                    <h3> Billing Address</h3>
+
+                    <dt> Street:</dt>
+                    <dd> {{=bank_address.street}}</dd>
+                    <hr>
+
+                    <dt> City:</dt>
+                    <dd> {{=bank_address.city}}</dd>
+                    <hr>
+
+                    <dt> Country:</dt>
+                    <dd> {{=bank_address.country}}</dd>
+                    <hr>
+
+                    <dt> Postcode:</dt>
+                    <dd> {{=bank_address.postcode}}</dd>
+
+                </dl>
+
+            </div>
         </div>
-        <div class="tab-pane" id="tab2">
-          <p>Address</p>
-        </div>
-        <div class="tab-pane" id="tab3">
-          <p>Billing Details</p>
-        </div>
-      </div>
     </div>
 </div>
+<button class="btn btn-large btn-block btn-info " type="button">Change Password</button>

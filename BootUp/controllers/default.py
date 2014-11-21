@@ -63,9 +63,8 @@ def register():
                             ,_class='controls control-group'),
 
 
-                        DIV( LABEL('Date of Birth:'),INPUT( _name='day_DOB', _type='text', _class='span1', _maxlength='2',_placeholder="dd",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
-                             INPUT( _name='month_DOB', _type='text', _class='span1', _maxlength='2', _placeholder='mm',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
-                             INPUT( _name='year_DOB', _type='text', _class='span1', _maxlength='4', _placeholder='yyyy',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                        DIV( LABEL('Date of Birth:'),
+                             INPUT( _name='dob', _type='date', _class='span4', _placeholder='yyyy',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
                              ,_class="controls controls-row"),
 
                         LEGEND('Login Credentials'),
@@ -93,13 +92,13 @@ def register():
 
                         LEGEND('Billing Address'),
                         DIV(LABEL(INPUT(_id='billing_checkbox', _name='billing_checkbox', _value='yes', _onclick='javascript:toggleAddressAvailibility();', _type='checkbox' ), 'Same as Home Address',_class='checkbox'),
-                            LABEL('Street:', _for='billing_street'),INPUT(_id='billing_street', _name='billing_street', _type='text', _class='span4'),
-                            LABEL('City:', _for='billing_city'),INPUT(_id='billing_city', _name='billing_city', _type='text', _class='span4'),
-                            LABEL('Postcode:', _for='billing_postcode'),INPUT(_id='billing_postcode', _name='billing_postcode', _type='text', _class='span4'),
-                            LABEL('Country:', _for='billing_country'),INPUT(_id='billing_country', _name='billing_country', _type='text', _class='span4')
-                            ,_class='controls control-group'),
+                            DIV(LABEL('Street:', _for='billing_street'),INPUT( _name='billing_street', _type='text', _class='span4'), _id='billing_street'),
+                            DIV(LABEL('City:', _for='billing_city'),INPUT( _name='billing_city', _type='text', _class='span4'), _id='billing_city'),
+                            DIV(LABEL('Postcode:', _for='billing_postcode'),INPUT( _name='billing_postcode', _type='text', _class='span4'), _id='billing_postcode'),
+                            DIV(LABEL('Country:', _for='billing_country' ),INPUT( _name='billing_country', _type='text', _class='span4'), _id='billing_country')
+                            ,_class='controls control-group last_form_section'),
 
-                         INPUT(_type='submit', _class='btn btn-primary', _value='Register')
+                         INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Register')
 
 
     ))
@@ -110,7 +109,7 @@ def register():
 
     if form.process().accepted:
 
-        dob = request.vars.day_DOB+ "/" +  request.vars.month_DOB +"/" + request.vars.year_DOB
+
 
         addressAlreadyInDBQuery = db((db.address.street ==request.vars.street) and (db.address.city == request.vars.city)
                                          and (db.address.country == request.vars.country) and
@@ -155,13 +154,14 @@ def register():
 
 
 
+        #Should add date as a datetime object using datetime.date(YYYY, MM, DD)
         db.auth_user.insert(username = request.vars.username, password = db.auth_user.password.validate(request.vars.password)[0],
-                       first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = dob, bank_details_id = bank_details,
+                       first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = request.vars.dob, bank_details_id = bank_details,
                        address_id = address)
 
         auth.login_bare(request.vars.username, request.vars.password)
-        redirect(URL('index'))
-        response.flash = 'accepted'
+        redirect(URL('profile','profile'))
+
 
     return dict(form=form)
 
