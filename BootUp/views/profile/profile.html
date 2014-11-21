@@ -1,11 +1,6 @@
 {{extend "bootup-profile-layout.html"}}
 
 
-<div class="page-header">
-    <h1>{{=(user.first_name + " " + user.last_name)}} <small> {{=number_of_pledges}} Pledges and {{=number_of_projects}}  Projects</small></h1>
-
-</div>
-
 
 <ul class="nav nav-tabs nav-stacked">
     <li><a href="{{=URL('profile','projects', args=user.username)}} "> <h1>Your Projects </h1></a> </li>

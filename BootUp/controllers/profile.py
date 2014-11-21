@@ -9,3 +9,29 @@ def profile():
 
 
     return dict(user=user, number_of_projects=number_of_projects, number_of_pledges=number_of_pledges )
+
+@auth.requires_login(otherwise=URL('default','login'))
+def projects():
+
+    user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
+
+
+    return dict(user=user)
+
+@auth.requires_login(otherwise=URL('default','login'))
+def pledges():
+
+    user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
+
+
+
+    return dict(user=user)
+
+@auth.requires_login(otherwise=URL('default','login'))
+def information():
+
+    user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
+
+
+    return dict(user=user)
+
