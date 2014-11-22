@@ -3,26 +3,36 @@
 <div class="pad-breadcrumbs-away-from-nav">
     <ul class="breadcrumb ">
       {{if request.function=="profile":}}
-      <li><a href="{{=URL('default','index.html')}} ">Home</a> <span class="divider">/</span></li>
-      <li class="active">Profile</li>
+          <li><a href="{{=URL('default','index.html')}} ">Home</a> <span class="divider">/</span></li>
+          <li class="active">Profile</li>
+
       {{else:}}
-      <li><a href="{{=URL('default','index')}} ">Home</a> <span class="divider">/</span></li>
-      <li> <a href="{{=URL('profile','profile')}} ">Profile </a> <span class="divider">/</span> </li>
-      <li class="active"> {{=request.function.title()}} </li>
+          <li><a href="{{=URL('default','index')}} ">Home</a> <span class="divider">/</span></li>
+          <li> <a href="{{=URL('profile','profile')}} ">Profile </a> <span class="divider">/</span> </li>
+          <li class="active"> {{=request.function.title()}} </li>
+
       {{pass}}
     </ul>
 </div>
 
 {{if request.function=="profile":}}
-<div class="page-header">
-    <h1>{{=(user.first_name + " " + user.last_name)}} <small> {{=number_of_pledges}} Pledges and {{=number_of_projects}}  Projects</small></h1>
-</div>
+    <div class="page-header">
+        <h1>{{=(user.first_name + " " + user.last_name)}} <small> {{=number_of_pledges}} Pledges and {{=number_of_projects}}  Projects</small></h1>
+    </div>
 
 {{else:}}
 
-<div class="page-header">
-    <h1>{{=(user.first_name + " " + user.last_name)}} <small> Your {{=request.function.title()}} </small></h1>
-</div>
+    {{if request.function=="create": }}
+        <div class="page-header">
+            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Create a Project </small></h1>
+        </div>
+    {{else:}}
+        <div class="page-header">
+            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Your {{=request.function.title()}} </small></h1>
+        </div>
+    {{pass}}
+
+
 
 {{pass}}
 

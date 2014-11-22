@@ -16,10 +16,10 @@ if not request.env.web2py_runtime_gae:
                     Field('postcode'))
 
     db.define_table('project',Field('username', 'reference auth_user'), Field('short_description'), Field('status'),
-                    Field('image'), Field('category'), Field('total_raised'), Field('story'),
-                    Field('time_opened_for_pledges'), Field('goal'), Field('title'), Field('long_description'))
+                    Field('image', 'upload'), Field('category'), Field('total_raised', 'integer'), Field('story'),
+                    Field('time_opened_for_pledges', 'datetime'), Field('funding_goal', 'integer'), Field('title'), Field('long_description'))
 
-    db.define_table('pledge_levels', Field('project_id', 'reference project'), Field('amount'), Field('reward'))
+    db.define_table('pledge_levels', Field('project_id', 'reference project'), Field('amount' , 'integer'), Field('reward'))
 
     db.define_table('pledges', Field('username', 'reference auth_user'), Field('pledge_levels_id', 'reference pledge_levels'))
 
@@ -63,7 +63,7 @@ auth = Auth(db)
 service = Service()
 plugins = PluginManager()
 
-auth.settings.extra_fields['auth_user']= [Field ('birthdate'), Field('address_id', 'reference address'),
+auth.settings.extra_fields['auth_user']= [Field ('birthdate', 'date'), Field('address_id', 'reference address'),
                                           Field('bank_details_id', 'reference bank_details')]
 
 ## create all tables needed by auth if not custom tables

@@ -55,6 +55,23 @@ def login_validation(form):
 
 def register():
 
+    years = []
+    months = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ]
+
+    for i in xrange(100):
+        if i < 10:
+            number = '0' + str(i)
+        else:
+            number = str(i)
+
+        years.append[number]
+
+    # DIV(
+    # SELECT(*months, _placeholder='mm' _name='expiry_date_month', _id='expiry_date_month', requires= [IS_IN_SET(months, error_message=T("Month from list must be chosen"))]),
+    # SELECT(*years, _placeholder='yy' _name='expiry_date_year', _id='expiry_date_year', requires= [IS_IN_SET(years, error_message=T("Year from list must be chosen"))])
+    # , _class='controls controls-group')
+
+
     form= FORM(FIELDSET(
 
                         LEGEND('Personal Information'),

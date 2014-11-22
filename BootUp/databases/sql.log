@@ -448,3 +448,35 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
+success!
+success!
+timestamp: 2014-11-22T15:47:30.176698
+ALTER TABLE project ADD funding_goal INTEGER;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
