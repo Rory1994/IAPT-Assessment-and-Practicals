@@ -1,2 +1,118 @@
 {{extend "bootup-profile-layout.html"}}
 
+<div class="well span12">
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab"><h4>Open for Pledges </h4></a></li>
+            <li><a href="#tab2" data-toggle="tab"> <h4> Not Available </h4> </a></li>
+            <li><a href="#tab3" data-toggle="tab"><h4> Funded </h4></a></li>
+            <li><a href="#tab4" data-toggle="tab"><h4> Not Funded </h4></a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                 {{for project in open_for_pledges_projects:}}
+                    <div class="row">
+                        <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+                        <div class="span4">
+
+                            <h3>{{=project.title}} </h3>
+                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_goal}} </h2>
+                            <h2> <small>Category is </small>  {{=project.category}} </h2>
+
+                        </div>
+                        <div class="span3">
+                            <button class="btn btn-inverse btn-block" type="button">View Project Page</button>
+                            <br>
+                            <button class="btn btn-danger" type="button">Close From Pledges</button>
+
+                        </div>
+                    </div>
+                    <hr>
+                {{pass}}
+
+
+
+            </div>
+            <div class="tab-pane" id="tab2">
+
+                {{for project in not_available_projects:}}
+                    <div class="row">
+                        <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+                        <div class="span4">
+
+                            <h3>{{=project.title}} </h3>
+                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_goal}} </h2>
+                            <h2> <small>Category is </small>  {{=project.category}} </h2>
+
+                        </div>
+                        <div class="span3">
+                            <button class="btn btn-inverse btn-block" type="button">View/Edit</button>
+                            <br>
+                            <button class="btn btn-block btn-info" type="button">Open for Pledges</button>
+                            <br>
+                            <button class="btn btn-block btn-primary" type="button">Add Rewards</button>
+                            <br>
+                            <button class="btn btn-danger" type="button">Delete</button>
+
+                        </div>
+                    </div>
+                    <hr>
+                {{pass}}
+
+
+
+            </div>
+            <div class="tab-pane" id="tab3">
+
+                {{for project in funded_projects:}}
+                    <div class="row">
+                        <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+                        <div class="span4">
+
+                            <h3>{{=project.title}} </h3>
+                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_goal}} </h2>
+                            <h2> <small>Category is </small>  {{=project.category}} </h2>
+
+                        </div>
+                        <div class="span3">
+                            <button class="btn btn-inverse btn-block" type="button">View Project Page</button>
+
+                        </div>
+                    </div>
+                    <hr>
+                {{pass}}
+
+
+
+
+            </div>
+            <div class="tab-pane" id="tab4">
+
+                 {{for project in not_funded_projects:}}
+                    <div class="row">
+                        <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+                        <div class="span4">
+
+                            <h3>{{=project.title}} </h3>
+                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_goal}} </h2>
+                            <h2> <small>Category is </small>  {{=project.category}} </h2>
+
+                        </div>
+                        <div class="span3">
+                            <button class="btn btn-inverse btn-block" type="button">View Project Page</button>
+                             <br>
+                            <button class="btn btn-block btn-info" type="button">Open for Pledges</button>
+
+                        </div>
+                    </div>
+                    <hr>
+                {{pass}}
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

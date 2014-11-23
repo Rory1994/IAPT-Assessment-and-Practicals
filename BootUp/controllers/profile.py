@@ -15,9 +15,15 @@ def projects():
 
     user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
 
+    open_for_pledges_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Open for Pledges").select()
+    not_available_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Not Available").select()
+    funded_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Funded").select()
+    not_funded_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Not Funded").select()
 
 
-    return dict(user=user)
+
+    return dict(user=user, open_for_pledges_projects = open_for_pledges_projects, not_available_projects = not_available_projects,
+                funded_projects = funded_projects, not_funded_projects = not_funded_projects)
 
 @auth.requires_login(otherwise=URL('default','login'))
 def pledges():
@@ -64,14 +70,14 @@ def create():
                             ,_class='controls control-group'),
 
 
-                            DIV(LABEL('Funding Goals (in GBPs):', _for='funding_goal'),
+                            DIV(LABEL('Funding Goal (in GBPs):', _for='funding_goal'),
                             INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
 
-                            LABEL('Long Description of project goals:', _for='long_description'),
-                            TEXTAREA(_id='long_description', _name='long_description',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            LABEL('Long Description of Project Goals:', _for='long_description'),
+                            TEXTAREA(_id='long_description', _name='long_description',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
 
                             LABEL('Project Story:', _for='project_story'),
-                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
 
                             ,_class='controls control-group'),
 
@@ -133,6 +139,8 @@ def create():
         db.pledge_levels.insert(project_id = project, amount = request.vars.pledge_amount3, reward = request.vars.pledge_reward3)
         db.pledge_levels.insert(project_id = project, amount = request.vars.pledge_amount4, reward = request.vars.pledge_reward4)
         db.pledge_levels.insert(project_id = project, amount = request.vars.pledge_amount5, reward = request.vars.pledge_reward5)
+
+        redirect(URL('projects'))
 
 
 
