@@ -6,6 +6,12 @@
           <li><a href="{{=URL('default','index.html')}} ">Home</a> <span class="divider">/</span></li>
           <li class="active">Profile</li>
 
+      {{elif request.function=="change_password":}}
+
+          <li><a href="{{=URL('default','index.html')}} ">Home</a> <span class="divider">/</span></li>
+          <li> <a href="{{=URL('profile','profile')}} ">Profile </a> <span class="divider">/</span> </li>
+          <li class="active"> Change Password </li>
+
       {{else:}}
           <li><a href="{{=URL('default','index')}} ">Home</a> <span class="divider">/</span></li>
           <li> <a href="{{=URL('profile','profile')}} ">Profile </a> <span class="divider">/</span> </li>
@@ -26,6 +32,12 @@
         <div class="page-header">
             <h1>{{=(user.first_name + " " + user.last_name)}} <small> Create a Project </small></h1>
         </div>
+
+    {{elif request.function=="change_password": }}
+         <div class="page-header">
+            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Change Password </small></h1>
+        </div>
+
     {{else:}}
         <div class="page-header">
             <h1>{{=(user.first_name + " " + user.last_name)}} <small> Your {{=request.function.title()}} </small></h1>

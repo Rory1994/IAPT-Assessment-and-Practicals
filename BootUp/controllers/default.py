@@ -126,6 +126,7 @@ def register():
 
     if form.process(onvalidation=register_validation).accepted:
 
+        expiry_date = request.vars.expiry_date_month + "/" + request.vars.expiry_date_year
 
 
         addressAlreadyInDBQuery = db((db.address.street ==request.vars.street) and (db.address.city == request.vars.city)
@@ -148,7 +149,7 @@ def register():
 
             if(request.vars.billing_checkbox == 'yes'):
                 bank_details = db.bank_details.insert(card_number = request.vars.card_number, security_code = request.vars.security_code,
-                                              address_id = address, expiry_date = request.vars.expiry_date)
+                                              address_id = address, expiry_date = expiry_date)
 
             else:
                 billingAddressAlreadyInDBQuery = db((db.address.street ==request.vars.billing_street) and (db.address.city == request.vars.billing_city)
