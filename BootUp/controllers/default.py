@@ -40,6 +40,7 @@ def login():
     form = FORM(LEGEND('Login'), INPUT(_type='text', _name='username', _class = 'input-block-level', _placeholder='username', requires=IS_NOT_EMPTY( error_message=T("Please enter a username"))),
                  INPUT(_type='password',_name='password', _class = 'input-block-level', _placeholder='password', requires=IS_NOT_EMPTY(error_message=T("Please enter a password"))), INPUT(_type='submit', _class='btn btn-primary', _value='Login'),
                  A('Register',_href=URL('register'), _role='button', _class='btn btn-info'))
+
     if form.process(onvalidation=login_validation).accepted:
         response.flash = 'form accepted'
         user = auth.login_bare(request.vars.username, request.vars.password)
@@ -170,7 +171,7 @@ def register():
 
 
 
-        #Should add date as a datetime object using datetime.date(YYYY, MM, DD)
+
         db.auth_user.insert(username = request.vars.username, password = db.auth_user.password.validate(request.vars.password)[0],
                        first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = request.vars.dob, bank_details_id = bank_details,
                        address_id = address)

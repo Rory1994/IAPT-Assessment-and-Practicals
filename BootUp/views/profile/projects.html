@@ -10,7 +10,11 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
-                 {{for project in open_for_pledges_projects:}}
+
+                {{if len(open_for_pledges_projects) == 0:}}
+                <h1> You have no projects open for pledges</h1>
+                {{else:}}
+                {{for project in open_for_pledges_projects:}}
                     <div class="row">
                         <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
                         <div class="span4">
@@ -29,11 +33,16 @@
                     </div>
                     <hr>
                 {{pass}}
+                {{pass}}
 
 
 
             </div>
             <div class="tab-pane" id="tab2">
+
+                 {{if len(not_available_projects) == 0:}}
+                <h1> You have no projects that are unavailable</h1>
+                {{else:}}
 
                 {{for project in not_available_projects:}}
                     <div class="row">
@@ -58,11 +67,16 @@
                     </div>
                     <hr>
                 {{pass}}
+                {{pass}}
 
 
 
             </div>
             <div class="tab-pane" id="tab3">
+
+                 {{if len(funded_projects) == 0:}}
+                <h1> You have no funded projects</h1>
+                {{else:}}
 
                 {{for project in funded_projects:}}
                     <div class="row">
@@ -81,12 +95,17 @@
                     </div>
                     <hr>
                 {{pass}}
+                {{pass}}
 
 
 
 
             </div>
             <div class="tab-pane" id="tab4">
+
+                 {{if len(not_funded_projects) == 0:}}
+                <h1> You have no projects that finished unfunded</h1>
+                {{else:}}
 
                  {{for project in not_funded_projects:}}
                     <div class="row">
@@ -106,6 +125,7 @@
                         </div>
                     </div>
                     <hr>
+                {{pass}}
                 {{pass}}
 
 

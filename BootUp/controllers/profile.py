@@ -2,7 +2,7 @@
 @auth.requires_login(otherwise=URL('default','login'))
 def profile():
 
-    user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
     number_of_projects = len(db(db.project.username == auth._get_user_id()).select())
     number_of_pledges = len(db(db.pledges.username == auth._get_user_id()).select())
@@ -13,7 +13,7 @@ def profile():
 @auth.requires_login(otherwise=URL('default','login'))
 def projects():
 
-    user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
     open_for_pledges_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Open for Pledges").select()
     not_available_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Not Available").select()
@@ -28,7 +28,7 @@ def projects():
 @auth.requires_login(otherwise=URL('default','login'))
 def pledges():
 
-    user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
 
 
@@ -37,10 +37,10 @@ def pledges():
 @auth.requires_login(otherwise=URL('default','login'))
 def information():
 
-    user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
-    bank_details = db(db.bank_details.id == user.bank_details_id).select()[0]
-    address = db(db.address.id == user.address_id).select()[0]
-    bank_address = db(db.address.id == bank_details.address_id).select()[0]
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    bank_details = db(db.bank_details.id == user.bank_details_id).select().first()
+    address = db(db.address.id == user.address_id).select().first()
+    bank_address = db(db.address.id == bank_details.address_id).select().first()
 
     return dict(user=user,  bank_details = bank_details, address=address, bank_address=bank_address)
 
@@ -144,8 +144,42 @@ def create():
 
 
 
-    user = (db(db.auth_user.id == auth._get_user_id()).select())[0]
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
 
     return dict(user=user, form=form)
 
+@auth.requires_login(otherwise=URL('default','login'))
+def change_password():
+    form = FORM(FIELDSET(
+                        LEGEND('Change Password'),
+                        DIV(LABEL('Current Password:', _for='current_password'),INPUT(_id='current_password', _name='current_password', _type='password', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            LABEL('New Password:', _for='new_password'),INPUT(_id='new_password', _name='new_password', _type='password', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            LABEL('Confirm New Password:', _for='confirm_new_password'),INPUT(_id='confirm_new_password', _name='confirm_new_password', _type='password', _class='span4'
+                            , requires=[IS_EQUAL_TO(request.vars.confirm_new_password, error_message=T("Passwords do not match")), IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))]),
+                            _class='controls control-group'),
+
+                        INPUT(_type='submit', _class='btn btn-primary', _value='Change Password')
+    ))
+
+    if form.process(onvalidation = change_password_validation).accepted:
+
+        user = db(db.auth_user.id == auth._get_user_id).select()
+        user.update_record(password = db.auth_user.password.validate(form.vars.new_password)[0])
+
+        response.flash = DIV('Password has been successfully changed', _class="alert alert-success")
+
+    elif form.errors:
+         response.flash = DIV('Form not filled out successfully', _class="alert alert-error")
+
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+
+
+    return dict(form = form, user = user)
+
+def change_password_validation(form):
+
+    check_current_password_is_correct = db(db.auth_user.id == auth._get_user_id and db.auth_user.password == db.auth_user.password.validate(form.vars.current_password)[0]).select()
+
+    if(len(check_current_password_is_correct) == 0):
+        form.errors.current_password = "Current password is incorrect"
