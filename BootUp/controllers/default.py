@@ -129,9 +129,7 @@ def register():
         expiry_date = request.vars.expiry_date_month + "/" + request.vars.expiry_date_year
 
 
-        addressAlreadyInDBQuery = db((db.address.street ==request.vars.street) and (db.address.city == request.vars.city)
-                                         and (db.address.country == request.vars.country) and
-                                        (db.address.postcode == request.vars.postcode)).select()
+        addressAlreadyInDBQuery = db((db.address.street == request.vars.street) & (db.address.city == request.vars.city) & (db.address.country == request.vars.country) &(db.address.postcode == request.vars.postcode)).select()
 
         if(len(addressAlreadyInDBQuery) >0):
             address = addressAlreadyInDBQuery[0].id
@@ -152,8 +150,8 @@ def register():
                                               address_id = address, expiry_date = expiry_date)
 
             else:
-                billingAddressAlreadyInDBQuery = db((db.address.street ==request.vars.billing_street) and (db.address.city == request.vars.billing_city)
-                                             and (db.address.country == request.vars.billing_country) and
+                billingAddressAlreadyInDBQuery = db((db.address.street ==request.vars.billing_street) & (db.address.city == request.vars.billing_city)
+                                             & (db.address.country == request.vars.billing_country) &
                                             (db.address.postcode == request.vars.billing_postcode)).select()
 
                 if(len(billingAddressAlreadyInDBQuery) >0):
@@ -177,7 +175,9 @@ def register():
                        first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = request.vars.dob, bank_details_id = bank_details,
                        address_id = address)
 
+
         auth.login_bare(request.vars.username, request.vars.password)
+
         redirect(URL('profile','profile'))
 
 

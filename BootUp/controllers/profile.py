@@ -30,10 +30,10 @@ def projects():
 
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
-    open_for_pledges_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Open for Pledges").select()
-    not_available_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Not Available").select()
-    funded_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Funded").select()
-    not_funded_projects = db(db.project.username == auth._get_user_id() and db.project.status  == "Not Funded").select()
+    open_for_pledges_projects = db((db.project.username == auth._get_user_id()) & (db.project.status  == "Open for Pledges")).select()
+    not_available_projects = db((db.project.username == auth._get_user_id()) & (db.project.status  == "Not Available")).select()
+    funded_projects = db((db.project.username == auth._get_user_id()) & (db.project.status  == "Funded")).select()
+    not_funded_projects = db((db.project.username == auth._get_user_id()) & (db.project.status  == "Not Funded")).select()
 
 
 
