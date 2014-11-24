@@ -587,6 +587,17 @@ def edit_project():
 
     return dict(form = form, user = user, project=project)
 
+def delete_project():
+    project = db(db.project.id == request.vars.project_id).select()
+    db(db.project.id == request.vars.project_id).delete()
+    redirect(URL('profile','projects', args=request.vars.project_id), client_side=True)
+
+def open_for_pledges():
+    project = db(db.project.id == request.vars.project_id).select()
+    project.update_record(status = "Open for Pledges")
+    redirect(URL('profile', 'projects', args=request.vars.project_id), client_side=True)
+
+
 
 
 

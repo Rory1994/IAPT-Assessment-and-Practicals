@@ -57,11 +57,12 @@
                         <div class="span3">
                             <a href="{{=URL('profile','view_project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View/Edit</button> </a>
                             <br>
-                            <button class="btn btn-block btn-info" type="button">Open for Pledges</button>
+                            {{=A(BUTTON('Open for Pledges',_class="btn btn-block btn-info"), callback= URL('profile' ,'open_for_pledges', vars= dict(project_id = project.id) ))}}
                             <br>
                             <a href="{{=URL('profile','rewards', args=project.id)}}"><button class="btn btn-block btn-primary" type="button">View/Add Rewards</button></a>
                             <br>
-                            <button class="btn btn-danger" type="button">Delete</button>
+
+                            {{=A(BUTTON('Delete',_class="btn btn-danger"), callback= URL('delete_project', vars= dict(project_id = project.id) ))}}
 
                         </div>
                     </div>

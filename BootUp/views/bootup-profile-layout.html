@@ -6,12 +6,6 @@
           <li><a href="{{=URL('default','index.html')}} ">Home</a> <span class="divider">/</span></li>
           <li class="active">Profile</li>
 
-      {{elif request.function=="change_password":}}
-
-          <li><a href="{{=URL('default','index.html')}} ">Home</a> <span class="divider">/</span></li>
-          <li> <a href="{{=URL('profile','profile')}} ">Profile </a> <span class="divider">/</span> </li>
-          <li class="active"> Change Password </li>
-      {{elif request.function == "edit_information":}}
 
       {{else:}}
 
@@ -32,9 +26,9 @@
           <li><a href="{{=URL('profile','projects')}} ">Projects</a> <span class="divider">/</span></li>
           <li class="active"> View Project </li>
 
-          {{elif request.function == "change_image":}}
+          {{elif request.function == "change_picture":}}
           <li><a href="{{=URL('profile','projects')}} ">Projects</a> <span class="divider">/</span></li>
-          <li class="active"> Change Image </li>
+          <li class="active"> Change Picture </li>
 
           {{elif request.function == "rewards":}}
           <li><a href="{{=URL('profile','projects')}} ">Projects</a> <span class="divider">/</span></li>
@@ -81,9 +75,9 @@
             <h1>{{=(user.first_name + " " + user.last_name)}} <small> View Project </small></h1>
         </div>
 
-    {{elif request.function=="change_image": }}
+    {{elif request.function=="change_picture": }}
          <div class="page-header">
-            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Change Image Image </small></h1>
+            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Change Picture </small></h1>
         </div>
 
     {{elif request.function=="rewards": }}
