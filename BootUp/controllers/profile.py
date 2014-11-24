@@ -36,7 +36,7 @@ def projects():
     not_funded_projects = db((db.project.username == auth._get_user_id()) & (db.project.status  == "Not Funded")).select()
 
 
-
+    
     return dict(user=user, open_for_pledges_projects = open_for_pledges_projects, not_available_projects = not_available_projects,
                 funded_projects = funded_projects, not_funded_projects = not_funded_projects)
 
