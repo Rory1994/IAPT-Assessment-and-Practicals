@@ -1,0 +1,10 @@
+[2013-02-28 22:57:21] START
+[2013-02-28 22:59:39] EDIT basket/models/db.py: 4
+[2013-02-28 22:59:46] EDIT basket/models/db.py: 0
+[2013-02-28 23:00:11] EDIT basket/models/db.py: 0
+[2013-02-28 23:00:34] CREATE basket.py: 0
+[2013-02-28 23:00:37] EDIT basket/controllers/basket.py: 0
+[2013-02-28 23:02:15] EDIT basket/controllers/basket.py: 2
+[2013-02-28 23:17:51] CREATE basket/basket.html: 0
+[2013-02-28 23:17:56] EDIT basket/views/basket/basket.html: 0
+[2013-02-28 23:29:18] CREATE basket/updater.load: 0

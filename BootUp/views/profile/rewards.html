@@ -1,0 +1,41 @@
+{{extend "bootup-profile-layout.html"}}
+
+
+<div class="well">
+
+     <div class="row">
+        {{if project is None:}}
+            {{=response.flash}}
+        {{else:}}
+        <div class="span11">
+
+            {{=form}}
+
+            <table class="table table-striped">
+                <tr>
+                    <th class="span1"> #</th>
+                    <th class="span2"> Pledge Amount</th>
+                    <th class="span6">  Reward</th>
+                    <th class="span2"> </th>
+                </tr>
+                {{ i = 0
+                for level in pledge_levels:
+                        i = i +1
+                }}
+                <tr>
+                    <td> {{=i}} </td>
+                    <td> £ {{=level.amount}}</td>
+                    <td> {{=level.reward}} </td>
+                    <td>
+                    {{=A(BUTTON('Delete',_class="btn btn-block btn-danger"), callback= URL('delete_pledge', vars= dict(id = level.id, project_id = level.project_id) ))}}
+                    </td>
+
+                </tr>
+                {{pass}}
+            </table>
+        </div>
+        {{pass}}
+     </div>
+
+
+</div>

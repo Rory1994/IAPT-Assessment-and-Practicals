@@ -55,11 +55,11 @@
 
                         </div>
                         <div class="span3">
-                            <button class="btn btn-inverse btn-block" type="button">View/Edit</button>
+                            <a href="{{=URL('profile','view_project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View/Edit</button> </a>
                             <br>
                             <button class="btn btn-block btn-info" type="button">Open for Pledges</button>
                             <br>
-                            <button class="btn btn-block btn-primary" type="button">Add Rewards</button>
+                            <a href="{{=URL('profile','rewards', args=project.id)}}"><button class="btn btn-block btn-primary" type="button">View/Add Rewards</button></a>
                             <br>
                             <button class="btn btn-danger" type="button">Delete</button>
 

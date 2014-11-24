@@ -149,11 +149,11 @@ def create():
                                     long_description = request.vars.long_description)
 
 
-        db.pledge_levels.insert(project_id = project, amount = request.vars.pledge_amount1, reward = request.vars.pledge_reward1)
-        db.pledge_levels.insert(project_id = project, amount = request.vars.pledge_amount2, reward = request.vars.pledge_reward2)
-        db.pledge_levels.insert(project_id = project, amount = request.vars.pledge_amount3, reward = request.vars.pledge_reward3)
-        db.pledge_levels.insert(project_id = project, amount = request.vars.pledge_amount4, reward = request.vars.pledge_reward4)
-        db.pledge_levels.insert(project_id = project, amount = request.vars.pledge_amount5, reward = request.vars.pledge_reward5)
+        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount1), reward = request.vars.pledge_reward1)
+        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount2), reward = request.vars.pledge_reward2)
+        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount3), reward = request.vars.pledge_reward3)
+        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount4), reward = request.vars.pledge_reward4)
+        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount5), reward = request.vars.pledge_reward5)
 
         redirect(URL('projects'))
 
@@ -428,3 +428,56 @@ def edit_information_validation(form):
 
     if form.vars.expiry_date_month not in months or form.vars.expiry_date_year not in years:
         form.errors.expiry_date_year = "Expiry Date must be entered"
+
+@auth.requires_login(otherwise=URL('default','login'))
+def view_project():
+
+    project = None
+    project_id = request.args(0)
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
+
+    if len(projects) < 1:
+        response.flash = "You dont have permissions to view this project's information"
+
+    else:
+        project = projects.first()
+
+
+    return dict(project = project, user = user)
+
+def delete_pledge():
+    db(db.pledge_levels.id == request.vars.id).delete()
+    redirect(URL('rewards', args=request.vars.project_id), client_side=True)
+
+
+def rewards():
+
+    form=None
+    pledge_levels = None
+    project_id = request.args(0)
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
+
+    if len(projects) < 1:
+        response.flash = "You dont have permissions to view this project's information"
+
+    else:
+        project = projects.first()
+
+
+        form = FORM(DIV(INPUT(_id='pledge_amount', _name='pledge_amount', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                TEXTAREA(_placeholder = 'Reward', _id='pledge_reward', _name='pledge_reward',_cols = '50', _rows = '5', _class='span5', requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+               _class="controls control-group" ), INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Add Reward'))
+
+        if form.process().accepted:
+            db.pledge_levels.insert(project_id = project.id, amount = int(request.vars.pledge_amount), reward = request.vars.pledge_reward)
+
+
+        pledge_levels = db(db.pledge_levels.project_id == project_id).select(orderby=db.pledge_levels.amount)
+
+    return dict(pledge_levels = pledge_levels, form = form, user = user, project=project)
+
+
+
+
