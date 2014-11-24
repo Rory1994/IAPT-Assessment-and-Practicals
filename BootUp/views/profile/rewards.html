@@ -24,7 +24,7 @@
                 }}
                 <tr>
                     <td> {{=i}} </td>
-                    <td> £ {{=level.amount}}</td>
+                    <td> £ {{=level.pledge_amount}}</td>
                     <td> {{=level.reward}} </td>
                     <td>
                     {{=A(BUTTON('Delete',_class="btn btn-block btn-danger"), callback= URL('delete_pledge', vars= dict(id = level.id, project_id = level.project_id) ))}}

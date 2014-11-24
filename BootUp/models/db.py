@@ -19,7 +19,7 @@ if not request.env.web2py_runtime_gae:
                     Field('image', 'upload'), Field('category'), Field('total_raised', 'integer'), Field('story'),
                     Field('time_opened_for_pledges', 'datetime'), Field('funding_goal', 'integer'), Field('title'), Field('long_description'))
 
-    db.define_table('pledge_levels', Field('project_id', 'reference project'), Field('amount' , 'integer'), Field('reward'))
+    db.define_table('pledge_levels', Field('project_id', 'reference project'), Field('pledge_amount' , 'integer'), Field('reward'))
 
     db.define_table('pledges', Field('username', 'reference auth_user'), Field('pledge_levels_id', 'reference pledge_levels'))
 

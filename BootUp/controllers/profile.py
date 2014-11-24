@@ -79,7 +79,7 @@ def create():
                             LABEL('Category:', _for='category'),
                             SELECT(*options, _name='category', _id='category', requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))]),
 
-                             LABEL('Project Image:', _for='image'),
+                            LABEL('Project Image:', _for='image'),
                             INPUT(_id='image', _name='image', _type='file', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
 
                             ,_class='controls control-group'),
@@ -149,11 +149,11 @@ def create():
                                     long_description = request.vars.long_description)
 
 
-        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount1), reward = request.vars.pledge_reward1)
-        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount2), reward = request.vars.pledge_reward2)
-        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount3), reward = request.vars.pledge_reward3)
-        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount4), reward = request.vars.pledge_reward4)
-        db.pledge_levels.insert(project_id = project, amount = int(request.vars.pledge_amount5), reward = request.vars.pledge_reward5)
+        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount1), reward = request.vars.pledge_reward1)
+        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount2), reward = request.vars.pledge_reward2)
+        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount3), reward = request.vars.pledge_reward3)
+        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount4), reward = request.vars.pledge_reward4)
+        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount5), reward = request.vars.pledge_reward5)
 
         redirect(URL('projects'))
 
@@ -454,6 +454,7 @@ def delete_pledge():
 def rewards():
 
     form=None
+    project = None
     pledge_levels = None
     project_id = request.args(0)
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
@@ -471,12 +472,120 @@ def rewards():
                _class="controls control-group" ), INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Add Reward'))
 
         if form.process().accepted:
-            db.pledge_levels.insert(project_id = project.id, amount = int(request.vars.pledge_amount), reward = request.vars.pledge_reward)
+            db.pledge_levels.insert(project_id = project.id, pledge_amount = int(request.vars.pledge_amount), reward = request.vars.pledge_reward)
 
 
-        pledge_levels = db(db.pledge_levels.project_id == project_id).select(orderby=db.pledge_levels.amount)
+        pledge_levels = db(db.pledge_levels.project_id == project_id).select(orderby=db.pledge_levels.pledge_amount)
 
     return dict(pledge_levels = pledge_levels, form = form, user = user, project=project)
+
+def change_picture():
+
+    form=None
+    project = None
+    project_id = request.args(0)
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
+
+    if len(projects) < 1:
+        response.flash = "You dont have permissions to view this project's information"
+
+    else:
+        project = projects.first()
+
+
+        form = FORM(LABEL('New Image:', _for='image'),
+                INPUT(_id='image', _name='image', _type='file', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Change Picture'))
+
+        if form.process().accepted:
+            project.update_record(image = request.vars.image)
+            redirect(URL('profile','view_project', args=project.id))
+
+
+    return dict(form = form, user = user, project=project)
+
+def edit_project():
+
+    options = ['Art', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
+
+
+    form=None
+    project = None
+    project_id = request.args(0)
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
+
+    if len(projects) < 1:
+        response.flash = "You dont have permissions to view this project's information"
+
+    else:
+        project = projects.first()
+
+
+        form= FORM(FIELDSET(
+
+                        DIV(LABEL('Project Title:', _for='project_title'),
+                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+
+                            LABEL('Short Project Description:', _for='short_project_description'),
+                            TEXTAREA(_id='short_project_description', _name='short_project_description', _cols = '50', _rows = '5', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
+
+                            LABEL('Category:', _for='category'),
+                            SELECT(*options, _name='category', _id='category', requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))])
+
+
+                            ,_class='controls control-group'),
+
+
+                            DIV(LABEL('Funding Goal (in GBPs):', _for='funding_goal'),
+                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+
+                            LABEL('Long Description of Project Goals:', _for='long_description'),
+                            TEXTAREA(_id='long_description', _name='long_description',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+
+                            LABEL('Project Story:', _for='project_story'),
+                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+
+                            ,_class='controls control-group'),
+
+
+                         INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Confirm Changes')
+
+         ))
+
+        form.vars.project_title = project.title
+        form.vars.short_project_description = project.short_description
+        form.vars.category = project.category
+        form.vars.funding_goal = project.funding_goal
+        form.vars.long_description = project.long_description
+        form.vars.project_story = project.story
+
+        if form.process().accepted:
+
+            if request.vars.project_title != project.title:
+                project.update_record(title = request.vars.project_title)
+
+            if request.vars.short_project_description != project.short_description:
+                project.update_record(short_description = request.vars.short_project_description)
+
+            if request.vars.category!= project.category:
+                project.update_record(category = request.vars.category)
+
+            if request.vars.funding_goal != project.funding_goal:
+                project.update_record(funding_goal = request.vars.funding_goal)
+
+            if request.vars.long_description != project.long_description:
+                project.update_record(long_description = request.vars.long_description)
+
+            if request.vars.project_story != project.story:
+                project.update_record(story= request.vars.project_story)
+
+            redirect(URL('profile','view_project', args=project.id))
+
+
+
+    return dict(form = form, user = user, project=project)
 
 
 
