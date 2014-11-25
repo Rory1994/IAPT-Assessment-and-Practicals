@@ -6,9 +6,11 @@
         <li><a href="{{=URL('default','index.html')}} ">Projects</a> <span class="divider">/</span></li>
         <li class="active"> {{=project.title}} </li>
     </ul>
+</div>
 
     <div class="page-header">
         <h1>{{=project.title}} <small> by {{=project.username.username}}</small></h1>
+
     </div>
 
     <div class="row">
@@ -42,7 +44,7 @@
 
     </div>
     <br>
-    <div class="well">
+    <div >
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab1" data-toggle="tab"><h4>Information </h4></a></li>
@@ -61,12 +63,14 @@
                             {{=project.long_description}}
                         </div>
                         <div class="span3">
+
                             <h3 class="greenText"> Pledges</h3>
                             {{for pledge_level in pledge_levels:}}
-
+                                <div class="well">
                                 <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
                                 <p> {{=pledge_level.reward}} </p>
-                                <hr>
+                                <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
+                                </div>
 
                             {{pass}}
                         </div>
@@ -76,16 +80,24 @@
                 <div class="tab-pane" id="tab2">
                     <div class="row">
                         <div class="span5 offset2">
-                                <h3 class="greenText"> Pledges</h3>
-                                {{for pledge_level in pledge_levels:}}
-
-                                    <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
-                                    <p> {{=pledge_level.reward}} </p>
-                                    <hr>
-
-                                {{pass}}
+                             <h3 class="greenText"> Pledges</h3>
                         </div>
                     </div>
+
+                    {{for pledge_level in pledge_levels:}}
+
+                        <div class="row well">
+                            <div class="span5 offset2">
+                                     <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
+                                     <p> {{=pledge_level.reward}} </p>
+
+
+                            </div>
+                            <div class="span3">
+                                <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
+                            </div>
+                        </div>
+                    {{pass}}
 
 
                 </div>
@@ -96,7 +108,7 @@
                     {{else:}}
                         {{for pledge in pledges_made_on_project:}}
 
-                            {{=pledge.pledges.username.username}}
+                            <h4>{{=pledge.pledges.username.username}} </h4>
 
                             <hr>
                         {{pass}}

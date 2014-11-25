@@ -1,0 +1,11 @@
+{{extend "bootup-layout.html"}}
+
+<div class="pad-breadcrumbs-away-from-nav">
+    <ul class="breadcrumb ">
+
+        <li><a href="{{=URL('default','index.html')}} ">Home</a> <span class="divider">/</span></li>
+        <li><a href="{{=URL('default','index.html')}} ">Projects</a> <span class="divider">/</span></li>
+        <li><a href="{{=URL('projects','project', args=project.id)}} ">{{=project.title }}</a> <span class="divider">/</span></li>
+        <li class="active"> Make Pledge </li>
+    </ul>
+</div>

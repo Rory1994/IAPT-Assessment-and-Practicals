@@ -71,25 +71,25 @@ def create():
     form= FORM(FIELDSET(
 
                         DIV(LABEL('Project Title:', _for='project_title'),
-                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
 
                             LABEL('Short Project Description:', _for='short_project_description'),
-                            TEXTAREA(_id='short_project_description', _name='short_project_description', _cols = '50', _rows = '5', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
+                            TEXTAREA(_id='short_project_description', _name='short_project_description', _rows = '5', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
 
                             LABEL('Category:', _for='category'),
-                            SELECT(*options, _name='category', _id='category', requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))]),
+                            SELECT(*options, _name='category', _id='category',_class='span6', requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))]),
 
                             LABEL('Project Image:', _for='image'),
-                            INPUT(_id='image', _name='image', _type='file', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                            INPUT(_id='image', _name='image', _type='file', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
 
                             ,_class='controls control-group'),
 
 
                             DIV(LABEL('Funding Goal (in GBPs):', _for='funding_goal'),
-                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
 
                             LABEL('Long Description of Project Goals:', _for='long_description'),
-                            TEXTAREA(_id='long_description', _name='long_description',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            TEXTAREA(_id='long_description', _name='long_description', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
 
                             LABEL('Project Story:', _for='project_story'),
                             TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
@@ -103,33 +103,33 @@ def create():
 
                                 DIV(
                                     LABEL('Pledge 1:'),
-                                    INPUT(_id='pledge_amount1', _name='pledge_amount1', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward1', _name='pledge_reward1',_cols = '50', _rows = '5', _class='span5', requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                                    INPUT(_id='pledge_amount1', _name='pledge_amount1', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward1', _name='pledge_reward1',_cols = '50', _rows = '5', _class='span6', requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
                                 , _class='controls controls-group'),
 
 
                                 DIV(
                                     LABEL('Pledge 2:'),
-                                    INPUT(_id='pledge_amount2', _name='pledge_amount2', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward2', _name='pledge_reward2',_cols = '50', _rows = '5', _class='span5',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                                    INPUT(_id='pledge_amount2', _name='pledge_amount2', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward2', _name='pledge_reward2',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
                                 , _class='controls controls-group'),
 
                                 DIV(
                                     LABEL('Pledge 3:'),
-                                    INPUT(_id='pledge_amount3', _name='pledge_amount3', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward3', _name='pledge_reward3',_cols = '50', _rows = '5', _class='span5',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                                    INPUT(_id='pledge_amount3', _name='pledge_amount3', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward3', _name='pledge_reward3',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
                                 , _class='controls controls-group'),
 
                                 DIV(
                                     LABEL('Pledge 4:'),
-                                    INPUT(_id='pledge_amount4', _name='pledge_amount4', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward4', _name='pledge_reward4',_cols = '50', _rows = '5', _class='span5',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                                    INPUT(_id='pledge_amount4', _name='pledge_amount4', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward4', _name='pledge_reward4',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
                                 , _class='controls controls-group'),
 
                                 DIV(
                                     LABEL('Pledge 5:'),
-                                    INPUT(_id='pledge_amount5', _name='pledge_amount5', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward5', _name='pledge_reward5',_cols = '50', _rows = '5', _class='span5',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                                    INPUT(_id='pledge_amount5', _name='pledge_amount5', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward5', _name='pledge_reward5',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
                                 , _class='controls controls-group')
 
 
@@ -540,20 +540,20 @@ def edit_project():
         form= FORM(FIELDSET(
 
                         DIV(LABEL('Project Title:', _for='project_title'),
-                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
 
                             LABEL('Short Project Description:', _for='short_project_description'),
                             TEXTAREA(_id='short_project_description', _name='short_project_description', _cols = '50', _rows = '5', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
 
                             LABEL('Category:', _for='category'),
-                            SELECT(*options, _name='category', _id='category', requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))])
+                            SELECT(*options, _name='category', _id='category', _class="span6", requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))])
 
 
                             ,_class='controls control-group'),
 
 
                             DIV(LABEL('Funding Goal (in GBPs):', _for='funding_goal'),
-                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
 
                             LABEL('Long Description of Project Goals:', _for='long_description'),
                             TEXTAREA(_id='long_description', _name='long_description',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
