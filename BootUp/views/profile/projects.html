@@ -20,12 +20,13 @@
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_goal}} </h2>
+                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_needed}} </h2>
                             <h2> <small>Category is </small>  {{=project.category}} </h2>
+                            <h2> <small>Amount raised is </small>  £{{=project.amount_raised}} </h2>
 
                         </div>
                         <div class="span3">
-                            <button class="btn btn-inverse btn-block" type="button">View Project Page</button>
+                            <a href="{{=URL('projects','project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View Project Page</button></a>
                             <br>
                             <button class="btn btn-danger" type="button">Close From Pledges</button>
 
@@ -50,7 +51,7 @@
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_goal}} </h2>
+                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_needed}} </h2>
                             <h2> <small>Category is </small>  {{=project.category}} </h2>
 
                         </div>
@@ -85,8 +86,9 @@
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_goal}} </h2>
+                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_needed}} </h2>
                             <h2> <small>Category is </small>  {{=project.category}} </h2>
+                            <h2> <small>Amount raised is </small>  £ {{=project.amount_raised}} </h2>
 
                         </div>
                         <div class="span3">
@@ -114,8 +116,9 @@
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_goal}} </h2>
+                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_needed}} </h2>
                             <h2> <small>Category is </small>  {{=project.category}} </h2>
+                            <h2> <small>Amount raised is </small>  £ {{=project.amount_raised}} </h2>
 
                         </div>
                         <div class="span3">

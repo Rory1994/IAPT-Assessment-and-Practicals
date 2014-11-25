@@ -1,0 +1,110 @@
+{{extend "bootup-layout.html"}}
+<div class="pad-breadcrumbs-away-from-nav">
+    <ul class="breadcrumb ">
+
+        <li><a href="{{=URL('default','index.html')}} ">Home</a> <span class="divider">/</span></li>
+        <li><a href="{{=URL('default','index.html')}} ">Projects</a> <span class="divider">/</span></li>
+        <li class="active"> {{=project.title}} </li>
+    </ul>
+
+    <div class="page-header">
+        <h1>{{=project.title}} <small> by {{=project.username.username}}</small></h1>
+    </div>
+
+    <div class="row">
+        <div class="span5"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+        <div class="span7">
+            <p class="lead"> {{=project.short_description}}</p>
+            <div class="progress">
+                <div class="bar bar-success" style="width:70%;"></div>
+            </div>
+            <dl class="dl-horizontal">
+
+
+
+                    <dt>Amount Raised:</dt>
+                    <dd class="greenText">£ {{=project.amount_raised}} </dd>
+                    <hr>
+
+                    <dt> Goal:</dt>
+                    <dd class="greenText">£ {{=project.funding_needed}}</dd>
+                    <hr>
+
+
+                    <dt>Progress:</dt>
+                    <dd class="greenText"> {{=percentage_completed}} % </dd>
+                    <hr>
+
+
+            </dl>
+
+        </div>
+
+    </div>
+    <br>
+    <div class="well">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab"><h4>Information </h4></a></li>
+                <li><a href="#tab2" data-toggle="tab"> <h4>Pledges </h4> </a></li>
+                <li><a href="#tab3" data-toggle="tab"><h4> Contributors </h4></a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <div class="row">
+                        <div class="span8">
+                            <h2 class="greenText"> Story</h2>
+                            {{=project.story}}
+
+                            <h2 class="greenText"> Project Goals</h2>
+                            {{=project.long_description}}
+                        </div>
+                        <div class="span3">
+                            <h3 class="greenText"> Pledges</h3>
+                            {{for pledge_level in pledge_levels:}}
+
+                                <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
+                                <p> {{=pledge_level.reward}} </p>
+                                <hr>
+
+                            {{pass}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <div class="row">
+                        <div class="span5 offset2">
+                                <h3 class="greenText"> Pledges</h3>
+                                {{for pledge_level in pledge_levels:}}
+
+                                    <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
+                                    <p> {{=pledge_level.reward}} </p>
+                                    <hr>
+
+                                {{pass}}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="tab-pane" id="tab3">
+
+                    {{if len(pledges_made_on_project) == 0:}}
+                    <h1> No pledges have been made yet!</h1>
+                    {{else:}}
+                        {{for pledge in pledges_made_on_project:}}
+
+                            {{=pledge.pledges.username.username}}
+
+                            <hr>
+                        {{pass}}
+                    {{pass}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

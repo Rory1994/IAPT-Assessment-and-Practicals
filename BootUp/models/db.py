@@ -16,8 +16,8 @@ if not request.env.web2py_runtime_gae:
                     Field('postcode'))
 
     db.define_table('project',Field('username', 'reference auth_user'), Field('short_description'), Field('status'),
-                    Field('image', 'upload'), Field('category'), Field('total_raised', 'integer'), Field('story'),
-                    Field('time_opened_for_pledges', 'datetime'), Field('funding_goal', 'integer'), Field('title'), Field('long_description'))
+                    Field('image', 'upload'), Field('category'), Field('amount_raised', 'integer'), Field('story'),
+                    Field('opened_for_pledges_date', 'datetime'), Field('funding_needed', 'integer'), Field('title'), Field('long_description'))
 
     db.define_table('pledge_levels', Field('project_id', 'reference project'), Field('pledge_amount' , 'integer'), Field('reward'))
 
