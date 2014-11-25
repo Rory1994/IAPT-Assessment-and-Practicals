@@ -2,6 +2,10 @@
 
 <div class="span6 offset3" >
     <div class="well">
+        <h1>{{=project.title}}</h1>
+        <h3> Current Picture:</h3>
+        <img width="80%" src="{{=URL('default','download',args = project.image)}}"/>
+        <hr>
         {{=form}}
 
     </div>

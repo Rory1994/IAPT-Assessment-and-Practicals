@@ -438,10 +438,13 @@ def view_project():
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
     if len(projects) < 1:
-        response.flash = "You dont have permissions to view this project's information"
+        redirect(URL('profile', 'profile'))
 
     else:
         project = projects.first()
+
+        if project.status != "Not Available":
+             redirect(URL('profile', 'profile'))
 
 
     return dict(project = project, user = user)
@@ -450,7 +453,7 @@ def delete_pledge():
     db(db.pledge_levels.id == request.vars.id).delete()
     redirect(URL('rewards', args=request.vars.project_id), client_side=True)
 
-
+@auth.requires_login(otherwise=URL('default','login'))
 def rewards():
 
     form=None
@@ -461,10 +464,13 @@ def rewards():
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
     if len(projects) < 1:
-        response.flash = "You dont have permissions to view this project's information"
+        redirect(URL('profile', 'profile'))
 
     else:
         project = projects.first()
+
+        if project.status != "Not Available":
+             redirect(URL('profile', 'profile'))
 
 
         form = FORM(DIV(INPUT(_id='pledge_amount', _name='pledge_amount', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
@@ -479,6 +485,7 @@ def rewards():
 
     return dict(pledge_levels = pledge_levels, form = form, user = user, project=project)
 
+@auth.requires_login(otherwise=URL('default','login'))
 def change_picture():
 
     form=None
@@ -488,10 +495,13 @@ def change_picture():
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
     if len(projects) < 1:
-        response.flash = "You dont have permissions to view this project's information"
+        redirect(URL('profile', 'profile'))
 
     else:
         project = projects.first()
+
+        if project.status != "Not Available":
+             redirect(URL('profile', 'profile'))
 
 
         form = FORM(LABEL('New Image:', _for='image'),
@@ -505,6 +515,7 @@ def change_picture():
 
     return dict(form = form, user = user, project=project)
 
+@auth.requires_login(otherwise=URL('default','login'))
 def edit_project():
 
     options = ['Art', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
@@ -517,10 +528,13 @@ def edit_project():
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
     if len(projects) < 1:
-        response.flash = "You dont have permissions to view this project's information"
+        redirect(URL('profile', 'profile'))
 
     else:
         project = projects.first()
+
+        if project.status != "Not Available":
+             redirect(URL('profile', 'profile'))
 
 
         form= FORM(FIELDSET(
@@ -588,14 +602,43 @@ def edit_project():
     return dict(form = form, user = user, project=project)
 
 def delete_project():
-    project = db(db.project.id == request.vars.project_id).select()
     db(db.project.id == request.vars.project_id).delete()
     redirect(URL('profile','projects', args=request.vars.project_id), client_side=True)
 
-def open_for_pledges():
-    project = db(db.project.id == request.vars.project_id).select()
-    project.update_record(status = "Open for Pledges")
-    redirect(URL('profile', 'projects', args=request.vars.project_id), client_side=True)
+
+
+@auth.requires_login(otherwise=URL('default','login'))
+def confirm_open_for_pledges():
+
+    form=None
+    project = None
+    project_id = request.args(0)
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
+
+    if len(projects) < 1:
+        redirect(URL('profile', 'profile'))
+
+    else:
+        project = projects.first()
+
+        if project.status != "Not Available":
+             redirect(URL('profile', 'profile'))
+
+        form= FORM(INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Yes, open project for pledges'))
+
+        if form.process().accepted:
+             project.update_record(status = "Open for Pledges")
+             redirect(URL('profile', 'projects', args=request.vars.project_id))
+
+    return dict(form = form, user = user, project=project)
+
+
+
+
+
+
+
 
 
 
