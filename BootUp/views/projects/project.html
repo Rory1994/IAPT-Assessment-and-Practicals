@@ -108,9 +108,13 @@
                     {{else:}}
                         {{for pledge in pledges_made_on_project:}}
 
-                            <h4>{{=pledge.pledges.username.username}} </h4>
+                            <h4>{{=pledge.pledges.username.username}} pledged £ {{=pledge.pledge_levels.pledge_amount}}  </h4>
 
                             <hr>
+
+
+
+
                         {{pass}}
                     {{pass}}
 
