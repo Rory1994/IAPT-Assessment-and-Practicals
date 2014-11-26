@@ -9,3 +9,38 @@
         <li class="active"> Make Pledge </li>
     </ul>
 </div>
+
+<div class="row">
+
+    <div class="span12" >
+         <h1>{{=project.title}}</h1>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="span12" >
+        <p class="greenText lead"> Amount: </p> <h4> £ {{=pledge_level.pledge_amount}}</h4>
+        <p class="greenText lead"> Reward: </p> <h4> {{=pledge_level.reward}}</h4>
+        <hr>
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="span12" >
+
+            <p class="lead"> Are you sure you wish to make this pledge?</p>
+
+            {{=form}}
+            <a href="{{=URL('profile','projects', args=project.id)}}"><button class="btn btn-large btn-danger" type="button"> <i class="icon-arrow-left icon-white"></i> No, go back to project</button> </a>
+
+
+    </div>
+
+</div>
+
+

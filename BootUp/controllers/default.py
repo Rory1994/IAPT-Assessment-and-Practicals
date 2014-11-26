@@ -9,6 +9,7 @@
 ## - api is an example of Hypermedia API support and access control
 #########################################################################
 
+import datetime
 
 COUNTRIES=( 'United Kingdom', 'United States', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Ivory Coast', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'North Korea','South Korea', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'FYROM', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia and Montenegro', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe', 'Other')
 years = []
@@ -76,7 +77,7 @@ def register():
 
 
                         DIV( LABEL('Date of Birth:'),
-                             INPUT( _name='dob', _type='date', _class='span4', _placeholder='yyyy',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                             INPUT( _name='dob', _type='text', _class='date',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))])
                              ,_class="controls controls-row"),
 
                         LEGEND('Login Credentials'),
@@ -96,7 +97,7 @@ def register():
 
                         LEGEND('Billing Information'),
                         DIV(LABEL('Card Number:', _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text', _class='span4', requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
-                            IS_LENGTH(minsize=12, maxsize=12, error_message="Card number must be 12 digits long"), IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long" )]),
+                            IS_LENGTH(minsize=12, maxsize=12, error_message=T("Card number must be 12 digits long")), IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long" )]),
                             LABEL('Security Code:', _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
                             IS_LENGTH(minsize=3, maxsize=3, error_message="Security code contain 3 numbers"), IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')])
                             ,_class='controls control-group'),
@@ -167,19 +168,19 @@ def register():
                                                   address_id = bank_address, expiry_date = request.vars.expiry_date)
 
 
-
-
-
-
+        date_of_birth = request.vars.dob.split('/')
 
         db.auth_user.insert(username = request.vars.username, password = db.auth_user.password.validate(request.vars.password)[0],
-                       first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = request.vars.dob, bank_details_id = bank_details,
+                       first_name = request.vars.first_name, last_name = request.vars.last_name, birthdate = datetime.date(int(date_of_birth[2]), int(date_of_birth[1]), int(date_of_birth[0])), bank_details_id = bank_details,
                        address_id = address)
 
 
         auth.login_bare(request.vars.username, request.vars.password)
 
         redirect(URL('profile','profile'))
+
+    elif form.errors:
+        response.flash =form.errors
 
 
     return dict(form=form)
