@@ -40,11 +40,77 @@
             </div>
  </div>
 
+<div class="row">
+    <div class="span12">
+        <h1>Project that are so close...</h1>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12">
+        <h1>Hot off the press...</h1>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class=" well span3 offset1" id="project_small">
+        <h4>
+            <a class="project_small_title" href="{{=URL('projects','project', args=newest_project.id)}}">{{=newest_project.title}} </a>
+            <span class="badge badge-info">{{=newest_project.category}}</span>
+        </h4>
+        <br>
+        <a href="{{=URL('projects','project', args=newest_project.id)}}"><img width="100%" src="{{=URL('default','download',args = newest_project.image)}}"/> </a>
+        {{=newest_project.short_description}}
+        <h5> Left to fund: £ {{=int(newest_project.funding_target - newest_project.funding_raised)}}</h5> 
+        {{percentage_completed = int((newest_project.funding_raised / newest_project.funding_target)*100)}}
+        <div class="progress">
+                <div class="bar bar-info" style="width:{{=percentage_completed}}%;"></div>
+        </div>
+        <a href="{{=URL('projects','project', args=newest_project.id)}}"><button class="btn btn-block btn-primary" type="button">Visit</button> </a>
+
+    </div>
+
+
+
+    <div class=" well span3"  id="project_small">
+        <h4>{{=newest_project.title}}  <span class="badge badge-info">{{=newest_project.category}}</span></h4>
+        <br>
+        <img width="100%" src="{{=URL('default','download',args = newest_project.image)}}"/>
+        {{=newest_project.short_description}}
+        <h5> Left to fund: £ {{=int(newest_project.funding_target - newest_project.funding_raised)}}</h5>
+        {{percentage_completed = int((newest_project.funding_raised / newest_project.funding_target)*100)}}
+        <div class="progress">
+                <div class="bar bar-info" style="width:{{=percentage_completed}}%;"></div>
+        </div>
+
+    </div>
+
+
+    <div class=" well span3"  id="project_small">
+        <h4>{{=newest_project.title}}  <span class="badge badge-info">{{=newest_project.category}}</span></h4>
+        <br>
+        <img width="100%" src="{{=URL('default','download',args = newest_project.image)}}"/>
+        {{=newest_project.short_description}}
+        <h5> Left to fund: £ {{=int(newest_project.funding_target - newest_project.funding_raised)}}</h5>
+        {{percentage_completed = int((newest_project.funding_raised / newest_project.funding_target)*100)}}
+        <div class="progress">
+                <div class="bar bar-info" style="width:{{=percentage_completed}}%;"></div>
+        </div>
+
+    </div>
 
 
 
 
-{{=closest_projects_to_being_funded}}
+
+
+
+
+
+
 
 
 

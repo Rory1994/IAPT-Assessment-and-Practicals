@@ -6,7 +6,7 @@ def project():
 
     if project.status == "Not Available":
         redirect(URL('default','index'))
-    percentage_completed = int((float(project.amount_raised)/float(project.funding_needed))*100)
+    percentage_completed = int((float(project.funding_raised)/float(project.funding_target))*100)
     pledge_levels = db(db.pledge_levels.project_id ==project_id).select(orderby=db.pledge_levels.pledge_amount)
     pledges_made_on_project = db((db.pledge_levels.project_id == project_id)  & (db.pledge_levels.id == db.pledges.pledge_levels_id)).select()
 
@@ -31,8 +31,8 @@ def make_pledge():
     if form.process().accepted:
 
         db.pledges.insert(username = auth._get_user_id(), pledge_levels_id = pledge_level_id)
-        new_amount_raised = project.amount_raised + pledge_level.pledge_amount
-        project.update_record(amount_raised = new_amount_raised)
+        new_funding_raised = project.funding_raised + pledge_level.pledge_amount
+        project.update_record(funding_raised = new_funding_raised)
         redirect(URL('projects', 'project', args=project.id))
 
 

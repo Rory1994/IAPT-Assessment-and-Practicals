@@ -28,11 +28,12 @@ for i in xrange(100):
 
 def index():
 
-    closest_projects_to_being_funded = db(db.project).select(orderby=(db.project.amount_raised/db.project.funding_needed))
-
+    closest_projects_to_being_funded = db(db.project.funding_target > db.project.funding_raised).select(orderby=~(db.project.funding_raised/db.project.funding_target), limitby = (0,5))
+    newest_projects = db(db.project).select(orderby=~(db.project.opened_for_pledges_date), limitby = (0,5))
+    newest_project = closest_projects_to_being_funded.first()
 
     response.flash = T("Welcome to web2py!")
-    return dict(closest_projects_to_being_funded = closest_projects_to_being_funded)
+    return dict( closest_projects_to_being_funded =  closest_projects_to_being_funded, newest_projects = newest_projects, newest_project = newest_project)
 
 def login():
 

@@ -144,8 +144,8 @@ def create():
     if form.process().accepted:
         project = db.project.insert(username = auth._get_user_id, short_description = request.vars.short_project_description,
                                     status='Not Available', image = request.vars.image, category = request.vars.category,
-                                    amount_raised = 0, story = request.vars.project_story, opened_for_pledges_date = request.now,
-                                    funding_needed = int(request.vars.funding_goal), title = request.vars.project_title,
+                                    funding_raised = 0, story = request.vars.project_story, opened_for_pledges_date = request.now,
+                                    funding_target = int(request.vars.funding_goal), title = request.vars.project_title,
                                     long_description = request.vars.long_description)
 
 
@@ -571,7 +571,7 @@ def edit_project():
         form.vars.project_title = project.title
         form.vars.short_project_description = project.short_description
         form.vars.category = project.category
-        form.vars.funding_goal = project.funding_needed
+        form.vars.funding_goal = project.funding_target
         form.vars.long_description = project.long_description
         form.vars.project_story = project.story
 
@@ -586,8 +586,8 @@ def edit_project():
             if request.vars.category!= project.category:
                 project.update_record(category = request.vars.category)
 
-            if request.vars.funding_goal != project.funding_needed:
-                project.update_record(funding_needed = int(request.vars.funding_goal))
+            if request.vars.funding_goal != project.funding_target:
+                project.update_record(funding_target = int(request.vars.funding_goal))
 
             if request.vars.long_description != project.long_description:
                 project.update_record(long_description = request.vars.long_description)
