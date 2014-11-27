@@ -1,0 +1,20 @@
+<div class="well span3 offset" id="project_small">
+    <div class="project_small_title_wrapper">
+        <h4>
+            <a class="project_small_title" href="{{=URL('projects','project', args=project.id)}}">{{=project.title}} </a>
+            <span class="badge badge-info">{{=project.category}}</span>
+        </h4>
+    </div>
+    <br>
+    <a href="{{=URL('projects','project', args=project.id)}}"><img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/> </a>
+    <div class="project_small_description_wrapper">
+        {{=project.short_description}}
+    </div>
+    <h5> Left to fund: £ {{=int(project.funding_target - project.funding_raised)}}</h5>
+    {{percentage_completed = int((project.funding_raised / project.funding_target)*100)}}
+    <div class="progress">
+            <div class="bar bar-info" style="width:{{=percentage_completed}}%;"></div>
+    </div>
+    <a href="{{=URL('projects','project', args=project.id)}}"><button class="btn btn-block btn-primary" type="button">Visit</button> </a>
+
+</div>

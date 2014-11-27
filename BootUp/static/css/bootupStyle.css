@@ -82,10 +82,20 @@ body{
 
 #project_small{
     background-color: #a8cfe6;
+    color: black;
+    height: 100%;
 }
 
 .project_small_title{
     color: black;
+}
+
+.project_small_title_wrapper{
+    height: 60px;
+}
+
+.project_small_description_wrapper{
+    height: 80px;
 }
 
 

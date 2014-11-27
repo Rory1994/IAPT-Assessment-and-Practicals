@@ -16,7 +16,7 @@
                 {{else:}}
                 {{for project in open_for_pledges_projects:}}
                     <div class="row">
-                        <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+                        <div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
@@ -47,7 +47,7 @@
 
                 {{for project in not_available_projects:}}
                     <div class="row">
-                        <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+                        <div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
@@ -82,7 +82,7 @@
 
                 {{for project in funded_projects:}}
                     <div class="row">
-                        <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+                        <div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
@@ -112,7 +112,7 @@
 
                  {{for project in not_funded_projects:}}
                     <div class="row">
-                        <div class="span3"> <img width="100%" src="{{=URL('default','download',args = project.image)}}"/></div>
+                        <div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>

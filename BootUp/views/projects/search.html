@@ -1,0 +1,74 @@
+{{extend "bootup-layout.html"}}
+
+
+<div class="pad-breadcrumbs-away-from-nav">
+    <ul class="breadcrumb ">
+
+        <li><a href="{{=URL('default','index.html')}}"> Home </a> <span class="divider">/</span></li>
+        <li><a href="{{=URL('default','index.html')}}"> Projects </a> <span class="divider">/</span></li>
+        <li class="active"> Search </li>
+    </ul>
+</div>
+
+<div class="row">
+
+    <div class="span2">
+        <ul class="nav nav-list">
+            <li class="nav-header">Categories</li>
+            <li {{if category is None:}} class="active" {{pass}} ><a href="{{=URL('projects','search')}}">All</a></li>
+            <li {{if category == "Arts":}} class="active" {{pass}} ><a href="{{=URL('projects','search', args='arts')}}">Arts</a></li>
+            <li {{if category == "Comics":}} class="active" {{pass}} ><a href="{{=URL('projects','search', args='comics')}}">Comics</a></li>
+            <li {{if category == "Crafts":}} class="active" {{pass}} ><a href="{{=URL('projects','search', args='crafts')}}">Crafts</a></li>
+            <li {{if category == "Fashion":}} class="active" {{pass}} ><a href="{{=URL('projects','search', args='fashion')}}">Fashion</a></li>
+            <li {{if category == "Film":}} class="active" {{pass}} ><a href="{{=URL('projects','search', args='film')}}">Film</a></li>
+            <li {{if category == "Games":}} class="active" {{pass}} ><a href="{{=URL('projects','search', args='games')}}">Games</a></li>
+            <li {{if category == "Music":}} class="active" {{pass}} ><a href="{{=URL('projects','search', args='music')}}">Music</a></li>
+            <li {{if category == "Photography":}} class="active" {{pass}} ><a href="{{=URL('projects','search', args='photography')}}">Photography</a></li>
+           <li {{if category == "Technology":}} class="active" {{pass}} ><a  href="{{=URL('projects','search', args='technology')}}">Technology</a></li>
+
+        </ul>
+
+    </div>
+
+    <div class="span9">
+        <div class="container">
+            <div class="row">
+                <div class="span9">
+                    {{if category is not None:}}
+                    <h4> Search Results for "{{=category}}" </h4>
+                    <hr>
+                    {{elif term_searched_for is not None:}}
+                        {{if term_searched_for =="":}}
+                            <h4> Search Results for "All" </h4>
+                            <hr>
+                        {{else:}}
+                            <h4> Search Results for "{{=term_searched_for}}" </h4>
+                            <hr>
+                        {{pass}}
+                    {{else:}}
+                     <h4> Search Results for "All" </h4>
+                    <hr>
+                    {{pass}}
+                </div>
+
+            </div>
+            <div class="row">
+                {{for i in xrange(len(projects_returned_by_search)):}}
+                    {{if (i%3) == 0: }}
+                    </div>
+                    <div class="row">
+                    {{pass}}
+                    {{project = projects_returned_by_search[i]}}
+                    {{include 'subviews/presentSmallProject.html'}}
+
+                {{pass}}
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>

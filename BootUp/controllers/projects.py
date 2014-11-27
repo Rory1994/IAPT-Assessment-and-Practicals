@@ -38,3 +38,25 @@ def make_pledge():
 
 
     return dict(project = project, pledge_level = pledge_level, form = form)
+
+def search():
+
+
+
+    if request.args(0) is not None:
+        category =request.args(0).title()
+        projects_returned_by_search = db(db.project.category==category).select()
+
+    else:
+        category=None
+        if request.vars.search:
+            projects_returned_by_search = db((db.project.title.like('%' +request.vars.search + '%'))| (db.project.short_description.like('%' +request.vars.search + '%'))).select()
+
+        else:
+            projects_returned_by_search = db(db.project).select()
+
+
+
+
+    term_searched_for = request.vars.search
+    return dict(projects_returned_by_search = projects_returned_by_search, term_searched_for = term_searched_for, category = category)

@@ -11,7 +11,7 @@
     {{else:}}
     <div class="span3">
         <h1>{{=project.title}} </h1>
-        <img width="100%" src="{{=URL('default','download',args = project.image)}}"/>
+        <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/>
         <hr>
         <a href="{{=URL('profile','edit_project', args=project.id)}}"><button class="btn btn-large btn-block btn-inverse" type="button"> <i class="icon-edit icon-white"></i> Edit Project</button> </a>
             <br>

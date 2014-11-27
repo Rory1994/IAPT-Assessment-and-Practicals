@@ -65,7 +65,7 @@ def create():
 
 
 
-    options = ['Art', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
+    options = ['Arts', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
 
 
     form= FORM(FIELDSET(
@@ -518,7 +518,7 @@ def change_picture():
 @auth.requires_login(otherwise=URL('default','login'))
 def edit_project():
 
-    options = ['Art', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
+    options = ['Arts', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
 
 
     form=None
