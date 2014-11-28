@@ -45,7 +45,7 @@ sS'type'
 p20
 S'reference project'
 p21
-ssS'pledge_amount'
+ssS'reward'
 p22
 (dp23
 g14
@@ -53,14 +53,14 @@ I512
 sg15
 I00
 sg16
-I3
+I4
 sg17
-S'INTEGER'
+S'CHAR(512)'
 p24
 sg19
 I00
 sg20
-S'integer'
+S'string'
 p25
 ssS'id'
 p26
@@ -79,7 +79,7 @@ I00
 sg20
 S'id'
 p29
-ssS'reward'
+ssS'pledge_amount'
 p30
 (dp31
 g14
@@ -87,13 +87,13 @@ I512
 sg15
 I00
 sg16
-I4
+I3
 sg17
-S'CHAR(512)'
+S'INTEGER'
 p32
 sg19
 I00
 sg20
-S'string'
+S'integer'
 p33
 ss.

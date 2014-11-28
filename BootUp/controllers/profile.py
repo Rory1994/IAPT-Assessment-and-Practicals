@@ -1,4 +1,4 @@
-
+import datetime
 
 COUNTRIES=( 'United Kingdom', 'United States', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Ivory Coast', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'North Korea','South Korea', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'FYROM', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia and Montenegro', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe', 'Other')
 years = []
@@ -44,10 +44,9 @@ def projects():
 def pledges():
 
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    pledges_made_by_user = db((db.pledges.username == user.id) & (db.pledge_levels.project_id == db.project.id) & (db.pledge_levels.id == db.pledges.pledge_levels_id)).select()
 
-
-
-    return dict(user=user)
+    return dict(user = user, pledges_made_by_user = pledges_made_by_user)
 
 @auth.requires_login(otherwise=URL('default','login'))
 def information():
@@ -208,8 +207,8 @@ def edit_information():
                             ,_class='controls control-group'),
 
 
-                        DIV( LABEL('Date of Birth:'),
-                             INPUT( _name='dob', _type='date', _class='span4', _placeholder='yyyy',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                         DIV( LABEL('Date of Birth:'),
+                             INPUT( _name='dob', _type='text',_placeholder = ('dd/mm/yyyy') , _class='date',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_DATE(format='%d/%m/%Y', error_message=T("Date should be in format dd/mm/yyyy"))])
                              ,_class="controls controls-row"),
 
 
@@ -240,7 +239,7 @@ def edit_information():
                             DIV(LABEL('Street:', _for='billing_street'),INPUT( _name='billing_street', _type='text', _class='span4'), _id='billing_street'),
                             DIV(LABEL('City:', _for='billing_city'),INPUT( _name='billing_city', _type='text', _class='span4'), _id='billing_city'),
                             DIV(LABEL('Postcode:', _for='billing_postcode'),INPUT( _name='billing_postcode', _type='text', _class='span4'), _id='billing_postcode'),
-                            DIV(LABEL('Country:', _for='billing_country' ),INPUT( _name='billing_country', _type='text', _class='span4'), _id='billing_country')
+                             DIV(LABEL('Country:', _for='billing_country'),SELECT(*COUNTRIES, _name='billing_country',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_IN_SET(COUNTRIES, error_message="Valid country hasn't been chosen")]), _id='billing_country')
                             ,_class='controls control-group last_form_section'),
 
                          INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Confirm Changes')
@@ -249,7 +248,7 @@ def edit_information():
 
     form.vars.first_name = user.first_name
     form.vars.last_name = user.last_name
-    form.vars.dob = user.birthdate
+    form.vars.dob = generate_correct_date_format(user.birthdate)
     form.vars.street = address.street
     form.vars.city = address.city
     form.vars.country = address.country
@@ -279,7 +278,8 @@ def edit_information():
             user.update_record(last_name = request.vars.last_name)
 
         if request.vars.dob != user.birthdate:
-            user.update_record(birthdate= request.vars.dob)
+            date_of_birth = request.vars.dob.split('/')
+            user.update_record(birthdate= datetime.date(int(date_of_birth[2]), int(date_of_birth[1]), int(date_of_birth[0])))
 
         ## UPDATE address
 
@@ -411,6 +411,24 @@ def edit_information():
 
     return dict(user = user, form = form)
 
+def generate_correct_date_format(date):
+    date_string = ""
+    if date.day < 10:
+        date_string += "0" + str(date.day) + "/"
+    else:
+        date_string += str(date.day) + "/"
+
+    if date.month < 10:
+        date_string += "0" + str(date.month) + "/"
+    else:
+        date_string += str(date.month) + "/"
+
+    date_string += str(date.year)
+
+    return date_string
+
+
+
 
 def edit_information_validation(form):
     if form.vars.billing_checkbox != "yes":
@@ -518,7 +536,6 @@ def change_picture():
 @auth.requires_login(otherwise=URL('default','login'))
 def edit_project():
 
-    options = ['Arts', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
 
 
     form=None
@@ -662,7 +679,6 @@ def close_from_pledges():
              redirect(URL('profile', 'projects', args=request.vars.project_id))
 
     return dict(form = form, user = user, project = project)
-
 
 
 

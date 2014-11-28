@@ -35,7 +35,6 @@ def index():
 
 def login():
 
-    session.old_url = request.env.http_referer
 
     form = FORM(LEGEND('Login'), INPUT(_type='text', _name='username', _class = 'input-block-level', _placeholder='username', requires=IS_NOT_EMPTY( error_message=T("Please enter a username"))),
                  INPUT(_type='password',_name='password', _class = 'input-block-level', _placeholder='password', requires=IS_NOT_EMPTY(error_message=T("Please enter a password"))), INPUT(_type='submit', _class='btn btn-primary', _value='Login'),
@@ -74,7 +73,7 @@ def register():
 
 
                         DIV( LABEL('Date of Birth:'),
-                             INPUT( _name='dob', _type='text', _class='date',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))])
+                             INPUT( _name='dob', _type='text',_placeholder = ('dd/mm/yyyy') , _class='date',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))])
                              ,_class="controls controls-row"),
 
                         LEGEND('Login Credentials'),
@@ -89,7 +88,7 @@ def register():
                             LABEL('City:', _for='city'),INPUT(_id='city', _name='city', _type='text', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
                             LABEL('Postcode:', _for='postcode'),INPUT(_id='postcode', _name='postcode', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
                             IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid" )]),
-                            LABEL('Country:', _for='country'),SELECT(*COUNTRIES, _id='country', _name='country',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_IN_SET(COUNTRIES)])
+                            LABEL('Country:', _for='country'),SELECT(*COUNTRIES, _id='country', _name='country',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_IN_SET(COUNTRIES, error_message="Valid country hasn't been chosen")])
                             ,_class='controls control-group'),
 
                         LEGEND('Billing Information'),
@@ -111,7 +110,7 @@ def register():
                             DIV(LABEL('Street:', _for='billing_street'),INPUT( _name='billing_street', _type='text', _class='span4'), _id='billing_street'),
                             DIV(LABEL('City:', _for='billing_city'),INPUT( _name='billing_city', _type='text', _class='span4'), _id='billing_city'),
                             DIV(LABEL('Postcode:', _for='billing_postcode'),INPUT( _name='billing_postcode', _type='text', _class='span4'), _id='billing_postcode'),
-                            DIV(LABEL('Country:', _for='billing_country' ),INPUT( _name='billing_country', _type='text', _class='span4'), _id='billing_country')
+                            DIV(LABEL('Country:', _for='billing_country'),SELECT(*COUNTRIES, _name='billing_country',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_IN_SET(COUNTRIES, error_message="Valid country hasn't been chosen")]), _id='billing_country')
                             ,_class='controls control-group last_form_section'),
 
                          INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Register')

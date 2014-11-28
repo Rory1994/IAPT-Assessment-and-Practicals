@@ -1,1 +1,32 @@
 {{extend "bootup-profile-layout.html"}}
+
+<div class="well span12">
+     {{if len(pledges_made_by_user) == 0:}}
+                <h1> You have made no pledges</h1>
+                {{else:}}
+                {{for project in pledges_made_by_user:}}
+                    <div class="row">
+                        <div class="span2">
+                            <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.project.image)}}"/>
+                            <br>
+                            <br>
+                            <a href="{{=URL('projects','project', args=project.project.id)}}"><button class="btn btn-inverse btn-block" type="button">View Bootable Page</button></a>
+                        </div>
+                        <div class="span5">
+
+                            <h4>{{=project.project.title}} </h4>
+                            <h5> Funding Goal is £ {{=int(project.project.funding_target)}} </h5>
+                            <h5> Amount raised is £{{=int(project.project.funding_raised)}} </h5>
+                            <h5> Status is "{{=project.project.status}}" </h5>
+
+                        </div>
+                        <div class="span4">
+                            <h5> Amount: £{{=project.pledge_levels.pledge_amount}} </h5>
+                            <h5> Reward: {{=project.pledge_levels.reward}} </h5>
+                        </div>
+                    </div>
+                    <hr>
+                {{pass}}
+     {{pass}}
+
+</div>
