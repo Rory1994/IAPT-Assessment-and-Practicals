@@ -98,6 +98,65 @@ body{
     height: 80px;
 }
 
+.category_button{
+    text-align: center;
+}
+
+#arts_button{
+    background-color: #ff6154;
+}
+
+#comics_button{
+    background-color: #cf6cff;
+}
+
+#crafts_button{
+    background-color: #626fff;
+}
+
+#fashion_button{
+    background-color: #ff9555;
+}
+
+#film_button{
+    background-color: #e0ff5a;
+}
+
+#games_button{
+    background-color: #96ff41;
+}
+
+#music_button{
+    background-color: #7affa3;
+}
+
+#photography_button{
+    background-color: #ff84cd;
+}
+
+#technology_button{
+    background-color: #55ffeb;
+}
+
+#all_button{
+    background-color: black;
+}
+
+.all_categories_link{
+    color:white;
+}
+
+.category_link{
+    color: black;
+}
+
+.category_link:hover, .all_categories_link:hover{
+    color: rgba(172, 175, 178, 0.99);
+}
+
+
+
+
 
 
 

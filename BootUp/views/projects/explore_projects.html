@@ -1,0 +1,89 @@
+{{extend "bootup-layout.html"}}
+
+
+<div class="pad-breadcrumbs-away-from-nav">
+    <ul class="breadcrumb ">
+        <li><a href="{{=URL('default','index.html')}}"> Home </a> <span class="divider">/</span></li>
+        <li class="active"> Categories</li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="page-header">
+        <h1> Choose a Category</h1>
+    </div>
+</div>
+
+<div class="row">
+
+    <a class="category_link" href="{{=URL('projects','search', args='arts')}}">
+        <div class="category_button artsButton span3 well" id="arts_button">
+            <h1> Arts </h1>
+        </div>
+    </a>
+
+    <a class="category_link" href="{{=URL('projects','search', args='comics')}}">
+        <div class="category_button span3 well" id="comics_button">
+            <h1> Comics </h1>
+        </div>
+    </a>
+
+    <a class="category_link" href="{{=URL('projects','search', args='crafts')}}">
+        <div class="category_button span3 well" id="crafts_button">
+            <h1> Crafts </h1>
+        </div>
+    </a>
+
+</div>
+
+<div class="row">
+
+    <a class="category_link" href="{{=URL('projects','search', args='fashion')}}">
+        <div class="category_button span3 well" id="fashion_button">
+            <h1> Fashion </h1>
+        </div>
+    </a>
+
+    <a class="category_link" href="{{=URL('projects','search', args='film')}}">
+        <div class="category_button span3 well" id="film_button">
+            <h1> Film </h1>
+        </div>
+    </a>
+
+    <a class="category_link" href="{{=URL('projects','search', args='games')}}">
+        <div class="category_button span3 well" id="games_button">
+            <h1> Games </h1>
+        </div>
+    </a>
+
+</div>
+
+<div class="row">
+
+    <a class="category_link" href="{{=URL('projects','search', args='music')}}">
+        <div class="category_button span3 well" id="music_button">
+            <h1> Music </h1>
+        </div>
+    </a>
+
+    <a class="category_link" href="{{=URL('projects','search', args='photography')}}">
+        <div class="category_button span3 well" id="photography_button">
+            <h1> Photography </h1>
+        </div>
+    </a>
+
+    <a class="category_link" href="{{=URL('projects','search', args='technology')}}">
+        <div class="category_button span3 well" id="technology_button">
+            <h1> Technology </h1>
+        </div>
+    </a>
+
+</div>
+
+<div class="row">
+     <a class="all_categories_link" href="{{=URL('projects','search')}}">
+        <div class="category_button span10 well" id="all_button">
+            <h1> I don't care </h1>
+        </div>
+    </a>
+</div>

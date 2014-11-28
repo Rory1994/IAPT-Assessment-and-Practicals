@@ -36,19 +36,17 @@
                 <div class="span9">
                     {{if category is not None:}}
                     <h4> Search Results for "{{=category}}" </h4>
-                    <hr>
                     {{elif term_searched_for is not None:}}
                         {{if term_searched_for =="":}}
                             <h4> Search Results for "All" </h4>
-                            <hr>
                         {{else:}}
                             <h4> Search Results for "{{=term_searched_for}}" </h4>
-                            <hr>
                         {{pass}}
                     {{else:}}
                      <h4> Search Results for "All" </h4>
-                    <hr>
                     {{pass}}
+                    <h6> {{=len(projects_returned_by_search)}} bootables were found  </h6>
+                    <hr>
                 </div>
 
             </div>

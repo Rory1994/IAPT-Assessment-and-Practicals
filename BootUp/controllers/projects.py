@@ -60,3 +60,7 @@ def search():
 
     term_searched_for = request.vars.search
     return dict(projects_returned_by_search = projects_returned_by_search, term_searched_for = term_searched_for, category = category)
+
+def explore_projects():
+
+    return dict()
