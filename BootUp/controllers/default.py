@@ -28,11 +28,10 @@ for i in xrange(100):
 
 def index():
 
-    closest_projects_to_being_funded = db(db.project.funding_target > db.project.funding_raised).select(orderby=~(db.project.funding_raised/db.project.funding_target), limitby = (0,6))
-    newest_projects = db(db.project).select(orderby=~(db.project.opened_for_pledges_date), limitby = (0,6))
-    newest_project = closest_projects_to_being_funded.first()
+    closest_projects_to_being_funded = db((db.project.funding_target > db.project.funding_raised)&(db.project.status == "Open for Pledges")).select(orderby=~(db.project.funding_raised/db.project.funding_target), limitby = (0,6))
+    newest_projects = db(db.project.status == "Open for Pledges").select(orderby=~(db.project.opened_for_pledges_date), limitby = (0,6))
 
-    return dict( closest_projects_to_being_funded =  closest_projects_to_being_funded, newest_projects = newest_projects, newest_project = newest_project)
+    return dict( closest_projects_to_being_funded =  closest_projects_to_being_funded, newest_projects = newest_projects)
 
 def login():
 
@@ -94,7 +93,7 @@ def register():
                             ,_class='controls control-group'),
 
                         LEGEND('Billing Information'),
-                        DIV(LABEL('Card Number:', _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text', _class='span4', requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
+                        DIV(LABEL('Card Number:', _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text', _class='span4',_style="display: block;", requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
                             IS_LENGTH(minsize=12, maxsize=12, error_message=T("Card number must be 12 digits long")), IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long" )]),
                             LABEL('Security Code:', _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
                             IS_LENGTH(minsize=3, maxsize=3, error_message="Security code contain 3 numbers"), IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')])

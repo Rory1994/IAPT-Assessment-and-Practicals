@@ -25,11 +25,11 @@
 
 
                     <dt>Amount Raised:</dt>
-                    <dd class="greenText">£ {{=project.funding_raised}} </dd>
+                    <dd class="greenText">£ {{=int(project.funding_raised)}} </dd>
                     <hr>
 
                     <dt> Goal:</dt>
-                    <dd class="greenText">£ {{=project.funding_target}}</dd>
+                    <dd class="greenText">£ {{=int(project.funding_target)}}</dd>
                     <hr>
 
 
@@ -44,6 +44,7 @@
 
     </div>
     <br>
+     {{=response.flash}}
     <div >
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -69,8 +70,13 @@
                                 <div class="well">
                                 <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
                                 <p> {{=pledge_level.reward}} </p>
-                                <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
+                                {{if user_owns_project or user_has_already_pledged:}}
+                                    <h4> Not available</h4>
+                                {{else:}}
+                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
+                                {{pass}}
                                 </div>
+
 
                             {{pass}}
                         </div>
@@ -94,7 +100,11 @@
 
                             </div>
                             <div class="span3">
-                                <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
+                                 {{if user_owns_project or user_has_already_pledged:}}
+                                    <h4> Not Available</h4>
+                                {{else:}}
+                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
+                                {{pass}}
                             </div>
                         </div>
                     {{pass}}
@@ -108,7 +118,8 @@
                     {{else:}}
                         {{for pledge in pledges_made_on_project:}}
 
-                            <h4>{{=pledge.pledges.username.username}} pledged £ {{=pledge.pledge_levels.pledge_amount}}  </h4>
+                            <h4>{{=pledge.pledges.username.username}} <small> pledged £ {{=pledge.pledge_levels.pledge_amount}}
+                                and received the reward "{{=pledge.pledge_levels.reward}}" </small>   </h4>
 
                             <hr>
 

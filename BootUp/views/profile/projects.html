@@ -12,7 +12,7 @@
             <div class="tab-pane active" id="tab1">
 
                 {{if len(open_for_pledges_projects) == 0:}}
-                <h1> You have no projects open for pledges</h1>
+                <h1> You have no bootables open for pledges</h1>
                 {{else:}}
                 {{for project in open_for_pledges_projects:}}
                     <div class="row">
@@ -20,15 +20,15 @@
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_target}} </h2>
+                            <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
                             <h2> <small>Category is </small>  {{=project.category}} </h2>
-                            <h2> <small>Amount raised is </small>  £{{=project.funding_raised}} </h2>
+                            <h2> <small>Amount raised is </small>  £{{=int(project.funding_raised)}} </h2>
 
                         </div>
                         <div class="span3">
-                            <a href="{{=URL('projects','project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View Project Page</button></a>
+                            <a href="{{=URL('projects','project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View Bootable Page</button></a>
                             <br>
-                            <button class="btn btn-danger" type="button">Close From Pledges</button>
+                            <a href="{{=URL('profile','close_from_pledges', args=project.id)}}"><button class="btn btn-danger" type="button">Close From Pledges</button></a>
 
                         </div>
                     </div>
@@ -42,7 +42,7 @@
             <div class="tab-pane" id="tab2">
 
                  {{if len(not_available_projects) == 0:}}
-                <h1> You have no projects that are unavailable</h1>
+                <h1> You have no bootables that are unavailable</h1>
                 {{else:}}
 
                 {{for project in not_available_projects:}}
@@ -51,14 +51,14 @@
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_target}} </h2>
+                            <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
                             <h2> <small>Category is </small>  {{=project.category}} </h2>
 
                         </div>
                         <div class="span3">
                             <a href="{{=URL('profile','view_project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View/Edit</button> </a>
                             <br>
-                            <a href="{{=URL('profile','confirm_open_for_pledges', args=project.id)}}"><button class="btn btn-info btn-block" type="button">Open project for pledges</button> </a>
+                            <a href="{{=URL('profile','confirm_open_for_pledges', args=project.id)}}"><button class="btn btn-info btn-block" type="button">Open bootable for pledges</button> </a>
                             <br>
                             <a href="{{=URL('profile','rewards', args=project.id)}}"><button class="btn btn-block btn-primary" type="button">View/Add Rewards</button></a>
                             <br>
@@ -77,7 +77,7 @@
             <div class="tab-pane" id="tab3">
 
                  {{if len(funded_projects) == 0:}}
-                <h1> You have no funded projects</h1>
+                <h1> You have no funded bootables</h1>
                 {{else:}}
 
                 {{for project in funded_projects:}}
@@ -86,13 +86,13 @@
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_target}} </h2>
+                            <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
                             <h2> <small>Category is </small>  {{=project.category}} </h2>
-                            <h2> <small>Amount raised is </small>  £ {{=project.funding_raised}} </h2>
+                            <h2> <small>Amount raised is </small>  £ {{=int(project.funding_raised)}} </h2>
 
                         </div>
                         <div class="span3">
-                            <button class="btn btn-inverse btn-block" type="button">View Project Page</button>
+                            <button class="btn btn-inverse btn-block" type="button">View Bootable Page</button>
 
                         </div>
                     </div>
@@ -107,7 +107,7 @@
             <div class="tab-pane" id="tab4">
 
                  {{if len(not_funded_projects) == 0:}}
-                <h1> You have no projects that finished unfunded</h1>
+                <h1> You have no bootables that finished unfunded</h1>
                 {{else:}}
 
                  {{for project in not_funded_projects:}}
@@ -116,15 +116,15 @@
                         <div class="span4">
 
                             <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=project.funding_target}} </h2>
+                            <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
                             <h2> <small>Category is </small>  {{=project.category}} </h2>
-                            <h2> <small>Amount raised is </small>  £ {{=project.funding_raised}} </h2>
+                            <h2> <small>Amount raised is </small>  £ {{=int(project.funding_raised)}} </h2>
 
                         </div>
                         <div class="span3">
-                            <button class="btn btn-inverse btn-block" type="button">View Project Page</button>
+                            <button class="btn btn-inverse btn-block" type="button">View Bootable Page</button>
                              <br>
-                            <button class="btn btn-block btn-info" type="button">Open for Pledges</button>
+                            <a href="{{=URL('profile','confirm_open_for_pledges', args=project.id)}}"><button class="btn btn-block btn-info" type="button">Open bootable for Pledges</button></a>
 
                         </div>
                     </div>

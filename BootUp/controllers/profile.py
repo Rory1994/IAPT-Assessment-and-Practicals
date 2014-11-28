@@ -622,8 +622,8 @@ def confirm_open_for_pledges():
     else:
         project = projects.first()
 
-        if project.status != "Not Available":
-             redirect(URL('profile', 'profile'))
+        if (project.status != "Not Available") and (project.status != "Not Funded"):
+             redirect(URL('profile', 'projects'))
 
         form= FORM(INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Yes, open project for pledges'))
 
@@ -632,6 +632,36 @@ def confirm_open_for_pledges():
              redirect(URL('profile', 'projects', args=request.vars.project_id))
 
     return dict(form = form, user = user, project=project)
+
+@auth.requires_login(otherwise=URL('default','login'))
+def close_from_pledges():
+
+    form=None
+    project = None
+    project_id = request.args(0)
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
+
+    if len(projects) < 1:
+        redirect(URL('profile', 'profile'))
+
+    else:
+        project = projects.first()
+
+        if project.status != "Open for Pledges":
+             redirect(URL('profile', 'projects'))
+
+        form= FORM(INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Yes, close project from pledges'))
+
+        if form.process().accepted:
+             if project.funding_target > project.funding_raised:
+                 project.update_record(status = "Not Funded")
+             else:
+                 project.update_record(status = "Funded")
+
+             redirect(URL('profile', 'projects', args=request.vars.project_id))
+
+    return dict(form = form, user = user, project = project)
 
 
 

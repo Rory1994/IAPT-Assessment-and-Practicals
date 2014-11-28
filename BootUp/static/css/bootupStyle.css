@@ -132,10 +132,12 @@ body{
 
 #photography_button{
     background-color: #ff84cd;
+    overflow: hidden;
 }
 
 #technology_button{
     background-color: #55ffeb;
+    overflow: hidden;
 }
 
 #all_button{

@@ -1,18 +1,31 @@
 def project():
 
-    session.old_url = request.env.http_referer
+    user_owns_project = False
+    user_has_already_pledged =  False
     project_id = request.args(0)
     project = db(db.project.id == project_id).select().first()
 
+    if auth._get_user_id() == project.username:
+        response.flash = DIV("You own this bootable", _class="alert alert-info")
+        user_owns_project = True
+
+
     if project.status == "Not Available":
         redirect(URL('default','index'))
+
     percentage_completed = int((float(project.funding_raised)/float(project.funding_target))*100)
     pledge_levels = db(db.pledge_levels.project_id ==project_id).select(orderby=db.pledge_levels.pledge_amount)
     pledges_made_on_project = db((db.pledge_levels.project_id == project_id)  & (db.pledge_levels.id == db.pledges.pledge_levels_id)).select()
 
 
+    for pledge in pledges_made_on_project:
+        if pledge.pledges.username == auth._get_user_id():
+            response.flash = DIV("You've already pledged on this project", _class="alert alert-info")
+            user_has_already_pledged = True
+
+
     return dict(project = project, percentage_completed = percentage_completed, pledge_levels = pledge_levels,
-                pledges_made_on_project = pledges_made_on_project)
+                pledges_made_on_project = pledges_made_on_project, user_owns_project = user_owns_project, user_has_already_pledged = user_has_already_pledged)
 
 
 def make_pledge():

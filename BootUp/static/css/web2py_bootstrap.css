@@ -72,16 +72,20 @@ div.error_wrapper .error{
 trying to make errors look like bootstrap ones */
 div.controls .error_wrapper{
   display:inline-block;
-  margin-bottom:0;
+  margin-bottom:10px;
   vertical-align:middle;
+
 }
 div.controls .error{
   min-width:5px;
   background:inherit;
-  color:#B94A48;
+  color: #f7fffc;
   border:none;
-  padding:0;
+
   margin:0;
+  background-color: #c01723;
+  padding-left: 5px;
+  padding-right: 5px;
   /*display:inline;*/ /* uncommenting this, the animation effect is lost */
 }
 div.controls .help-inline{color:#3A87AD;}
