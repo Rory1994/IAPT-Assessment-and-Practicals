@@ -4,18 +4,17 @@
 <div class="well">
      <div class="row">
          <div class="span12">
-             <h1> {{=project.title}}</h1>
+             <h1> New Project</h1>
          </div>
      </div>
 
      <div class="row">
-        {{if project is None:}}
-            {{=response.flash}}
-        {{else:}}
-        <div class="span11">
 
+        <div class="span11">
+            {{=response.flash}}
 
             {{=form}}
+
 
             <table class="table table-striped">
                 <tr>
@@ -30,19 +29,17 @@
                 }}
                 <tr>
                     <td> {{=i}} </td>
-                    <td> £ {{=level.pledge_amount}}</td>
-                    <td> {{=level.reward}} </td>
+                    <td> £ {{=level[0]}}</td>
+                    <td> {{=level[1]}} </td>
                     <td>
-                        {{if len(pledge_levels) > 1:}}
-                        {{=A(BUTTON('Delete',_class="btn btn-block btn-danger"), callback= URL('delete_pledge', vars= dict(id = level.id, project_id = level.project_id) ))}}
-                        {{else:}}
-                        <h4> Not allowed to delete as project must have one pledge</h4>
-                        {{pass}}
+
+
                     </td>
 
                 </tr>
                 {{pass}}
             </table>
+            {{=go_to_step_3}}
         </div>
         {{pass}}
      </div>

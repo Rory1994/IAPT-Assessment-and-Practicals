@@ -62,7 +62,7 @@ def information():
 @auth.requires_login(otherwise=URL('default','login'))
 def create():
 
-
+    session.pledge_levels = []
 
     options = ['Arts', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
 
@@ -78,83 +78,31 @@ def create():
                             LABEL('Category:', _for='category'),
                             SELECT(*options, _name='category', _id='category',_class='span6',_style="display: block;" ,requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))]),
 
-                            LABEL('Project Image:', _for='image'),
-                            INPUT(_id='image', _name='image', _type='file', _class='span6',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
-
-                            ,_class='controls control-group'),
+                            _class='controls control-group'),
 
 
                             DIV(LABEL('Funding Goal (in GBPs):', _for='funding_goal'),
                             INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span6',_style="display: block;",requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
 
                             LABEL('Long Description of Project Goals:', _for='long_description'),
-                            TEXTAREA(_id='long_description', _name='long_description', _rows = '10', _class='span6',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            TEXTAREA(_id='long_description', _name='long_description', _rows = '20', _class='span9',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
 
                             LABEL('Project Story:', _for='project_story'),
-                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '10', _class='span6',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '20', _class='span9',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
 
                             ,_class='controls control-group'),
 
 
 
-                            DIV(
-                                LEGEND('Pledges'),
-
-                                DIV(
-                                    LABEL('Pledge 1:'),
-                                    INPUT(_id='pledge_amount1', _name='pledge_amount1', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward1', _name='pledge_reward1',_cols = '50', _rows = '5', _class='span6', requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
-                                , _class='controls controls-group'),
-
-
-                                DIV(
-                                    LABEL('Pledge 2:'),
-                                    INPUT(_id='pledge_amount2', _name='pledge_amount2', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward2', _name='pledge_reward2',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
-                                , _class='controls controls-group'),
-
-                                DIV(
-                                    LABEL('Pledge 3:'),
-                                    INPUT(_id='pledge_amount3', _name='pledge_amount3', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward3', _name='pledge_reward3',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
-                                , _class='controls controls-group'),
-
-                                DIV(
-                                    LABEL('Pledge 4:'),
-                                    INPUT(_id='pledge_amount4', _name='pledge_amount4', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward4', _name='pledge_reward4',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
-                                , _class='controls controls-group'),
-
-                                DIV(
-                                    LABEL('Pledge 5:'),
-                                    INPUT(_id='pledge_amount5', _name='pledge_amount5', _type='text', _placeholder = "£", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
-                                    TEXTAREA(_placeholder = 'Reward', _id='pledge_reward5', _name='pledge_reward5',_cols = '50', _rows = '5', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
-                                , _class='controls controls-group')
-
-
-                            ,_class='controls control-group'),
-
-
-                         INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Create Project')
+                         INPUT(_type='submit', _class='btn btn-primary btn-large', _value="I'm ready to start adding pledges")
 
 
     ))
 
     if form.process().accepted:
-        project = db.project.insert(username = auth._get_user_id, short_description = request.vars.short_project_description,
-                                    status='Not Available', image = request.vars.image, category = request.vars.category,
-                                    funding_raised = 0, story = request.vars.project_story, opened_for_pledges_date = request.now,
-                                    funding_target = int(request.vars.funding_goal), title = request.vars.project_title,
-                                    long_description = request.vars.long_description)
+        session.create = request.vars
 
-
-        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount1), reward = request.vars.pledge_reward1)
-        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount2), reward = request.vars.pledge_reward2)
-        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount3), reward = request.vars.pledge_reward3)
-        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount4), reward = request.vars.pledge_reward4)
-        db.pledge_levels.insert(project_id = project, pledge_amount = int(request.vars.pledge_amount5), reward = request.vars.pledge_reward5)
-
-        redirect(URL('projects'))
+        redirect(URL('profile','create_step2'))
 
 
 
@@ -162,6 +110,92 @@ def create():
 
 
     return dict(user=user, form=form)
+
+@auth.requires_login(otherwise=URL('default','login'))
+def create_step2():
+
+
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+
+    if session.create:
+        request.vars.update(session.create)
+
+    response.flash = request.vars
+
+    form = FORM(DIV(INPUT(_id='pledge_amount', _name='pledge_amount', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+            TEXTAREA(_placeholder = 'Reward', _id='pledge_reward', _name='pledge_reward',_cols = '50', _rows = '5', _class='span5', requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+           _class="controls control-group" ), INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Add Reward'))
+
+    go_to_step_3 = FORM(DIV(INPUT(_type='submit', _class='btn btn-primary btn-large', _value="I'm done adding pledges")))
+
+    if form.process(formname='form_one').accepted:
+        session.pledge_levels.append([request.vars.pledge_amount, request.vars.pledge_reward])
+
+    if go_to_step_3.process(formname='form_two').accepted:
+        if len(session.pledge_levels) <1:
+            response.flash = "Add Pledges cunt"
+
+        else:
+            session.create = request.vars
+            redirect(URL('profile','create_step3'))
+
+
+
+    return dict(pledge_levels = session.pledge_levels, form = form, user = user, go_to_step_3 = go_to_step_3)
+
+
+
+
+
+
+@auth.requires_login(otherwise=URL('default','login'))
+def create_step3():
+
+    user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+
+    if session.create:
+        request.vars.update(session.create)
+
+    if session.pledge_levels:
+        request.vars.update({'pledge_levels':session.pledge_levels})
+
+    response.flash = request.vars
+
+    form= FORM(LABEL('Project Image:', _for='image'),
+                INPUT(_id='image', _name='image', _type='file', _class='span6',_style="display: block;",
+                requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                 INPUT(_type='submit', _class='btn btn-primary btn-large', _value="Create Project"))
+
+    if form.process().accepted:
+
+        project = db.project.insert(username = auth._get_user_id, short_description = request.vars.short_project_description,
+                                     status='Not Available', image = request.vars.image, category = request.vars.category,
+                                     funding_raised = 0, story = request.vars.project_story, opened_for_pledges_date = request.now,
+                                     funding_target = int(request.vars.funding_goal), title = request.vars.project_title,
+                                     long_description = request.vars.long_description)
+
+        for pledge_level in request.vars.pledge_levels:
+
+            db.pledge_levels.insert(project_id = project.id, pledge_amount = int(pledge_level[0]), reward = pledge_level[1])
+
+        redirect(URL('profile', 'projects'))
+
+
+
+    return dict(user=user, form=form)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @auth.requires_login(otherwise=URL('default','login'))
 def change_password():
@@ -571,6 +605,9 @@ def edit_project():
 
 
 
+    options = ['Arts', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
+
+
     form=None
     project = None
     project_id = request.args(0)
@@ -665,6 +702,7 @@ def confirm_open_for_pledges():
     project_id = request.args(0)
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
+
 
     if len(projects) < 1:
         redirect(URL('profile', 'profile'))
