@@ -70,28 +70,28 @@ def create():
     form= FORM(FIELDSET(
 
                         DIV(LABEL('Project Title:', _for='project_title'),
-                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span6',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
 
                             LABEL('Short Project Description:', _for='short_project_description'),
-                            TEXTAREA(_id='short_project_description', _name='short_project_description', _rows = '2', _maxlength = "120", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
+                            TEXTAREA(_id='short_project_description', _name='short_project_description', _rows = '2', _maxlength = "120", _class='span6',_style="display: block;",requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
 
                             LABEL('Category:', _for='category'),
-                            SELECT(*options, _name='category', _id='category',_class='span6', requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))]),
+                            SELECT(*options, _name='category', _id='category',_class='span6',_style="display: block;" ,requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))]),
 
                             LABEL('Project Image:', _for='image'),
-                            INPUT(_id='image', _name='image', _type='file', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                            INPUT(_id='image', _name='image', _type='file', _class='span6',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
 
                             ,_class='controls control-group'),
 
 
                             DIV(LABEL('Funding Goal (in GBPs):', _for='funding_goal'),
-                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span6',_style="display: block;",requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
 
                             LABEL('Long Description of Project Goals:', _for='long_description'),
-                            TEXTAREA(_id='long_description', _name='long_description', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            TEXTAREA(_id='long_description', _name='long_description', _rows = '10', _class='span6',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
 
                             LABEL('Project Story:', _for='project_story'),
-                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '10', _class='span6',_style="display: block;",requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
 
                             ,_class='controls control-group'),
 
@@ -202,47 +202,44 @@ def edit_information():
     form= FORM(FIELDSET(
 
                         LEGEND('Personal Information'),
-                        DIV(LABEL('First Name:', _for='first_name'),INPUT(_id='first_name', _name='first_name', _type='text', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
-                            LABEL('Last Name:', _for='last_name'),INPUT(_id='last_name', _name='last_name', _type='text', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                        DIV(LABEL('First Name:', _for='first_name'),INPUT(_id='first_name', _name='first_name', _type='text', _class='span4',_style="display: block;"),
+                            LABEL('Last Name:', _for='last_name'),INPUT(_id='last_name', _name='last_name', _type='text', _class='span4',_style="display: block;")
                             ,_class='controls control-group'),
 
 
-                         DIV( LABEL('Date of Birth:'),
-                             INPUT( _name='dob', _type='text',_placeholder = ('dd/mm/yyyy') , _class='date',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_DATE(format='%d/%m/%Y', error_message=T("Date should be in format dd/mm/yyyy"))])
+                        DIV( LABEL('Date of Birth:'),
+                             INPUT( _name='dob', _type='text',_placeholder = ('dd/mm/yyyy'),_maxlength='10', _class='date',_style="display: block;")
                              ,_class="controls controls-row"),
 
-
                         LEGEND('Home Address'),
-                        DIV(LABEL('Street:', _for='street'),INPUT(_id='street', _name='street', _type='text', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
-                            LABEL('City:', _for='city'),INPUT(_id='city', _name='city', _type='text', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
-                            LABEL('Postcode:', _for='postcode'),INPUT(_id='postcode', _name='postcode', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
-                            IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid" )]),
-                            LABEL('Country:', _for='country'),SELECT(*COUNTRIES, _id='country', _name='country',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_IN_SET(COUNTRIES)])
+                        DIV(LABEL('Street:', _for='street'),INPUT(_id='street', _name='street', _type='text', _class='span4',_style="display: block;"),
+                            LABEL('City:', _for='city'),INPUT(_id='city', _name='city', _type='text', _class='span4',_style="display: block;"),
+                            LABEL('Postcode:', _for='postcode'),INPUT(_id='postcode', _name='postcode', _type='text', _class='span4',_style="display: block;"),
+                            LABEL('Country:', _for='country'),SELECT(*COUNTRIES, _id='country', _name='country',_style="display: block;")
                             ,_class='controls control-group'),
 
                         LEGEND('Billing Information'),
-                        DIV(LABEL('Card Number:', _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text', _class='span4', requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
-                            IS_LENGTH(minsize=12, maxsize=12, error_message="Card number must be 12 digits long"), IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long" )]),
-                            LABEL('Security Code:', _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
-                            IS_LENGTH(minsize=3, maxsize=3, error_message="Security code contain 3 numbers"), IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')])
+                        DIV(LABEL('Card Number:', _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text',_maxlength='12' ,_class='span4',_style="display: block;"),
+                            LABEL('Security Code:', _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text',_maxlength='3', _class='span4',_style="display: block;")
                             ,_class='controls control-group'),
 
                         DIV(
                             LABEL('Expiry Date:'),
-                            SELECT(*months, _value='mm', _name='expiry_date_month', _id='expiry_date_month_edit'),
+                            SELECT(*months, _value='mm', _name='expiry_date_month', _id='expiry_date_month' ),
                             SPAN(' / '),
-                            SELECT(*years, _value='yy', _name='expiry_date_year', _id='expiry_date_year_edit')
+                            SELECT(*years, _value='yy', _name='expiry_date_year', _id='expiry_date_year')
                             , _class='controls controls-row'),
 
                         LEGEND('Billing Address'),
                         DIV(LABEL(INPUT(_id='billing_checkbox', _name='billing_checkbox', _value='yes', _onclick='javascript:toggleAddressAvailibility();', _type='checkbox' ), 'Same as Home Address',_class='checkbox'),
-                            DIV(LABEL('Street:', _for='billing_street'),INPUT( _name='billing_street', _type='text', _class='span4'), _id='billing_street'),
-                            DIV(LABEL('City:', _for='billing_city'),INPUT( _name='billing_city', _type='text', _class='span4'), _id='billing_city'),
-                            DIV(LABEL('Postcode:', _for='billing_postcode'),INPUT( _name='billing_postcode', _type='text', _class='span4'), _id='billing_postcode'),
-                             DIV(LABEL('Country:', _for='billing_country'),SELECT(*COUNTRIES, _name='billing_country',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_IN_SET(COUNTRIES, error_message="Valid country hasn't been chosen")]), _id='billing_country')
+                            DIV(LABEL('Street:', _for='billing_street'),INPUT( _name='billing_street', _type='text', _class='span4',_style="display: block;"), _id='billing_street'),
+                            DIV(LABEL('City:', _for='billing_city'),INPUT( _name='billing_city', _type='text', _class='span4',_style="display: block;"), _id='billing_city'),
+                            DIV(LABEL('Postcode:', _for='billing_postcode'),INPUT( _name='billing_postcode', _type='text', _style="display: block;", _class='span4'), _id='billing_postcode'),
+                            DIV(LABEL('Country:', _for='billing_country'),SELECT(*COUNTRIES, _name='billing_country'), _id='billing_country')
                             ,_class='controls control-group last_form_section'),
 
                          INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Confirm Changes')
+
 
     ))
 
@@ -266,7 +263,7 @@ def edit_information():
     form.vars.billing_postcode = bank_address.postcode
 
 
-    if form.process().accepted:
+    if form.process(onvalidation=edit_information_validation).accepted:
 
         new_home_address_was_added = False
 
@@ -428,9 +425,41 @@ def generate_correct_date_format(date):
     return date_string
 
 
-
-
 def edit_information_validation(form):
+
+
+    if form.vars.first_name == "":
+        form.errors.first_name = "First name must be entered"
+
+    if form.vars.last_name == "":
+        form.errors.last_name = "Last name must be entered"
+
+    date_validator = IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))
+    if date_validator(form.vars.dob)[1] is not None:
+        form.errors.dob = "Date should be given as dd/mm/yyyy"
+
+    if form.vars.street == "":
+        form.errors.street = "Street must be entered"
+
+    if form.vars.city == "":
+        form.errors.city = "City must be entered"
+
+    if form.vars.country == "":
+        form.errors.country = "Country must be entered"
+
+    postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid" )
+    if postcode_validator(form.vars.postcode)[1] is not None:
+         form.errors.postcode = postcode_validator(form.vars.postcode)[1]
+
+    security_code_validator = IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')
+    if security_code_validator(form.vars.security_code)[1] is not None:
+        form.errors.security_code = security_code_validator(form.vars.security_code)[1]
+
+
+    card_number_validator = IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long" )
+    if card_number_validator(form.vars.card_number)[1] is not None:
+        form.errors.card_number = card_number_validator(form.vars.card_number)[1]
+
     if form.vars.billing_checkbox != "yes":
         if form.vars.billing_street =="":
             form.errors.billing_street = "Street must be entered"
@@ -446,6 +475,10 @@ def edit_information_validation(form):
 
     if form.vars.expiry_date_month not in months or form.vars.expiry_date_year not in years:
         form.errors.expiry_date_year = "Expiry Date must be entered"
+
+
+
+
 
 @auth.requires_login(otherwise=URL('default','login'))
 def view_project():

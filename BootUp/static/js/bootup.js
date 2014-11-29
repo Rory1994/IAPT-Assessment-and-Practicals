@@ -22,9 +22,6 @@ $(document).ready(function(){
 
    //var pledge_count = 6;
 
-    $("#expiry_date_month").prop("selectedIndex", -1);
-     $("#expiry_date_year").prop("selectedIndex", -1);
-
 
    if($('#billing_checkbox').prop('checked')){
         $('#billing_street').hide();
@@ -55,10 +52,7 @@ $(document).ready(function(){
 
         }
        });
-   //$('#add_pledge').onclick(function(){
-     //  <input id='pledgeValue' name='pledge' type='text' /> <
 
-  // });
 
 
 });
