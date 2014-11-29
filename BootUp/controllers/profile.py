@@ -73,7 +73,7 @@ def create():
                             INPUT(_id='project_title', _name='project_title', _type='text', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
 
                             LABEL('Short Project Description:', _for='short_project_description'),
-                            TEXTAREA(_id='short_project_description', _name='short_project_description', _rows = '5', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
+                            TEXTAREA(_id='short_project_description', _name='short_project_description', _rows = '2', _maxlength = "120", _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
 
                             LABEL('Category:', _for='category'),
                             SELECT(*options, _name='category', _id='category',_class='span6', requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))]),

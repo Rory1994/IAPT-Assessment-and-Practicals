@@ -22,8 +22,6 @@
             </div>
             <dl class="dl-horizontal">
 
-
-
                     <dt>Amount Raised:</dt>
                     <dd class="greenText">£ {{=int(project.funding_raised)}} </dd>
                     <hr>
@@ -44,8 +42,10 @@
 
     </div>
     <br>
-     {{=response.flash}}
-     {{=status_message}}
+    <div class="alert alert-info">
+        <h3> This is a preview. This project is not publicly avaliable.</h3>
+    </div>
+
     <div >
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -71,13 +71,9 @@
                                 <div class="well">
                                 <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
                                 <p> {{=pledge_level.reward}} </p>
-                                {{if not(able_to_pledge):}}
                                     <h4> Not available</h4>
-                                {{else:}}
-                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
-                                {{pass}}
-                                </div>
 
+                                </div>
 
                             {{pass}}
                         </div>
@@ -101,11 +97,8 @@
 
                             </div>
                             <div class="span3">
-                                 {{if not(able_to_pledge):}}
                                     <h4> Not Available</h4>
-                                {{else:}}
-                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
-                                {{pass}}
+
                             </div>
                         </div>
                     {{pass}}

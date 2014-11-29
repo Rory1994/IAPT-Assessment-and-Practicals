@@ -1,0 +1,10 @@
+<div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
+
+<div class="span4">
+
+    <h3>{{=project.title}} </h3>
+    <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
+    <h2> <small>Category is </small>  {{=project.category}} </h2>
+    <h2> <small>Amount raised is </small>  £{{=int(project.funding_raised)}} </h2>
+
+</div>

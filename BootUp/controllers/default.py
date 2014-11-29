@@ -73,7 +73,7 @@ def register():
 
 
                         DIV( LABEL('Date of Birth:'),
-                             INPUT( _name='dob', _type='text',_placeholder = ('dd/mm/yyyy') , _class='date',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))])
+                             INPUT( _name='dob', _type='text',_placeholder = ('dd/mm/yyyy'),_maxlength='10', _class='date',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))])
                              ,_class="controls controls-row"),
 
                         LEGEND('Login Credentials'),
@@ -92,9 +92,9 @@ def register():
                             ,_class='controls control-group'),
 
                         LEGEND('Billing Information'),
-                        DIV(LABEL('Card Number:', _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text', _class='span4',_style="display: block;", requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
+                        DIV(LABEL('Card Number:', _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text',_maxlength='12' ,_class='span4',_style="display: block;", requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
                             IS_LENGTH(minsize=12, maxsize=12, error_message=T("Card number must be 12 digits long")), IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long" )]),
-                            LABEL('Security Code:', _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
+                            LABEL('Security Code:', _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text',_maxlength='3', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")),
                             IS_LENGTH(minsize=3, maxsize=3, error_message="Security code contain 3 numbers"), IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')])
                             ,_class='controls control-group'),
 

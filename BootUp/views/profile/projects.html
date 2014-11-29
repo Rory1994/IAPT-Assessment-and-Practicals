@@ -16,15 +16,7 @@
                 {{else:}}
                 {{for project in open_for_pledges_projects:}}
                     <div class="row">
-                        <div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
-                        <div class="span4">
-
-                            <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
-                            <h2> <small>Category is </small>  {{=project.category}} </h2>
-                            <h2> <small>Amount raised is </small>  £{{=int(project.funding_raised)}} </h2>
-
-                        </div>
+                        {{include "subviews\displayProjectInformation.html"}}
                         <div class="span3">
                             <a href="{{=URL('projects','project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View Bootable Page</button></a>
                             <br>
@@ -47,14 +39,7 @@
 
                 {{for project in not_available_projects:}}
                     <div class="row">
-                        <div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
-                        <div class="span4">
-
-                            <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
-                            <h2> <small>Category is </small>  {{=project.category}} </h2>
-
-                        </div>
+                        {{include "subviews\displayProjectInformation.html"}}
                         <div class="span3">
                             <a href="{{=URL('profile','view_project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View/Edit</button> </a>
                             <br>
@@ -82,15 +67,7 @@
 
                 {{for project in funded_projects:}}
                     <div class="row">
-                        <div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
-                        <div class="span4">
-
-                            <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
-                            <h2> <small>Category is </small>  {{=project.category}} </h2>
-                            <h2> <small>Amount raised is </small>  £ {{=int(project.funding_raised)}} </h2>
-
-                        </div>
+                       {{include "subviews\displayProjectInformation.html"}}
                         <div class="span3">
                             <button class="btn btn-inverse btn-block" type="button">View Bootable Page</button>
 
@@ -112,15 +89,7 @@
 
                  {{for project in not_funded_projects:}}
                     <div class="row">
-                        <div class="span3"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
-                        <div class="span4">
-
-                            <h3>{{=project.title}} </h3>
-                            <h2> <small> Funding Goal is </small>  £ {{=int(project.funding_target)}} </h2>
-                            <h2> <small>Category is </small>  {{=project.category}} </h2>
-                            <h2> <small>Amount raised is </small>  £ {{=int(project.funding_raised)}} </h2>
-
-                        </div>
+                        {{include "subviews\displayProjectInformation.html"}}
                         <div class="span3">
                             <button class="btn btn-inverse btn-block" type="button">View Bootable Page</button>
                              <br>
