@@ -649,7 +649,7 @@ def change_picture():
 @auth.requires_login(otherwise=URL('default','login'))
 def edit_project():
 
-
+    form_has_errors = False
 
     options = ['Arts', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
 
@@ -673,10 +673,10 @@ def edit_project():
         form= FORM(FIELDSET(
 
                         DIV(LABEL('Project Title:', _for='project_title'),
-                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            INPUT(_id='project_title', _name='project_title', _type='text', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Project title must be entered"))),
 
-                            LABEL('Short Project Description:', _for='short_project_description'),
-                            TEXTAREA(_id='short_project_description', _name='short_project_description', _cols = '50', _rows = '5', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
+                            LABEL('Short Project Description:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be at most 120 characters. Briefly sum up the project",href="#", rel='tooltip') ,_for='short_project_description'),
+                            TEXTAREA(_id='short_project_description', _name='short_project_description', _cols = '50', _rows = '5', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Short project description must be entered")), IS_LENGTH(120, error_message=T("Must be at most 120 characters"))]),
 
                             LABEL('Category:', _for='category'),
                             SELECT(*options, _name='category', _id='category', _class="span6", requires= [IS_IN_SET(options, error_message=T("Category from list must be chosen"))])
@@ -685,14 +685,14 @@ def edit_project():
                             ,_class='controls control-group'),
 
 
-                            DIV(LABEL('Funding Goal (in GBPs):', _for='funding_goal'),
-                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
+                            DIV(LABEL('Funding Goal (in GBPs):',  A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Funding goal must be a whole number in Pound sterling (£). For instance, £99.50 would NOT be valid",href="#", rel='tooltip') ,_for='funding_goal'),
+                            INPUT(_id='funding_goal', _name='funding_goal', _type='text', _class='span6',requires=[IS_NOT_EMPTY(error_message=T("Funding goal must be entered")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
 
                             LABEL('Long Description of Project Goals:', _for='long_description'),
-                            TEXTAREA(_id='long_description', _name='long_description',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            TEXTAREA(_id='long_description', _name='long_description',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Long description must be entered"))),
 
                             LABEL('Project Story:', _for='project_story'),
-                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty")))
+                            TEXTAREA(_id='project_story', _name='project_story',_cols = '50', _rows = '10', _class='span6',requires=IS_NOT_EMPTY(error_message=T("Project story must be entered")))
 
                             ,_class='controls control-group'),
 
@@ -704,7 +704,7 @@ def edit_project():
         form.vars.project_title = project.title
         form.vars.short_project_description = project.short_description
         form.vars.category = project.category
-        form.vars.funding_goal = project.funding_target
+        form.vars.funding_goal = int(project.funding_target)
         form.vars.long_description = project.long_description
         form.vars.project_story = project.story
 
@@ -730,9 +730,15 @@ def edit_project():
 
             redirect(URL('profile','view_project', args=project.id))
 
+        elif form.errors:
+            form_has_errors = True
+            response.flash = form.errors
 
 
-    return dict(form = form, user = user, project=project)
+
+
+
+    return dict(form = form, user = user, project=project, form_has_errors = form_has_errors)
 
 def delete_project():
     db(db.project.id == request.vars.project_id).delete()

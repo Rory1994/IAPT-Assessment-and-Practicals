@@ -20,11 +20,11 @@
 
           {{elif request.function == "edit_project":}}
           <li><a href="{{=URL('profile','projects')}} ">Bootables</a> <span class="divider">/</span></li>
-          <li class="active"> Edit Project </li>
+          <li class="active"> Edit Bootable </li>
 
           {{elif request.function == "view_project":}}
           <li><a href="{{=URL('profile','projects')}} ">Bootables</a> <span class="divider">/</span></li>
-          <li class="active"> View Project </li>
+          <li class="active"> View Bootable</li>
 
           {{elif request.function == "change_picture":}}
           <li><a href="{{=URL('profile','projects')}} ">Bootables</a> <span class="divider">/</span></li>
@@ -45,6 +45,12 @@
 
           {{elif request.function=="create_step3": }}
                 <li class="active">Create a Bootable</a> </li>
+
+          {{elif request.function=="confirm_open_for_pledges": }}
+                <li class="active">Confirm Open for Pledges</a> </li>
+
+          {{elif request.function=="close_from_pledges": }}
+                <li class="active">Close from Pledges</a> </li>
 
           {{else:}}
           <li class="active"> {{=request.function.title()}} </li>
@@ -91,12 +97,12 @@
 
     {{elif request.function=="edit_project": }}
          <div class="page-header">
-            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Edit Project </small></h1>
+            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Edit Bootable</small></h1>
         </div>
 
     {{elif request.function=="view_project": }}
          <div class="page-header">
-            <h1>{{=(user.first_name + " " + user.last_name)}} <small> View Project </small></h1>
+            <h1>{{=(user.first_name + " " + user.last_name)}} <small> View Bootable </small></h1>
         </div>
 
     {{elif request.function=="change_picture": }}
@@ -114,6 +120,15 @@
             <h1>{{=(user.first_name + " " + user.last_name)}} <small> Bootable Manager Dashboard </small></h1>
         </div>
 
+    {{elif request.function=="confirm_open_for_pledges": }}
+        <div class="page-header">
+            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Confirm Open for Pledges </small></h1>
+        </div>
+
+    {{elif request.function=="close_from_pledges": }}
+        <div class="page-header">
+            <h1>{{=(user.first_name + " " + user.last_name)}} <small> Close from pledges </small></h1>
+        </div>
 
     {{else:}}
         <div class="page-header">

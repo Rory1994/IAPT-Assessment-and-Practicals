@@ -238,8 +238,8 @@ def register_validation(form):
         session.registration_errors.append(["Country", 'country'])
 
     postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid. Must be split into a block of 4 characters and a block of 3 characters. Example: IG90 7GH" )
-    if postcode_validator(form.vars.password)[1] is not None:
-        form.errors.postcode = postcode_validator(form.vars.password)[1]
+    if postcode_validator(form.vars.postcode)[1] is not None:
+        form.errors.postcode = postcode_validator(form.vars.postcode)[1]
         session.registration_errors.append(["Postcode", 'postcode'])
 
     security_code_validator = IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')
