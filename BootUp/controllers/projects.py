@@ -21,12 +21,15 @@ def preview_project():
 
 def project():
 
+    pledge_user_made = None
     able_to_pledge = True
     status_message = ""
-    user_owns_project = False
     user_has_already_pledged =  False
     project_id = request.args(0)
     project = db(db.project.id == project_id).select().first()
+
+    if project is None:
+        redirect(URL('default','index'))
 
     if auth._get_user_id() == project.username:
         response.flash = DIV("You own this bootable", _class="alert alert-info")
@@ -52,22 +55,35 @@ def project():
 
     for pledge in pledges_made_on_project:
         if pledge.pledges.username == auth._get_user_id():
-            able_to_pledge = False
+            user_has_already_pledged = True
+            pledge_user_made = pledge.pledges.pledge_levels_id
             response.flash = DIV("You've already pledged on this project", _class="alert alert-info")
 
 
     return dict(project = project, percentage_completed = percentage_completed, pledge_levels = pledge_levels,
-                pledges_made_on_project = pledges_made_on_project, user_owns_project = user_owns_project, user_has_already_pledged = user_has_already_pledged,
-                able_to_pledge = able_to_pledge, status_message = status_message)
+                pledges_made_on_project = pledges_made_on_project, user_has_already_pledged = user_has_already_pledged,
+                able_to_pledge = able_to_pledge, status_message = status_message, pledge_user_made = pledge_user_made)
 
 
 def make_pledge():
 
+    user_has_already_pledged = False
     project_id = request.args(0)
     pledge_level_id = request.args(1)
 
     if auth.is_logged_in() is False:
         redirect(URL('default','login', vars=dict(function = request.function,controller = request.controller, project_id = project_id, pledge_level_id = pledge_level_id )))
+
+    pledges_made_on_project = db((db.pledge_levels.project_id == project_id)  & (db.pledge_levels.id == db.pledges.pledge_levels_id)).select()
+
+
+    for pledge in pledges_made_on_project:
+        if pledge.pledges.username == auth._get_user_id():
+            user_has_already_pledged = True
+            previous_pledge_amount = pledge.pledge_levels.pledge_amount
+            pledge_user_has_already_made = db(db.pledges.id == pledge.pledges.id).select().first()
+
+            response.flash = DIV("You've already pledged on this project", _class="alert alert-info")
 
     form= FORM(BUTTON( I(_class="icon-shopping-cart icon-white"),' Yes, make the pledge', _type='submit', _class='btn btn-primary btn-large'))
 
@@ -76,14 +92,23 @@ def make_pledge():
 
     if form.process().accepted:
 
-        db.pledges.insert(username = auth._get_user_id(), pledge_levels_id = pledge_level_id)
-        new_funding_raised = project.funding_raised + pledge_level.pledge_amount
-        project.update_record(funding_raised = new_funding_raised)
-        redirect(URL('projects', 'project', args=project.id))
+        if user_has_already_pledged:
+
+            new_funding_raised = project.funding_raised - previous_pledge_amount + pledge_level.pledge_amount
+            pledge_user_has_already_made.update_record(pledge_levels_id = pledge_level_id)
+            project.update_record(funding_raised = new_funding_raised)
+            redirect(URL('projects', 'project', args=project.id))
+
+        else:
+
+            db.pledges.insert(username = auth._get_user_id(), pledge_levels_id = pledge_level_id)
+            new_funding_raised = project.funding_raised + pledge_level.pledge_amount
+            project.update_record(funding_raised = new_funding_raised)
+            redirect(URL('projects', 'project', args=project.id))
 
 
 
-    return dict(project = project, pledge_level = pledge_level, form = form)
+    return dict(project = project, pledge_level = pledge_level, form = form, user_has_already_pledged = user_has_already_pledged)
 
 def search():
 

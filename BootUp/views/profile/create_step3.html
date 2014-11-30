@@ -1,10 +1,11 @@
 {{extend "bootup-profile-layout.html"}}
 
 <div class="span6 offset3" >
-    {{=response.flash}}
     <div class="well">
-        <h1>Finish it off with a picture</h1>
+        <h2>Finish it off with a picture</h2>
+        <hr>
         {{=form}}
+        <a href="{{=URL('profile','create_step2')}}"> <button class="btn btn-danger"> <i class="icon-arrow-left icon-white"></i>  Go back to step 2</button></a>
 
     </div>
 </div>

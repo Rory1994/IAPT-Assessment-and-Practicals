@@ -41,17 +41,17 @@ def login():
                  A('Register',_href=URL('register'), _role='button', _class='btn btn-info'))
 
     if form.process().accepted:
-        response.flash = 'form accepted'
+        session.registration_errors = 'form accepted'
         user = auth.login_bare(request.vars.username, request.vars.password)
         if(user is False):
-            response.flash = DIV("Invalid Username/Password Combination", _class='alert alert-error')
+            session.registration_errors = DIV("Invalid Username/Password Combination", _class='alert alert-error')
         else:
             if request.vars.controller:
                 redirect(URL(request.vars.controller, request.vars.function, args=[request.vars.project_id, request.vars.pledge_level_id]))
             else:
                 redirect(URL('index'))
     elif form.errors:
-        response.flash = DIV("Username or Password field is empty", _class='alert alert-error')
+        session.registration_errors = DIV("Username or Password field is empty", _class='alert alert-error')
 
 
 
@@ -73,7 +73,7 @@ def register():
 
 
                         DIV( LABEL('Date of Birth:'),
-                             INPUT( _name='dob', _type='text',_placeholder = ('dd/mm/yyyy'),_maxlength='10', _class='date',_style="display: block;")
+                             INPUT( _name='dob', _id='dob', _type='text',_placeholder = ('dd/mm/yyyy'),_maxlength='10', _class='date',_style="display: block;")
                              ,_class="controls controls-row"),
 
                         LEGEND('Login Credentials'),
@@ -171,79 +171,108 @@ def register():
 
         redirect(URL('profile','profile'))
 
-    elif form.errors:
-        response.flash =form.errors
+
+    errors = session.registration_errors
+
+    if errors is not None:
+        form_has_errors = True
+    else:
+        form_has_errors = False
 
 
-    return dict(form=form)
+    session.registration_errors = None
+
+    return dict(form=form, errors = errors, form_has_errors = form_has_errors)
 
 def register_validation(form):
+
+    session.registration_errors = []
 
 
     if form.vars.first_name == "":
         form.errors.first_name = "First name must be entered"
+        session.registration_errors.append(["First Name", 'first_name'])
 
     if form.vars.last_name == "":
         form.errors.last_name = "Last name must be entered"
+        session.registration_errors.append(["Last Name", 'last_name'])
 
     date_validator = IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))
     if date_validator(form.vars.dob)[1] is not None:
         form.errors.dob = "Date should be given as dd/mm/yyyy"
+        session.registration_errors.append(["Date of Birth", 'dob'])
 
     username_validator = IS_NOT_IN_DB(db, 'auth_user.username', error_message='Username already taken')
     if username_validator(form.vars.username)[1] is not None:
         form.errors.username = username_validator(form.vars.username)[1]
+        session.registration_errors.append(["Username", 'username'])
 
     if form.vars.username == "":
         form.errors.username = "Username must be entered"
+        if ["Username", 'username'] not in session.registration_errors:
+            session.registration_errors.append(["Username", 'username'])
 
     if form.vars.password == "":
         form.errors.password = "Password must be entered"
+        session.registration_errors.append(["Password", 'password'])
 
     if form.vars.confirm_password == "":
         form.errors.confirm_password = "Password must be entered"
+        session.registration_errors.append(["Confirm Password", 'confirm_password'])
 
     confirm_password_validator = IS_EQUAL_TO(form.vars.password, error_message=T("Passwords do not match"))
     if confirm_password_validator(form.vars.confirm_password)[1] is not None:
         form.errors.confirm_password = confirm_password_validator(form.vars.confirm_password)[1]
+        session.registration_errors.append(["Password", 'password'])
 
     if form.vars.street == "":
         form.errors.street = "Street must be entered"
+        session.registration_errors.append(["Street", 'street'])
 
     if form.vars.city == "":
         form.errors.city = "City must be entered"
+        session.registration_errors.append(["City", 'city'])
 
     if form.vars.country == "":
         form.errors.country = "Country must be entered"
+        session.registration_errors.append(["Country", 'country'])
 
     postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid" )
     if postcode_validator(form.vars.password)[1] is not None:
-         form.errors.postcode = postcode_validator(form.vars.password)[1]
+        form.errors.postcode = postcode_validator(form.vars.password)[1]
+        session.registration_errors.append(["Postcode", 'postcode'])
 
     security_code_validator = IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')
     if security_code_validator(form.vars.security_code)[1] is not None:
         form.errors.security_code = security_code_validator(form.vars.security_code)[1]
+        session.registration_errors.append(["Security Code", 'security_code'])
 
 
     card_number_validator = IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long" )
     if card_number_validator(form.vars.card_number)[1] is not None:
         form.errors.card_number = card_number_validator(form.vars.card_number)[1]
+        session.registration_errors.append(["Card Number", 'card_number'])
 
     if form.vars.billing_checkbox != "yes":
         if form.vars.billing_street =="":
             form.errors.billing_street = "Street must be entered"
+            session.registration_errors.append(["Billing Street", 'billing_street'])
 
         if form.vars.billing_city =="":
             form.errors.billing_city = "City must be entered"
+            session.registration_errors.append(["Billing City", 'billing_city'])
 
         if form.vars.billing_country =="":
             form.errors.billing_country = "Country must be entered"
+            session.registration_errors.append(["Billing Country", 'billing_country'])
 
         if form.vars.billing_postcode =="":
             form.errors.billing_postcode = "Postcode must be entered"
+            session.registration_errors.append(["Billing Postcode", 'billing_postcode'])
 
     if form.vars.expiry_date_month not in months or form.vars.expiry_date_year not in years:
         form.errors.expiry_date_year = "Expiry Date must be entered"
+        session.registration_errors.append(["Expiry Date", 'expiry_date'])
 
 
 

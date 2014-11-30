@@ -62,9 +62,11 @@ def information():
 @auth.requires_login(otherwise=URL('default','login'))
 def create():
 
+
     session.pledge_levels = []
 
     options = ['Arts', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
+
 
 
     form= FORM(FIELDSET(
@@ -94,10 +96,23 @@ def create():
 
 
 
-                         INPUT(_type='submit', _class='btn btn-primary btn-large', _value="I'm ready to start adding pledges")
+                         BUTTON("Move on to step 2 and start adding pledges ",I(_class='icon-arrow-right icon-white'), _type='submit', _class='btn btn-primary btn-large')
 
 
     ))
+
+    if (request.vars.coming_back_from_step_two == "True"):
+        form.vars.project_title = session.create.project_title
+        form.vars.short_project_description = session.create.short_project_description
+        form.vars.category = session.create.category
+        form.vars.funding_goal = session.create.funding_goal
+        form.vars.long_description = session.create.long_description
+        form.vars.project_story = session.create.project_story
+        response.flash = "Gets Here"
+    else:
+        response.flash = request.vars.coming_back_from_step_two
+
+
 
     if form.process().accepted:
         session.create = request.vars
@@ -120,20 +135,18 @@ def create_step2():
     if session.create:
         request.vars.update(session.create)
 
-    response.flash = request.vars
-
     form = FORM(DIV(INPUT(_id='pledge_amount', _name='pledge_amount', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
             TEXTAREA(_placeholder = 'Reward', _id='pledge_reward', _name='pledge_reward',_cols = '50', _rows = '5', _class='span5', requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
-           _class="controls control-group" ), INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Add Reward'))
+           _class="controls control-group" ), INPUT(_type='submit', _class='btn btn-info btn-large', _value='Add Reward'))
 
-    go_to_step_3 = FORM(DIV(INPUT(_type='submit', _class='btn btn-primary btn-large', _value="I'm done adding pledges")))
+    go_to_step_3 = FORM(DIV(BUTTON("Move on to step 3 and add a picture ",I(_class='icon-arrow-right icon-white'), _type='submit', _class='btn btn-primary btn-large')))
 
     if form.process(formname='form_one').accepted:
         session.pledge_levels.append([request.vars.pledge_amount, request.vars.pledge_reward])
 
     if go_to_step_3.process(formname='form_two').accepted:
         if len(session.pledge_levels) <1:
-            response.flash = "Add Pledges cunt"
+            response.flash = DIV("At least one pledge must be added for a bootable to be created", _class="alert alert-error")
 
         else:
             session.create = request.vars
@@ -161,9 +174,9 @@ def create_step3():
 
     response.flash = request.vars
 
-    form= FORM(LABEL('Project Image:', _for='image'),
+    form= FORM(LABEL('Project Image:', _for='image'),DIV(
                 INPUT(_id='image', _name='image', _type='file', _class='span6',_style="display: block;",
-                requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))), _class="controls control-group"),
                  INPUT(_type='submit', _class='btn btn-primary btn-large', _value="Create Project"))
 
     if form.process().accepted:
@@ -177,6 +190,10 @@ def create_step3():
         for pledge_level in request.vars.pledge_levels:
 
             db.pledge_levels.insert(project_id = project.id, pledge_amount = int(pledge_level[0]), reward = pledge_level[1])
+
+
+        session.create = None
+        session.pledge_levels = None
 
         redirect(URL('profile', 'projects'))
 

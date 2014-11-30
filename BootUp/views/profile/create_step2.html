@@ -4,14 +4,13 @@
 <div class="well">
      <div class="row">
          <div class="span12">
-             <h1> New Project</h1>
          </div>
      </div>
 
      <div class="row">
 
         <div class="span11">
-            {{=response.flash}}
+            <h2> Step Two</h2>
 
             {{=form}}
 
@@ -39,8 +38,12 @@
                 </tr>
                 {{pass}}
             </table>
+            <hr>
             {{=go_to_step_3}}
+            <a href="{{=URL('profile','create', vars=dict(coming_back_from_step_two = "True"))}}"> <button class="btn btn-danger"> <i class="icon-arrow-left icon-white"></i>  Go back to step 1</button></a>
+
         </div>
+
         {{pass}}
      </div>
 

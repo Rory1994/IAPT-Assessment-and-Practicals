@@ -69,8 +69,9 @@
                     <div class="row">
                        {{include "subviews/displayProjectInformation.html"}}
                         <div class="span3">
-                            <button class="btn btn-inverse btn-block" type="button">View Bootable Page</button>
-
+                            <a href="{{=URL('projects','project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View Bootable Page</button></a>
+                            <br>
+                            {{=A(BUTTON('Delete',_class="btn btn-danger"), callback= URL('delete_project', vars= dict(project_id = project.id) ))}}
                         </div>
                     </div>
                     <hr>
@@ -91,10 +92,11 @@
                     <div class="row">
                         {{include "subviews/displayProjectInformation.html"}}
                         <div class="span3">
-                            <button class="btn btn-inverse btn-block" type="button">View Bootable Page</button>
+                            <a href="{{=URL('projects','project', args=project.id)}}"><button class="btn btn-inverse btn-block" type="button">View Bootable Page</button></a>
                              <br>
                             <a href="{{=URL('profile','confirm_open_for_pledges', args=project.id)}}"><button class="btn btn-block btn-info" type="button">Open bootable for Pledges</button></a>
-
+                             <br>
+                            {{=A(BUTTON('Delete',_class="btn btn-danger"), callback= URL('delete_project', vars= dict(project_id = project.id) ))}}
                         </div>
                     </div>
                     <hr>
