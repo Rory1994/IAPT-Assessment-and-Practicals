@@ -119,7 +119,7 @@ def search():
     else:
         category=None
         if request.vars.search:
-            projects_returned_by_search = db(((db.project.title.like('%' +request.vars.search + '%'))| (db.project.short_description.like('%' +request.vars.search + '%'))) & (db.project.status != "Not Available")).select()
+            projects_returned_by_search = db(((db.project.title.like('%' + request.vars.search + '%'))| (db.project.short_description.like('%' +request.vars.search + '%'))) & (db.project.status != "Not Available")).select()
 
         else:
             projects_returned_by_search = db(db.project.status != "Not Available").select()

@@ -72,30 +72,30 @@ def register():
                             ,_class='controls control-group'),
 
 
-                        DIV( LABEL('Date of Birth:'),
+                        DIV( LABEL('Date of Birth:', A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Example: 25/02/1994",href="#", rel='tooltip')),
                              INPUT( _name='dob', _id='dob', _type='text',_placeholder = ('dd/mm/yyyy'),_maxlength='10', _class='date',_style="display: block;")
                              ,_class="controls controls-row"),
 
                         LEGEND('Login Credentials'),
                         DIV(LABEL('Username:', _for='username'),INPUT(_id='username', _name='username', _type='text', _class='span4',_style="display: block;"),
                             LABEL('Password:', _for='password'),INPUT(_id='password', _name='password', _type='password', _class='span4',_style="display: block;"),
-                            LABEL('Confirm Password:', _for='confirm_password'),INPUT(_id='confirm_password', _name='confirm_password', _type='password', _class='span4',_style="display: block;")
+                            LABEL('Confirm Password: ',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be be the same as password",href="#", rel='tooltip'), _for='confirm_password'),INPUT(_id='confirm_password', _name='confirm_password', _type='password', _class='span4',_style="display: block;")
                             ,_class='controls control-group'),
 
                         LEGEND('Home Address'),
                         DIV(LABEL('Street:', _for='street'),INPUT(_id='street', _name='street', _type='text', _class='span4',_style="display: block;"),
                             LABEL('City:', _for='city'),INPUT(_id='city', _name='city', _type='text', _class='span4',_style="display: block;"),
-                            LABEL('Postcode:', _for='postcode'),INPUT(_id='postcode', _name='postcode', _type='text', _class='span4',_style="display: block;"),
-                            LABEL('Country:', _for='country'),SELECT(*COUNTRIES, _id='country', _name='country',_style="display: block;")
+                            LABEL('Postcode:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be in the format **** ***. Example: IG90 7GH",href="#", rel='tooltip'), _for='postcode'),INPUT(_id='postcode', _name='postcode', _type='text', _class='span4',_style="display: block;"),
+                            LABEL('Country:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Choose a country from the list",href="#", rel='tooltip') ,_for='country'),SELECT(*COUNTRIES, _id='country', _name='country',_style="display: block;")
                             ,_class='controls control-group'),
 
                         LEGEND('Billing Information'),
-                        DIV(LABEL('Card Number:', _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text',_maxlength='12' ,_class='span4',_style="display: block;"),
-                            LABEL('Security Code:', _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text',_maxlength='3', _class='span4',_style="display: block;")
+                        DIV(LABEL('Card Number:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be a 12 digits consisting of just numbers",href="#", rel='tooltip') ,_for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text',_maxlength='12' ,_class='span4',_style="display: block;"),
+                            LABEL('Security Code:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be 3 digits consisting of just numbers",href="#", rel='tooltip'), _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text',_maxlength='3', _class='span4',_style="display: block;")
                             ,_class='controls control-group'),
 
                         DIV(
-                            LABEL('Expiry Date:'),
+                            LABEL('Expiry Date:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Select a valid date in the format mm/yy",href="#", rel='tooltip')),
                             SELECT(*months, _value='mm', _name='expiry_date_month', _id='expiry_date_month' ),
                             SPAN(' / '),
                             SELECT(*years, _value='yy', _name='expiry_date_year', _id='expiry_date_year')
@@ -105,8 +105,8 @@ def register():
                         DIV(LABEL(INPUT(_id='billing_checkbox', _name='billing_checkbox', _value='yes', _onclick='javascript:toggleAddressAvailibility();', _type='checkbox' ), 'Same as Home Address',_class='checkbox'),
                             DIV(LABEL('Street:', _for='billing_street'),INPUT( _name='billing_street', _type='text', _class='span4',_style="display: block;"), _id='billing_street'),
                             DIV(LABEL('City:', _for='billing_city'),INPUT( _name='billing_city', _type='text', _class='span4',_style="display: block;"), _id='billing_city'),
-                            DIV(LABEL('Postcode:', _for='billing_postcode'),INPUT( _name='billing_postcode', _type='text', _style="display: block;", _class='span4'), _id='billing_postcode'),
-                            DIV(LABEL('Country:', _for='billing_country'),SELECT(*COUNTRIES, _name='billing_country'), _id='billing_country')
+                            DIV(LABEL('Postcode:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be in the format **** ***. Example: IG90 7GH",href="#", rel='tooltip'), _for='billing_postcode'),INPUT( _name='billing_postcode', _type='text', _style="display: block;", _class='span4'), _id='billing_postcode'),
+                            DIV(LABEL('Country:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Choose a country from the list",href="#", rel='tooltip'), _for='billing_country'),SELECT(*COUNTRIES, _name='billing_country'), _id='billing_country')
                             ,_class='controls control-group last_form_section'),
 
                          INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Register')
@@ -237,7 +237,7 @@ def register_validation(form):
         form.errors.country = "Country must be entered"
         session.registration_errors.append(["Country", 'country'])
 
-    postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid" )
+    postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid. Must be split into a block of 4 characters and a block of 3 characters. Example: IG90 7GH" )
     if postcode_validator(form.vars.password)[1] is not None:
         form.errors.postcode = postcode_validator(form.vars.password)[1]
         session.registration_errors.append(["Postcode", 'postcode'])

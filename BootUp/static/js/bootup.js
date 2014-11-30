@@ -22,6 +22,7 @@ $(document).ready(function(){
 
    //var pledge_count = 6;
 
+   $(".tip").tooltip();
 
    if($('#billing_checkbox').prop('checked')){
         $('#billing_street').hide();
