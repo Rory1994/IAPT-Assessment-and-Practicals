@@ -224,7 +224,7 @@ def change_password():
     form = FORM(FIELDSET(
                         LEGEND('Change Password'),
                         DIV(
-                            LABEL('New Password:', _for='new_password'),INPUT(_id='new_password', _name='new_password', _type='password', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(minsize=6, error_message="Password must be at least 6 characters")]),
+                            LABEL('New Password:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Password must be at least six characters long",href="#", rel='tooltip') ,_for='new_password'),INPUT(_id='new_password', _name='new_password', _type='password', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(minsize=6, error_message="Password must be at least 6 characters")]),
                             LABEL('Confirm New Password:', _for='confirm_new_password'),INPUT(_id='confirm_new_password', _name='confirm_new_password', _type='password', _class='span4'
                             , requires=[IS_EQUAL_TO(request.vars.confirm_new_password, error_message=T("Passwords do not match")), IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))]),
                             _class='controls control-group'),

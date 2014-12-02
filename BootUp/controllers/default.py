@@ -79,7 +79,7 @@ def register():
 
                         LEGEND('Login Credentials'),
                         DIV(LABEL('Username:', _for='username'),INPUT(_id='username', _name='username', _type='text', _class='span4',_style="display: block;"),
-                            LABEL('Password:', _for='password'),INPUT(_id='password', _name='password', _type='password', _class='span4',_style="display: block;"),
+                            LABEL('Password:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Password must be at least six characters long",href="#", rel='tooltip') ,_for='password'),INPUT(_id='password', _name='password', _type='password', _class='span4',_style="display: block;"),
                             LABEL('Confirm Password: ',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be be the same as password",href="#", rel='tooltip'), _for='confirm_password'),INPUT(_id='confirm_password', _name='confirm_password', _type='password', _class='span4',_style="display: block;")
                             ,_class='controls control-group'),
 
