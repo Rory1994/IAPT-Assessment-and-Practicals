@@ -1,0 +1,162 @@
+<div class="pad-breadcrumbs-away-from-nav">
+    <ul class="breadcrumb ">
+
+        <li><a href="{{=URL('default','index')}} ">Home</a> <span class="divider">/</span></li>
+        <li><a href="{{=URL('projects','explore_projects')}} ">Categories</a> <span class="divider">/</span></li>
+        <li class="active"> {{=project.title}} </li>
+    </ul>
+</div>
+
+    <div class="page-header">
+        <h1>{{=project.title}} <small> by {{=project.username.username}}</small></h1>
+
+    </div>
+
+    <div class="row" id="basic_project_information_header">
+        <div class="span5"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
+        <div class="span7">
+            <p class="lead"> {{=project.short_description}}</p>
+            <div class="progress">
+                <div class="bar bar-success" style="width:{{=percentage_completed}}%;"></div>
+            </div>
+            <dl class="dl-horizontal">
+
+
+
+                    <dt>Amount Raised:</dt>
+                    <dd class="greenText">£ {{=int(project.funding_raised)}} </dd>
+                    <br>
+                    <br>
+                    
+
+                    <dt> Goal:</dt>
+                    <dd class="greenText">£ {{=int(project.funding_target)}}</dd>
+                    <br>
+                    <br>
+
+
+
+                    <dt>Progress:</dt>
+                    <dd class="greenText"> {{=percentage_completed}} % </dd>
+                    <br>
+                    <br>
+
+
+
+            </dl>
+
+        </div>
+
+    </div>
+    <br>
+     {{if preview:}}
+        <div class="alert alert-info">
+            <h3> This is a preview. This project is not publicly avaliable.</h3>
+        </div>
+     {{else:}}
+         {{=response.flash}}
+         {{=user_already_pledged_message}}
+         {{=status_message}}
+     {{pass}}
+    <div >
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab"><h4> <i class="icon-info-sign"></i> Information </h4></a></li>
+                <li><a href="#tab2" data-toggle="tab"> <h4> <i class="icon-shopping-cart"></i>  Pledges   </h4> </a></li>
+                <li><a href="#tab3" data-toggle="tab"><h4> <i class="icon-list"></i> Contributors  </h4></a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <div class="row">
+                        <div class="span8" id="story_container">
+                            <h2 class="greenText"> Story</h2>
+                            {{=project.story}}
+
+                            <h2 class="greenText"> Project Goals</h2>
+                            {{=project.long_description}}
+                        </div>
+                        <div class="span3">
+
+                            <h3 class="greenText"> Pledges</h3>
+                            {{for pledge_level in pledge_levels:}}
+                                <div class="well">
+                                <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
+                                <p> {{=pledge_level.reward}} </p>
+                                {{if not(able_to_pledge) or preview:}}
+                                    <div class="alert alert-info"> Not Available</div>
+                                {{elif user_has_already_pledged:}}
+                                    {{if pledge_level.id == pledge_user_made.id:}}
+                                    <div class="alert alert-info"> You've already made this pledge</div>
+                                     {{else: }}
+                                     <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">  <i class="icon-shopping-cart icon-white"></i> Change to this pledge <div class="redirect_text">(Redirects to Pledge Confirmation) </div> </button></a>
+                                     {{pass}}
+                                {{else:}}
+                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button"><i class="icon-shopping-cart icon-white"></i>  Make this pledge <div class="redirect_text">(Redirects to Pledge Confirmation) </div> </button></a>
+                                {{pass}}
+                                </div>
+
+
+                            {{pass}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <div class="row">
+                        <div class="span5 offset2">
+                             <h3 class="greenText"> Pledges</h3>
+                        </div>
+                    </div>
+
+                    {{for pledge_level in pledge_levels:}}
+
+                        <div class="row well">
+                            <div class="span5 offset2">
+                                     <h4>Pledge £{{=pledge_level.pledge_amount}} for: </h4>
+                                     <p> {{=pledge_level.reward}} </p>
+
+
+                            </div>
+                            <div class="span3">
+                                 {{if not(able_to_pledge) or preview:}}
+                                    <div class="alert alert-info"> Not Available</div>
+                                 {{elif user_has_already_pledged:}}
+                                    {{if pledge_level.id == pledge_user_made.id:}}
+                                    <div class="alert alert-info"> You've already made this pledge</div>
+                                     {{else: }}
+                                     <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">  <i class="icon-shopping-cart icon-white"></i> Change to this pledge <div class="redirect_text">(Redirects to Pledge Confirmation) </div></button></a>
+                                     {{pass}}
+                                 {{else:}}
+                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button"><i class="icon-shopping-cart icon-white"></i>  Make this pledge <div class="redirect_text">(Redirects to Pledge Confirmation) </div></button></a>
+                                {{pass}}
+                            </div>
+                        </div>
+                    {{pass}}
+
+
+                </div>
+                <div class="tab-pane" id="tab3">
+
+                    {{if len(pledges_made_on_project) == 0:}}
+                    <h1> No pledges have been made yet!</h1>
+                    {{else:}}
+                        {{for pledge in pledges_made_on_project:}}
+
+                            <h4>{{=pledge.pledges.username.username}} <small> pledged £ {{=pledge.pledge_levels.pledge_amount}}
+                                and received the reward "{{=pledge.pledge_levels.reward}}" </small>   </h4>
+
+                            <hr>
+
+
+
+
+                        {{pass}}
+                    {{pass}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

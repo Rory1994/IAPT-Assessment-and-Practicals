@@ -1,6 +1,7 @@
 import datetime
 
-COUNTRIES=( 'United Kingdom', 'United States', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Ivory Coast', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'North Korea','South Korea', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'FYROM', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia and Montenegro', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe', 'Other')
+# Initialise the countries, years and months array for use in select statement.
+COUNTRIES=['United Kingdom', 'United States', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Ivory Coast', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'North Korea','South Korea', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'FYROM', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia and Montenegro', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe', 'Other']
 years = []
 months = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ]
 
@@ -17,8 +18,10 @@ for i in xrange(100):
 @auth.requires_login(otherwise=URL('default','login'))
 def profile():
 
+    # Retrieve information for logged in user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
+    # Retrieve the number of projects and pledge a user has
     number_of_projects = len(db(db.project.username == auth._get_user_id()).select())
     number_of_pledges = len(db(db.pledges.username == auth._get_user_id()).select())
 
@@ -28,8 +31,10 @@ def profile():
 @auth.requires_login(otherwise=URL('default','login'))
 def projects():
 
+    # Retrieve information for logged in user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
+    # Queries for retrieving the project a user owns.
     open_for_pledges_projects = db((db.project.username == auth._get_user_id()) & (db.project.status  == "Open for Pledges")).select()
     not_available_projects = db((db.project.username == auth._get_user_id()) & (db.project.status  == "Not Available")).select()
     funded_projects = db((db.project.username == auth._get_user_id()) & (db.project.status  == "Funded")).select()
@@ -43,7 +48,10 @@ def projects():
 @auth.requires_login(otherwise=URL('default','login'))
 def pledges():
 
+    # Retrieve information for logged in user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+
+    #Retrieves all pledges made by a user
     pledges_made_by_user = db((db.pledges.username == user.id) & (db.pledge_levels.project_id == db.project.id) & (db.pledge_levels.id == db.pledges.pledge_levels_id)).select()
 
     return dict(user = user, pledges_made_by_user = pledges_made_by_user)
@@ -51,6 +59,7 @@ def pledges():
 @auth.requires_login(otherwise=URL('default','login'))
 def information():
 
+    # Retrieve all personal information to do with a user.
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
     bank_details = db(db.bank_details.id == user.bank_details_id).select().first()
     address = db(db.address.id == user.address_id).select().first()
@@ -64,14 +73,15 @@ def create():
 
     form_has_errors = False
 
+    #Reset pledge levels list if coming to the create form from another page apart from step two.
     if (request.vars.coming_back_from_step_two != "True"):
          session.pledge_levels = []
 
-
+    # Initialise category options
     options = ['Arts', 'Comics', 'Crafts', 'Fashion', 'Film', 'Games', 'Music', 'Photography', 'Technology']
 
 
-
+    # Create form for create step 1
     form= FORM(FIELDSET(
 
                         DIV(LABEL('Project Title:', _for='project_title'),
@@ -104,6 +114,7 @@ def create():
 
     ))
 
+    # Prepopulate form if coming back from step 2
     if (request.vars.coming_back_from_step_two == "True"):
         form.vars.project_title = session.create.project_title
         form.vars.short_project_description = session.create.short_project_description
@@ -116,6 +127,7 @@ def create():
 
 
     if form.process().accepted:
+        #Pass form variables to next step
         session.create = request.vars
         redirect(URL('profile','create_step2'))
 
@@ -133,22 +145,26 @@ def create():
 @auth.requires_login(otherwise=URL('default','login'))
 def create_step2():
 
-
+    # Retrieve all information about a user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
+    # Binrg forward request variables from previous step
     if session.create:
         request.vars.update(session.create)
 
+    # Create pledge adding form
     form = FORM(DIV(INPUT(_id='pledge_amount', _name='pledge_amount', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
             TEXTAREA(_placeholder = 'Reward', _id='pledge_reward', _name='pledge_reward',_cols = '50', _rows = '5', _class='span5', requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
            _class="controls control-group" ), INPUT(_type='submit', _class='btn btn-info btn-large', _value='Add Reward'))
 
+    # Create button that takes you forward to step 3
     go_to_step_3 = FORM(DIV(BUTTON("Move on to step 3 and add a picture ",I(_class='icon-arrow-right icon-white'), _type='submit', _class='btn btn-primary btn-block btn-large')))
 
     if form.process(formname='form_one').accepted:
         session.pledge_levels.append([request.vars.pledge_amount, request.vars.pledge_reward])
 
     if go_to_step_3.process(formname='form_two').accepted:
+        # Ensures atleast one pledge has been added by user. If it has then go forward to step 3.
         if len(session.pledge_levels) <1:
             response.flash = DIV("At least one pledge must be added for a bootable to be created", _class="alert alert-error")
 
@@ -170,6 +186,7 @@ def create_step3():
 
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 
+    #Bring forward request variables
     if session.create:
         request.vars.update(session.create)
 
@@ -178,6 +195,7 @@ def create_step3():
 
     response.flash = request.vars
 
+    # Creat picture adding form
     form= FORM(LABEL('Project Image:', _for='image'),DIV(
                 INPUT(_id='image', _name='image', _type='file', _class='span6',_style="display: block;",
                 requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))), _class="controls control-group"),
@@ -185,12 +203,14 @@ def create_step3():
 
     if form.process().accepted:
 
+        # INsert project into database
         project = db.project.insert(username = auth._get_user_id, short_description = request.vars.short_project_description,
                                      status='Not Available', image = request.vars.image, category = request.vars.category,
                                      funding_raised = 0, story = request.vars.project_story, opened_for_pledges_date = request.now,
                                      funding_target = int(request.vars.funding_goal), title = request.vars.project_title,
                                      long_description = request.vars.long_description)
 
+        # INsert pledge levels into database
         for pledge_level in request.vars.pledge_levels:
 
             db.pledge_levels.insert(project_id = project.id, pledge_amount = int(pledge_level[0]), reward = pledge_level[1])
@@ -207,20 +227,10 @@ def create_step3():
     return dict(user=user, form=form)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 @auth.requires_login(otherwise=URL('default','login'))
 def change_password():
+
+    #CReate change password form
     form = FORM(FIELDSET(
                         LEGEND('Change Password'),
                         DIV(
@@ -234,6 +244,7 @@ def change_password():
 
     if form.process().accepted:
 
+        # Changes users password
         user = db(db.auth_user.id == auth._get_user_id()).select().first()
         user.update_record(password = db.auth_user.password.validate(form.vars.new_password)[0])
 
@@ -487,7 +498,7 @@ def edit_information_validation(form):
     if form.vars.last_name == "":
         form.errors.last_name = "Last name must be entered"
 
-    date_validator = IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))
+    date_validator = IS_DATE(format='%d/%m/%Y', error_message=T("Date should be given as dd/mm/yyyy"))
     if date_validator(form.vars.dob)[1] is not None:
         form.errors.dob = "Date should be given as dd/mm/yyyy"
 
