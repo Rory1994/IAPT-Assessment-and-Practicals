@@ -13,7 +13,7 @@
 
     </div>
 
-    <div class="row">
+    <div class="row" id="basic_project_information_header">
         <div class="span5"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
         <div class="span7">
             <p class="lead"> {{=project.short_description}}</p>
@@ -50,15 +50,15 @@
     <div >
         <div class="tabbable">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab1" data-toggle="tab"><h4>Information </h4></a></li>
-                <li><a href="#tab2" data-toggle="tab"> <h4>Pledges </h4> </a></li>
-                <li><a href="#tab3" data-toggle="tab"><h4> Contributors </h4></a></li>
+                <li class="active"><a href="#tab1" data-toggle="tab"><h4> <i class="icon-info-sign"></i> Information </h4></a></li>
+                <li><a href="#tab2" data-toggle="tab"> <h4> <i class="icon-shopping-cart"></i>  Pledges   </h4> </a></li>
+                <li><a href="#tab3" data-toggle="tab"><h4> <i class="icon-list"></i> Contributors  </h4></a></li>
             </ul>
 
             <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
                     <div class="row">
-                        <div class="span8">
+                        <div class="span8" id="story_container">
                             <h2 class="greenText"> Story</h2>
                             {{=project.story}}
 
@@ -78,10 +78,10 @@
                                     {{if pledge_level.id == pledge_user_made.id:}}
                                     <div class="alert alert-info"> You've already made this pledge</div>
                                      {{else: }}
-                                     <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button"> Change to this pledge</button></a>
+                                     <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">  <i class="icon-shopping-cart icon-white"></i> Change to this pledge <div class="redirect_text">(Redirects to Pledge Confirmation) </div> </button></a>
                                      {{pass}}
                                 {{else:}}
-                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
+                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button"><i class="icon-shopping-cart icon-white"></i>  Make this pledge <div class="redirect_text">(Redirects to Pledge Confirmation) </div> </button></a>
                                 {{pass}}
                                 </div>
 
@@ -114,10 +114,10 @@
                                     {{if pledge_level.id == pledge_user_made.id:}}
                                     <div class="alert alert-info"> You've already made this pledge</div>
                                      {{else: }}
-                                     <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button"> Change to this pledge</button></a>
+                                     <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">  <i class="icon-shopping-cart icon-white"></i> Change to this pledge <div class="redirect_text">(Redirects to Pledge Confirmation) </div></button></a>
                                      {{pass}}
                                  {{else:}}
-                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button">Make this pledge</button></a>
+                                    <a href="{{=URL('projects','make_pledge', args=[project.id, pledge_level.id])}}"><button class="btn btn-block btn-primary" type="button"><i class="icon-shopping-cart icon-white"></i>  Make this pledge <div class="redirect_text">(Redirects to Pledge Confirmation) </div></button></a>
                                 {{pass}}
                             </div>
                         </div>

@@ -165,7 +165,6 @@ body{
   background:inherit;
   color: #f7fffc;
   border:none;
-
   margin:0;
   background-color: #c01723;
   padding-left: 5px;
@@ -178,17 +177,22 @@ body{
   background:inherit;
   color: #f7fffc;
   border:none;
-
   margin:0;
   background-color: #c01723;
   padding-left: 5px;
   padding-right: 5px;
 }
 
+.redirect_text{
+    font-size: 12px;
+}
 
+#basic_project_information_header{
+    margin-bottom: 50px;
+}
 
-
-
-
+#story_container{
+    padding-right: 80px;
+}
 
 

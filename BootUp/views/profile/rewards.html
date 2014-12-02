@@ -34,7 +34,7 @@
                     <td> {{=level.reward}} </td>
                     <td>
                         {{if len(pledge_levels) > 1:}}
-                        {{=A(BUTTON('Delete',_class="btn btn-block btn-danger"), callback= URL('delete_pledge', vars= dict(id = level.id, project_id = level.project_id) ))}}
+                        {{=A(BUTTON('Delete ', I(_class='icon-remove icon-white'),_class="btn btn-block btn-danger"), callback= URL('delete_pledge', vars= dict(id = level.id, project_id = level.project_id) ))}}
                         {{else:}}
                         <h4> Not allowed to delete as project must have one pledge</h4>
                         {{pass}}
