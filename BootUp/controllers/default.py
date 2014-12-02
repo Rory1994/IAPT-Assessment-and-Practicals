@@ -90,6 +90,85 @@ def register():
                             LABEL('Country:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Choose a country from the list",href="#", rel='tooltip') ,_for='country'),SELECT(*COUNTRIES, _id='country', _name='country',_style="display: block;")
                             ,_class='controls control-group'),
 
+                        BUTTON('Go on to step two ', I(_class="icon-arrow-right icon-white"), _type='submit', _class='btn btn-block btn-primary btn-large', )
+
+    ))
+
+    if (request.vars.coming_back_from_step_two == "True"):
+        form.vars.first_name = session.register.first_name
+        form.vars.last_name = session.register.last_name
+        form.vars.dob = session.register.dob
+        form.vars.street = session.register.street
+        form.vars.city = session.register.city
+        form.vars.country = session.register.country
+        form.vars.postcode = session.register.postcode
+        form.vars.username = session.register.username
+
+
+    if form.process(onvalidation=register_validation).accepted:
+        session.register = request.vars
+        redirect(URL('default','register_step2'))
+
+    elif form.errors:
+        form_has_errors = True
+        response.flash = form.errors
+
+
+    return dict(form=form, form_has_errors = form_has_errors)
+
+def register_validation(form):
+
+    if form.vars.first_name == "":
+        form.errors.first_name = "First name must be entered"
+
+    if form.vars.last_name == "":
+        form.errors.last_name = "Last name must be entered"
+
+    date_validator = IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))
+    if date_validator(form.vars.dob)[1] is not None:
+        form.errors.dob = "Date should be given as dd/mm/yyyy"
+
+    username_validator = IS_NOT_IN_DB(db, 'auth_user.username', error_message='Username already taken')
+    if username_validator(form.vars.username)[1] is not None:
+        form.errors.username = username_validator(form.vars.username)[1]
+
+    if form.vars.username == "":
+        form.errors.username = "Username must be entered"
+
+    if form.vars.password == "":
+        form.errors.password = "Password must be entered"
+
+    if form.vars.confirm_password == "":
+        form.errors.confirm_password = "Password must be entered"
+
+    confirm_password_validator = IS_EQUAL_TO(form.vars.password, error_message=T("Passwords do not match"))
+    if confirm_password_validator(form.vars.confirm_password)[1] is not None:
+        form.errors.confirm_password = confirm_password_validator(form.vars.confirm_password)[1]
+
+    if form.vars.street == "":
+        form.errors.street = "Street must be entered"
+
+    if form.vars.city == "":
+        form.errors.city = "City must be entered"
+
+    if form.vars.country == "":
+        form.errors.country = "Country must be entered"
+
+    postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid. Must be split into a block of 4 characters and a block of 3 characters. Example: IG90 7GH" )
+    if postcode_validator(form.vars.postcode)[1] is not None:
+        form.errors.postcode = postcode_validator(form.vars.postcode)[1]
+
+
+def register_step2():
+
+    form_has_errors = False
+
+    if session.register:
+        request.vars.update(session.register)
+
+
+    form= FORM(FIELDSET(
+
                         LEGEND('Billing Information'),
                         DIV(LABEL('Card Number:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be a 12 digits consisting of just numbers. No spaces should be included",href="#", rel='tooltip') ,_for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text',_maxlength='12' ,_class='span4',_style="display: block;"),
                             LABEL('Security Code:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be 3 digits consisting of just numbers",href="#", rel='tooltip'), _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text',_maxlength='3', _class='span4',_style="display: block;")
@@ -110,16 +189,11 @@ def register():
                             DIV(LABEL('Country:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Choose a country from the list",href="#", rel='tooltip'), _for='billing_country'),SELECT(*COUNTRIES, _name='billing_country'), _id='billing_country')
                             ,_class='controls control-group last_form_section'),
 
-                         INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Register')
+                         INPUT(_type='submit', _class='btn btn-primary btn-large btn-block', _value='Register')
 
+     ))
 
-    ))
-
-
-
-
-
-    if form.process(onvalidation=register_validation).accepted:
+    if form.process(onvalidation=register_step2_validation).accepted:
 
         expiry_date = request.vars.expiry_date_month + "/" + request.vars.expiry_date_year
 
@@ -169,61 +243,21 @@ def register():
 
 
         auth.login_bare(request.vars.username, request.vars.password)
+        session.register = None
         session.flash = DIV( H4("You successfully registered for BootUp"),_class="alert alert-success")
         redirect(URL('profile','profile'))
-
 
     elif form.errors:
         form_has_errors = True
         response.flash = form.errors
 
 
+
+
+
     return dict(form=form, form_has_errors = form_has_errors)
 
-def register_validation(form):
-
-
-
-
-    if form.vars.first_name == "":
-        form.errors.first_name = "First name must be entered"
-
-    if form.vars.last_name == "":
-        form.errors.last_name = "Last name must be entered"
-
-    date_validator = IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))
-    if date_validator(form.vars.dob)[1] is not None:
-        form.errors.dob = "Date should be given as dd/mm/yyyy"
-
-    username_validator = IS_NOT_IN_DB(db, 'auth_user.username', error_message='Username already taken')
-    if username_validator(form.vars.username)[1] is not None:
-        form.errors.username = username_validator(form.vars.username)[1]
-
-    if form.vars.username == "":
-        form.errors.username = "Username must be entered"
-
-    if form.vars.password == "":
-        form.errors.password = "Password must be entered"
-
-    if form.vars.confirm_password == "":
-        form.errors.confirm_password = "Password must be entered"
-
-    confirm_password_validator = IS_EQUAL_TO(form.vars.password, error_message=T("Passwords do not match"))
-    if confirm_password_validator(form.vars.confirm_password)[1] is not None:
-        form.errors.confirm_password = confirm_password_validator(form.vars.confirm_password)[1]
-
-    if form.vars.street == "":
-        form.errors.street = "Street must be entered"
-
-    if form.vars.city == "":
-        form.errors.city = "City must be entered"
-
-    if form.vars.country == "":
-        form.errors.country = "Country must be entered"
-
-    postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid. Must be split into a block of 4 characters and a block of 3 characters. Example: IG90 7GH" )
-    if postcode_validator(form.vars.postcode)[1] is not None:
-        form.errors.postcode = postcode_validator(form.vars.postcode)[1]
+def register_step2_validation(form):
 
     security_code_validator = IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')
     if security_code_validator(form.vars.security_code)[1] is not None:
@@ -248,12 +282,12 @@ def register_validation(form):
         if form.vars.billing_postcode =="":
             form.errors.billing_postcode = "Postcode must be entered"
 
+        postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid. Must be split into a block of 4 characters and a block of 3 characters. Example: IG90 7GH" )
         if postcode_validator(form.vars.billing_postcode)[1] is not None:
             form.errors.billing_postcode = postcode_validator(form.vars.billing_postcode)[1]
 
     if form.vars.expiry_date_month not in months or form.vars.expiry_date_year not in years:
         form.errors.expiry_date_year = "Expiry Date must be entered"
-
 
 
 def user():

@@ -111,9 +111,7 @@ def create():
         form.vars.funding_goal = session.create.funding_goal
         form.vars.long_description = session.create.long_description
         form.vars.project_story = session.create.project_story
-        response.flash = "Gets Here"
-    else:
-        response.flash = request.vars.coming_back_from_step_two
+
 
 
 

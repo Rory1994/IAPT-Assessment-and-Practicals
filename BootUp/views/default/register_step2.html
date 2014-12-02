@@ -6,12 +6,14 @@
             <div class="page-header">
                 <h1>Registration</h1>
             </div>
-            <h3> Step One: Add Basic Information (1/2)</h3>
+            <h3> Step Two: Add Billing Information (2/2)</h3>
             {{if form_has_errors:}}
                 {{include "subviews/display_form_errors.html"}}
             {{pass}}
                 {{=form}}
+            <a href="{{=URL('default','register', vars=dict(coming_back_from_step_two = "True"))}}"> <button class="btn btn-danger"> <i class="icon-arrow-left icon-white"></i>  Go back to step 1</button></a>
             </div>
+
 
         </div>
     </div>
