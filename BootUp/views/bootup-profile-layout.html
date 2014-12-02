@@ -1,5 +1,7 @@
 {{extend "bootup-layout.html"}}
 
+<!-- Displays breadcrumbs depending on what page you are on -->
+
 <div class="pad-breadcrumbs-away-from-nav">
     <ul class="breadcrumb ">
       {{if request.function=="profile":}}
@@ -61,6 +63,7 @@
     </ul>
 </div>
 
+<!-- Display the page header depending on where you are-->
 {{if request.function=="profile":}}
     <div class="page-header">
         <h1>{{=(user.first_name + " " + user.last_name)}} <small> {{=number_of_pledges}} Pledges and {{=number_of_projects}}  Bootables</small></h1>

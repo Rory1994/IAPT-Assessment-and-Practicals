@@ -4,6 +4,7 @@
 
     <h5> The following fields have an error: </h5>
     <ul>
+        <!-- Loop through errors and display field along with message-->
     {{for error in response.flash:}}
 
         <li> <a href="#{{=error}}">

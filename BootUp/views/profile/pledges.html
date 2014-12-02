@@ -1,9 +1,10 @@
 {{extend "bootup-profile-layout.html"}}
 
 <div class="well span12">
+    <!-- If user has no pledges, display message. Otherwise loop through pledges and display them -->
      {{if len(pledges_made_by_user) == 0:}}
                 <h1> You have made no pledges</h1>
-                {{else:}}
+     {{else:}}
                 {{for project in pledges_made_by_user:}}
                     <div class="row">
                         <div class="span2">

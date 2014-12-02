@@ -262,11 +262,14 @@ def change_password():
 def edit_information():
 
     form_has_errors = False
+
+    #Retrieve users information
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
     bank_details = db(db.bank_details.id == user.bank_details_id).select().first()
     address = db(db.address.id == user.address_id).select().first()
     bank_address = db(db.address.id == bank_details.address_id).select().first()
 
+    # Create edit information form
     form= FORM(FIELDSET(
 
                         LEGEND('Personal Information'),
@@ -311,6 +314,7 @@ def edit_information():
 
     ))
 
+    #Prepopulate form
     form.vars.first_name = user.first_name
     form.vars.last_name = user.last_name
     form.vars.dob = generate_correct_date_format(user.birthdate)
@@ -473,6 +477,9 @@ def edit_information():
     return dict(user = user, form = form, form_has_errors = form_has_errors)
 
 def generate_correct_date_format(date):
+
+    #Given a date object its converts it into a string in the format dd/mm/yyyy
+
     date_string = ""
     if date.day < 10:
         date_string += "0" + str(date.day) + "/"
@@ -491,52 +498,65 @@ def generate_correct_date_format(date):
 
 def edit_information_validation(form):
 
-
+    #Ensure first name is entered
     if form.vars.first_name == "":
         form.errors.first_name = "First name must be entered"
 
+    #Ensure last name is entered
     if form.vars.last_name == "":
         form.errors.last_name = "Last name must be entered"
 
+    #Ensure date is in correct format
     date_validator = IS_DATE(format='%d/%m/%Y', error_message=T("Date should be given as dd/mm/yyyy"))
     if date_validator(form.vars.dob)[1] is not None:
         form.errors.dob = "Date should be given as dd/mm/yyyy"
 
+    # Ensure street is entered
     if form.vars.street == "":
         form.errors.street = "Street must be entered"
 
+    #Ensure city is entered
     if form.vars.city == "":
         form.errors.city = "City must be entered"
 
+    # Ensure country is entered
     if form.vars.country == "":
         form.errors.country = "Country must be entered"
 
+    # Ensure postcode is in correct format
     postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid. Must be split into a block of 4 characters and a block of 3 characters. Example: IG90 7GH" )
     if postcode_validator(form.vars.postcode)[1] is not None:
         form.errors.postcode = postcode_validator(form.vars.postcode)[1]
 
+    #Ensure security code is length 3
     security_code_validator = IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')
     if security_code_validator(form.vars.security_code)[1] is not None:
         form.errors.security_code = security_code_validator(form.vars.security_code)[1]
 
-
+    #Ensure card number is length 12.
     card_number_validator = IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long. No spaces should be included" )
     if card_number_validator(form.vars.card_number)[1] is not None:
         form.errors.card_number = card_number_validator(form.vars.card_number)[1]
 
     if form.vars.billing_checkbox != "yes":
+
+        #Ensures billing street is entered
         if form.vars.billing_street =="":
             form.errors.billing_street = "Street must be entered"
 
+        # Ensures billing city is entered
         if form.vars.billing_city =="":
             form.errors.billing_city = "City must be entered"
 
+        # Ensures billing country is entered
         if form.vars.billing_country =="":
             form.errors.billing_country = "Country must be entered"
 
+        #Ensures billing postcode
         if form.vars.billing_postcode =="":
             form.errors.billing_postcode = "Postcode must be entered"
 
+        #Ensures postcode in correct format
         if postcode_validator(form.vars.billing_postcode)[1] is not None:
             form.errors.billing_postcode = postcode_validator(form.vars.billing_postcode)[1]
 
@@ -554,14 +574,16 @@ def view_project():
     project = None
     project_id = request.args(0)
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    #Retrieve project from db
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
+    # If project isnt owned by user redirect
     if len(projects) < 1:
         redirect(URL('profile', 'profile'))
 
     else:
         project = projects.first()
-
+        #If project shouldnt be able to be viewed in this manner, redirect.
         if project.status != "Not Available":
              redirect(URL('profile', 'profile'))
 
@@ -569,6 +591,7 @@ def view_project():
     return dict(project = project, user = user)
 
 def delete_pledge():
+    #deletes a particular pledge level for a project
     db(db.pledge_levels.id == request.vars.id).delete()
     session.flash = DIV( H4("You successfully deleted a pledge level"),_class="alert alert-error")
     redirect(URL('rewards', args=request.vars.project_id), client_side=True)
@@ -580,9 +603,12 @@ def rewards():
     project = None
     pledge_levels = None
     project_id = request.args(0)
+    #Retrieve user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    #Retrieve project
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
+    # If project doesnt belong to user, redirect
     if len(projects) < 1:
         redirect(URL('profile', 'profile'))
 
@@ -592,12 +618,13 @@ def rewards():
         if project.status != "Not Available":
              redirect(URL('profile', 'profile'))
 
-
+        #Create add pledge levels form
         form = FORM(DIV(INPUT(_id='pledge_amount', _name='pledge_amount', _type='text', _placeholder = "£", _class='span2',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_INT_IN_RANGE(0, 1000000000, error_message=T("Must be a whole number between £0 and £1000000000"))]),
                 TEXTAREA(_placeholder = 'Reward', _id='pledge_reward', _name='pledge_reward',_cols = '50', _rows = '5', _class='span5', requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
                _class="controls control-group" ), INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Add Reward'))
 
         if form.process().accepted:
+            #Insert pledge level into database
             db.pledge_levels.insert(project_id = project.id, pledge_amount = int(request.vars.pledge_amount), reward = request.vars.pledge_reward)
             response.flash = DIV( H4("You successfully added a pledge level"),_class="alert alert-success")
 
@@ -615,24 +642,29 @@ def change_picture():
     form=None
     project = None
     project_id = request.args(0)
+    #Retrieve user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    #Retrieve project
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
+    #If users doesnt own project, redirect
     if len(projects) < 1:
         redirect(URL('profile', 'profile'))
 
     else:
+
         project = projects.first()
 
         if project.status != "Not Available":
              redirect(URL('profile', 'profile'))
 
-
+        #Create change picture form
         form = FORM(LABEL('New Image:', _for='image'),
                 INPUT(_id='image', _name='image', _type='file', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
                 INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Change Picture'))
 
         if form.process().accepted:
+            #UPdate record with new image
             project.update_record(image = request.vars.image)
             session.flash = DIV( H4("You successfully changed the project picture"),_class="alert alert-success")
             redirect(URL('profile','view_project', args=project.id))
@@ -651,19 +683,24 @@ def edit_project():
     form=None
     project = None
     project_id = request.args(0)
+    #Retrieve user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    #Retrieve Project
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
+    #If user didn't own project redirect.
     if len(projects) < 1:
         redirect(URL('profile', 'profile'))
 
     else:
         project = projects.first()
 
+        #If project is live and can't be edited, redirect
         if project.status != "Not Available":
              redirect(URL('profile', 'profile'))
 
 
+        #Create edit project form
         form= FORM(FIELDSET(
 
                         DIV(LABEL('Project Title:', _for='project_title'),
@@ -695,6 +732,7 @@ def edit_project():
 
          ))
 
+        #Prepopulate form
         form.vars.project_title = project.title
         form.vars.short_project_description = project.short_description
         form.vars.category = project.category
@@ -703,6 +741,8 @@ def edit_project():
         form.vars.project_story = project.story
 
         if form.process().accepted:
+
+        #Update project information
 
             if request.vars.project_title != project.title:
                 project.update_record(title = request.vars.project_title)
@@ -737,6 +777,7 @@ def edit_project():
     return dict(form = form, user = user, project=project, form_has_errors = form_has_errors)
 
 def delete_project():
+    #Deletes a specific project
     db(db.project.id == request.vars.project_id).delete()
     session.flash = DIV( H4(" You successfully deleted the project"),_class="alert alert-error")
     redirect(URL('profile','projects', args=request.vars.project_id), client_side=True)
@@ -749,22 +790,27 @@ def confirm_open_for_pledges():
     form=None
     project = None
     project_id = request.args(0)
+    #Retrieve user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    #Retrieve project
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
-
+    # If users doesnt own project don't allow them to do this
     if len(projects) < 1:
         redirect(URL('profile', 'profile'))
 
     else:
         project = projects.first()
 
+        # If project is funded or already open, redirect
         if (project.status != "Not Available") and (project.status != "Not Funded"):
              redirect(URL('profile', 'projects'))
 
+        # Create open for pledges form.
         form= FORM(INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Yes, open project for pledges'))
 
         if form.process().accepted:
+            #Update project status
              project.update_record(status = "Open for Pledges", open_for_pledges_date = request.now)
              session.flash = DIV( H4("You successfully opened '" + project.title + "' for pledges" ),_class="alert alert-success")
              redirect(URL('profile', 'projects', args=request.vars.project_id))
@@ -777,21 +823,27 @@ def close_from_pledges():
     form=None
     project = None
     project_id = request.args(0)
+    #Retrieve user
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
+    #Retrieve project
     projects = db((db.project.username == auth._get_user_id) & (db.project.id == project_id) ).select()
 
+    #If user doesnt own project, redirect
     if len(projects) < 1:
         redirect(URL('profile', 'profile'))
 
     else:
         project = projects.first()
 
+        #Redirect if not open for pledges
         if project.status != "Open for Pledges":
              redirect(URL('profile', 'projects'))
 
+        #Create close from pledges form.
         form= FORM(INPUT(_type='submit', _class='btn btn-primary btn-large', _value='Yes, close project from pledges'))
 
         if form.process().accepted:
+            #If funded , move to funded, if not, move to not funded
              if project.funding_target > project.funding_raised:
                  project.update_record(status = "Not Funded")
              else:

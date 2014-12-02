@@ -8,6 +8,7 @@
             </div>
             <h3> Step Two: Add Billing Information (2/2)</h3>
             <p> Hover over the <i class="icon-question-sign"></i> icon and a tip will appear</p>
+            <!-- Display registration errors if there are sum -->
             {{if form_has_errors:}}
                 {{include "subviews/display_form_errors.html"}}
             {{pass}}

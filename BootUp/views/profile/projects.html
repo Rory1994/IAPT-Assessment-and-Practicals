@@ -4,6 +4,8 @@
     {{=response.flash}}
     <a href="{{=URL('profile','create')}}"><button class="btn btn-large btn-block btn-info" type="button">Create a Bootable</button> </a>
     <hr>
+
+    <!-- Display 4 tabs, one for each status a project could have -->
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab"><h4>Open for Pledges </h4></a></li>
@@ -13,6 +15,8 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
+
+                <!-- Display project open for pledges -->
 
                 {{if len(open_for_pledges_projects) == 0:}}
                 <h1> You have no bootables open for pledges</h1>
@@ -35,6 +39,8 @@
 
             </div>
             <div class="tab-pane" id="tab2">
+
+                <!-- Display projects that are not available -->
 
                  {{if len(not_available_projects) == 0:}}
                 <h1> You have no bootables that are unavailable</h1>
@@ -64,6 +70,8 @@
             </div>
             <div class="tab-pane" id="tab3">
 
+                <!-- Display projects that have been funded -->
+
                  {{if len(funded_projects) == 0:}}
                 <h1> You have no funded bootables</h1>
                 {{else:}}
@@ -86,6 +94,8 @@
 
             </div>
             <div class="tab-pane" id="tab4">
+
+                <!-- Display projects that havent been funded. -->
 
                  {{if len(not_funded_projects) == 0:}}
                 <h1> You have no bootables that finished unfunded</h1>

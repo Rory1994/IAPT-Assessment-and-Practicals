@@ -8,6 +8,7 @@
   <div class="row">
 
     <div class="span4">
+        <!-- Display left column containing button and project image -->
         <h1>{{=project.title}} </h1>
         <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/>
         <hr>
@@ -20,6 +21,7 @@
         <a href="{{=URL('projects','preview_project', args=project.id)}}"><button class="btn btn-large btn-block btn-warning" type="button">Preview Bootable Page</button> </a>
     </div>
     <div class="span7">
+        <!-- Display right column and project information -->
         <dl class="dl-horizontal">
 
             <dt> Category:</dt>

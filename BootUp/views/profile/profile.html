@@ -2,12 +2,15 @@
 
 
 {{=response.flash}}
+
+<!-- Display grid of links to different sections -->
 <ul class="nav nav-tabs nav-stacked">
     <li><a href="{{=URL('profile','projects', args=user.username)}} "> <h1> <i class="icon-edit"></i> Bootable Manager Dashboard</h1></a> </li>
     <li><a href="{{=URL('profile','pledges', args=user.username)}} "><h1> <i class="icon-shopping-cart"></i> Your Pledges </h1></a></li>
     <li><a href="{{=URL('profile','information', args=user.username)}} "><h1> <i class="icon-info-sign"></i> Your Information </h1></a></li>
 </ul>
 
+<!-- Display bottom banner -->
 <div class="hero-unit">
   <h1>Fancy Starting Something Special?</h1>
   <p>Start your own project to finally fulfil your dreams</p>

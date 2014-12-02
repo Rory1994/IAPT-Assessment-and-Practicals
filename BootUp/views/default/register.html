@@ -8,6 +8,7 @@
             </div>
             <h3> Step One: Add Basic Information (1/2)</h3>
             <p> Hover over the <i class="icon-question-sign"></i> icon and a tip will appear</p>
+            <!-- Display registration errors if there are some-->
             {{if form_has_errors:}}
                 {{include "subviews/display_form_errors.html"}}
             {{pass}}

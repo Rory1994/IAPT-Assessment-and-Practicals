@@ -1,3 +1,5 @@
+
+<!-- Display breadcrumbs -->
 <div class="pad-breadcrumbs-away-from-nav">
     <ul class="breadcrumb ">
 
@@ -7,11 +9,13 @@
     </ul>
 </div>
 
+    <!-- Display project title -->
     <div class="page-header">
         <h1>{{=project.title}} <small> by {{=project.username.username}}</small></h1>
 
     </div>
 
+    <!-- Display image and financial information -->
     <div class="row" id="basic_project_information_header">
         <div class="span5"> <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/></div>
         <div class="span7">
@@ -48,6 +52,7 @@
         </div>
 
     </div>
+        <!-- Display status messages -->
     <br>
      {{if preview:}}
         <div class="alert alert-info">
@@ -59,6 +64,7 @@
          {{=status_message}}
      {{pass}}
     <div >
+        <!-- Display 3 tabs. 1. Info, 2. Pledges, 3. Contributors -->
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab1" data-toggle="tab"><h4> <i class="icon-info-sign"></i> Information </h4></a></li>
@@ -68,7 +74,9 @@
 
             <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
+                    <!-- Display Tab 1 -->
                     <div class="row">
+                        <!-- Display left column-->
                         <div class="span8" id="story_container">
                             <h2 class="greenText"> Story</h2>
                             {{=project.story}}
@@ -76,6 +84,7 @@
                             <h2 class="greenText"> Project Goals</h2>
                             {{=project.long_description}}
                         </div>
+                        <!-- Display right column -->
                         <div class="span3">
 
                             <h3 class="greenText"> Pledges</h3>
@@ -103,12 +112,13 @@
 
                 </div>
                 <div class="tab-pane" id="tab2">
+                    <!-- Display Tab 2 -->
                     <div class="row">
                         <div class="span5 offset2">
                              <h3 class="greenText"> Pledges</h3>
                         </div>
                     </div>
-
+                    <!-- Display pledges -->
                     {{for pledge_level in pledge_levels:}}
 
                         <div class="row well">
@@ -137,7 +147,9 @@
 
                 </div>
                 <div class="tab-pane" id="tab3">
+                    <!-- Display Tab 3 -->
 
+                    <!-- Display contributors -->
                     {{if len(pledges_made_on_project) == 0:}}
                     <h1> No pledges have been made yet!</h1>
                     {{else:}}

@@ -11,10 +11,11 @@
 
         <div class="span11">
             <h3> Step Two: Add Some Pledges Rewards</h3>
+            <!-- Display Add pledge level form -->
             {{=response.flash}}
             {{=form}}
 
-
+            <!-- Display table containing list of pledge levels -->
             <table class="table table-striped">
                 <tr>
                     <th class="span1"> #</th>
@@ -39,6 +40,7 @@
                 {{pass}}
             </table>
             <hr>
+            <!-- display buttons taking you to step 1 and step 3 -->
             {{=go_to_step_3}}
             <a href="{{=URL('profile','create', vars=dict(coming_back_from_step_two = "True"))}}"> <button class="btn btn-danger"> <i class="icon-arrow-left icon-white"></i>  Go back to step 1</button></a>
         </div>

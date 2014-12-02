@@ -2,6 +2,9 @@
 
 <div class="well">
     {{=response.flash}}
+
+    <!-- Display design element consisting of three tabs. First tab is used to display personal information
+         second tab is used to display home address and third display billing details-->
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab"><h4>Personal Information </h4></a></li>
@@ -12,7 +15,7 @@
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
                 <dl class="dl-horizontal">
-
+                    <!-- Display Tab 1 -->
 
                     <dt> Username:</dt>
                     <dd> {{=user.username}}</dd>
@@ -36,6 +39,7 @@
             <div class="tab-pane" id="tab2">
                  <dl class="dl-horizontal">
 
+                    <!-- Display Tab 2 -->
 
                     <dt> Street:</dt>
                     <dd> {{=address.street}}</dd>
@@ -60,6 +64,7 @@
 
                  <dl class="dl-horizontal">
 
+                    <!-- Display Tab 3 -->
 
                     <dt> Card Number:</dt>
                     <dd> **** **** {{=bank_details.card_number[-4:]}}</dd>
@@ -96,6 +101,8 @@
         </div>
     </div>
 </div>
+
+<!-- Display buttons for editing information -->
 <a href="{{=URL('profile','edit_information')}}"><button class="btn btn-large btn-block btn-primary" type="button"> <i class="icon-edit icon-white"></i> Edit Information</button> </a>
 <br>
 <a href="{{=URL('profile','change_password')}}"><button class="btn btn-large btn-block btn-info" type="button">Change Password</button> </a>

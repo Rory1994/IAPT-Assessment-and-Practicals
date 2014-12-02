@@ -1,6 +1,6 @@
 {{extend "bootup-layout.html"}}
 
-
+<!-- Present carousel -->
  <div class="row below-nav hidden-phone" />
             <div id="myCarousel" class="carousel slide">
                 <ol class="carousel-indicators">
@@ -53,6 +53,7 @@
 
 </div>
 
+<!-- Display row of three closest projects to being funded -->
 <div class="row">
 
    {{ for i in xrange(3):}}
@@ -62,6 +63,8 @@
 
 </div>
 
+
+<!-- Display row of three closest projects to being funded -->
 <div class="row">
      {{ for i in xrange(3,6):}}
         {{project = closest_projects_to_being_funded[i]}}
@@ -78,6 +81,7 @@
     </div>
 </div>
 
+ <!-- Display row of three newest projects to being funded -->
 <div class="row">
 
    {{ for i in xrange(3):}}
@@ -87,6 +91,7 @@
 
 </div>
 
+<!-- Display row of three newest projects to being funded -->
 <div class="row">
      {{ for i in xrange(3,6):}}
         {{project = newest_projects[i]}}
@@ -94,21 +99,6 @@
     {{pass}}
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
