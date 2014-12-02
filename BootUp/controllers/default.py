@@ -48,7 +48,7 @@ def login():
             if request.vars.controller:
                 redirect(URL(request.vars.controller, request.vars.function, args=[request.vars.project_id, request.vars.pledge_level_id]))
             else:
-                redirect(URL('index'))
+                redirect(URL('profile','profile'))
     elif form.errors:
         response.flash = DIV("Username or Password field is empty", _class='alert alert-error')
 
@@ -169,7 +169,7 @@ def register():
 
 
         auth.login_bare(request.vars.username, request.vars.password)
-
+        session.flash = DIV( H4("You successfully registered for BootUp"),_class="alert alert-success")
         redirect(URL('profile','profile'))
 
 

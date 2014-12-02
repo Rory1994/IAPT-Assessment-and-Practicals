@@ -1,7 +1,7 @@
 {{extend "bootup-profile-layout.html"}}
 
 
-
+{{=response.flash}}
 <ul class="nav nav-tabs nav-stacked">
     <li><a href="{{=URL('profile','projects', args=user.username)}} "> <h1>Bootable Manager Dashboard</h1></a> </li>
     <li><a href="{{=URL('profile','pledges', args=user.username)}} "><h1>Your Pledges </h1></a></li>
