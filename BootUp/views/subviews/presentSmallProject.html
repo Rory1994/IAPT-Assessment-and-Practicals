@@ -10,8 +10,9 @@
     <div class="project_small_description_wrapper">
         {{=project.short_description}}
     </div>
-    <h5> Left to fund: £ {{=int(project.funding_target - project.funding_raised)}}</h5>
     {{percentage_completed = int((project.funding_raised / project.funding_target)*100)}}
+    <h5> Percentage Funded: {{=percentage_completed}}% </h5>
+
     <div class="progress">
             <div class="bar bar-info" style="width:{{=percentage_completed}}%;"></div>
     </div>

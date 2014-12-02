@@ -1,6 +1,7 @@
 {{extend "bootup-profile-layout.html"}}
 
 <div class="well span12">
+    {{=response.flash}}
     <a href="{{=URL('profile','create')}}"><button class="btn btn-large btn-block btn-info" type="button">Create a Bootable</button> </a>
     <hr>
     <div class="tabbable">

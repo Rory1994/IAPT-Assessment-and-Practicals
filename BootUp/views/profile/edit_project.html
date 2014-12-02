@@ -5,18 +5,7 @@
         <div class="well span6">
 
             {{if form_has_errors:}}
-            <div class="alert alert-error">
-
-                    <h5> The following fields have an error: </h5>
-                    <ul>
-                    {{for error in response.flash:}}
-
-                        <li> <a href="#{{=error}}">
-                        {{error_field = error.replace('_', ' ').title()}} {{=error_field}} </a> : {{=response.flash[error]}} </li>
-                    {{pass}}
-
-                    </ul>
-            </div>
+                {{include "subviews/display_form_errors.html"}}
             {{pass}}
             {{=form}}
         </div>

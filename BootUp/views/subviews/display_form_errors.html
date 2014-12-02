@@ -1,0 +1,20 @@
+
+
+<div class="alert alert-error">
+
+    <h5> The following fields have an error: </h5>
+    <ul>
+    {{for error in response.flash:}}
+
+        <li> <a href="#{{=error}}">
+        {{if error=='dob':}}
+        {{error_field = 'Date of Birth'}}
+        {{else:}}
+        {{error_field = error.replace('_', ' ').title()}}
+        {{pass}}
+
+        {{=error_field}} </a> : {{=response.flash[error]}} </li>
+        {{pass}}
+
+    </ul>
+</div>

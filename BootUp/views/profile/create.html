@@ -5,20 +5,11 @@
         <div class="well span11">
             <h3> Step One: Add Basic Information</h3>
 
-            {{if form_has_errors:}}
-            <div class="alert alert-error">
+           {{if form_has_errors:}}
 
-                    <h5> The following fields have an error: </h5>
-                    <ul>
-                    {{for error in response.flash:}}
+                {{include "subviews/display_form_errors.html"}}
 
-                        <li> <a href="#{{=error}}">
-                        {{error_field = error.replace('_', ' ').title()}} {{=error_field}} </a> : {{=response.flash[error]}} </li>
-                    {{pass}}
-
-                    </ul>
-            </div>
-            {{pass}}
+           {{pass}}
 
             {{=form}}
         </div>

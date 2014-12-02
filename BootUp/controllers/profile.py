@@ -197,9 +197,10 @@ def create_step3():
 
             db.pledge_levels.insert(project_id = project.id, pledge_amount = int(pledge_level[0]), reward = pledge_level[1])
 
-
+        session.flash = DIV( H4("Congratulations, You successfully created the project '" +  request.vars.project_title + "'"),_class="alert alert-success")
         session.create = None
         session.pledge_levels = None
+
 
         redirect(URL('profile', 'projects'))
 
@@ -251,6 +252,7 @@ def change_password():
 @auth.requires_login(otherwise=URL('default','login'))
 def edit_information():
 
+    form_has_errors = False
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
     bank_details = db(db.bank_details.id == user.bank_details_id).select().first()
     address = db(db.address.id == user.address_id).select().first()
@@ -276,7 +278,7 @@ def edit_information():
                             ,_class='controls control-group'),
 
                         LEGEND('Billing Information'),
-                        DIV(LABEL('Card Number:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be a 12 digits consisting of just numbers",href="#", rel='tooltip'), _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text',_maxlength='12' ,_class='span4',_style="display: block;"),
+                        DIV(LABEL('Card Number:',A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be a 12 digits consisting of just numbers. No spaces should be included.",href="#", rel='tooltip'), _for='card_number'),INPUT(_id='card_number', _name='card_number', _type='text',_maxlength='12' ,_class='span4',_style="display: block;"),
                             LABEL('Security Code:', A(I(_class=" icon-question-sign"), _id='tip',_class='tip',_title="Must be 3 digits consisting of just numbers",href="#", rel='tooltip'), _for='security_code'),INPUT(_id='security_code', _name='security_code', _type='text',_maxlength='3', _class='span4',_style="display: block;")
                             ,_class='controls control-group'),
 
@@ -449,27 +451,17 @@ def edit_information():
                     if request.vars.billing_postcode != bank_address.postcode:
                         address.update_record(postcode = request.vars.billing_postcode)
 
-
-
+        session.flash = DIV( H4("You successfully changed your information"),_class="alert alert-success")
         redirect(URL('information'))
 
         #if (request.vars.expiry_date_month != expiry_date[0]) or (request.vars.expiry_date_year != expiry_date[2]):
 
-    errors = session.edit_information_errors
-
-    if errors is not None:
+    elif form.errors:
         form_has_errors = True
-    else:
-        form_has_errors = False
+        response.flash = form.errors
 
 
-    session.edit_information_errors = None
-
-
-
-
-
-    return dict(user = user, form = form, errors = errors, form_has_errors = form_has_errors)
+    return dict(user = user, form = form, form_has_errors = form_has_errors)
 
 def generate_correct_date_format(date):
     date_string = ""
@@ -490,70 +482,57 @@ def generate_correct_date_format(date):
 
 def edit_information_validation(form):
 
-    session.edit_information_errors = []
-
 
     if form.vars.first_name == "":
         form.errors.first_name = "First name must be entered"
-        session.edit_information_errors.append(["First Name", 'first_name'])
 
     if form.vars.last_name == "":
         form.errors.last_name = "Last name must be entered"
-        session.edit_information_errors.append(["Last Name", 'last_name'])
 
     date_validator = IS_DATE(format='%d/%m/%Y', error_message=T("Wrong format"))
     if date_validator(form.vars.dob)[1] is not None:
         form.errors.dob = "Date should be given as dd/mm/yyyy"
-        session.edit_information_errors.append(["Date of Birth", 'dob'])
 
     if form.vars.street == "":
         form.errors.street = "Street must be entered"
-        session.edit_information_errors.append(["Street", 'street'])
 
     if form.vars.city == "":
         form.errors.city = "City must be entered"
-        session.edit_information_errors.append(["City", 'city'])
 
     if form.vars.country == "":
         form.errors.country = "Country must be entered"
-        session.edit_information_errors.append(["Country", 'country'])
 
     postcode_validator =  IS_MATCH('^[A-Z0-9]{4} [A-Z0-9]{3}$', error_message="Postcode is not valid. Must be split into a block of 4 characters and a block of 3 characters. Example: IG90 7GH" )
-    if postcode_validator(form.vars.password)[1] is not None:
-        form.errors.postcode = postcode_validator(form.vars.password)[1]
-        session.edit_information_errors.append(["Postcode", 'postcode'])
+    if postcode_validator(form.vars.postcode)[1] is not None:
+        form.errors.postcode = postcode_validator(form.vars.postcode)[1]
 
     security_code_validator = IS_MATCH('^[0-9]{3}$', error_message='Security code must contain 3 numbers')
     if security_code_validator(form.vars.security_code)[1] is not None:
         form.errors.security_code = security_code_validator(form.vars.security_code)[1]
-        session.edit_information_errors.append(["Security Code", 'security_code'])
 
 
-    card_number_validator = IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long" )
+    card_number_validator = IS_MATCH('^[0-9]{12,12}$', error_message="Card number must be 12 digits long. No spaces should be included" )
     if card_number_validator(form.vars.card_number)[1] is not None:
         form.errors.card_number = card_number_validator(form.vars.card_number)[1]
-        session.edit_information_errors.append(["Card Number", 'card_number'])
 
     if form.vars.billing_checkbox != "yes":
         if form.vars.billing_street =="":
             form.errors.billing_street = "Street must be entered"
-            session.edit_information_errors.append(["Billing Street", 'billing_street'])
 
         if form.vars.billing_city =="":
             form.errors.billing_city = "City must be entered"
-            session.edit_information_errors.append(["Billing City", 'billing_city'])
 
         if form.vars.billing_country =="":
             form.errors.billing_country = "Country must be entered"
-            session.edit_information_errors.append(["Billing Country", 'billing_country'])
 
         if form.vars.billing_postcode =="":
             form.errors.billing_postcode = "Postcode must be entered"
-            session.edit_information_errors.append(["Billing Postcode", 'billing_postcode'])
+
+        if postcode_validator(form.vars.billing_postcode)[1] is not None:
+            form.errors.billing_postcode = postcode_validator(form.vars.billing_postcode)[1]
 
     if form.vars.expiry_date_month not in months or form.vars.expiry_date_year not in years:
         form.errors.expiry_date_year = "Expiry Date must be entered"
-        session.edit_information_errors.append(["Expiry Date", 'expiry_date'])
 
 
 
@@ -582,6 +561,7 @@ def view_project():
 
 def delete_pledge():
     db(db.pledge_levels.id == request.vars.id).delete()
+    session.flash = DIV( H4("You successfully deleted a pledge level"),_class="alert alert-error")
     redirect(URL('rewards', args=request.vars.project_id), client_side=True)
 
 @auth.requires_login(otherwise=URL('default','login'))
@@ -610,6 +590,10 @@ def rewards():
 
         if form.process().accepted:
             db.pledge_levels.insert(project_id = project.id, pledge_amount = int(request.vars.pledge_amount), reward = request.vars.pledge_reward)
+            response.flash = DIV( H4("You successfully added a pledge level"),_class="alert alert-success")
+
+
+
 
 
         pledge_levels = db(db.pledge_levels.project_id == project_id).select(orderby=db.pledge_levels.pledge_amount)
@@ -641,6 +625,7 @@ def change_picture():
 
         if form.process().accepted:
             project.update_record(image = request.vars.image)
+            session.flash = DIV( H4("You successfully changed the project picture"),_class="alert alert-success")
             redirect(URL('profile','view_project', args=project.id))
 
 
@@ -728,6 +713,8 @@ def edit_project():
             if request.vars.project_story != project.story:
                 project.update_record(story= request.vars.project_story)
 
+            session.flash = DIV( H4("You successfully changed your project information"),_class="alert alert-success")
+
             redirect(URL('profile','view_project', args=project.id))
 
         elif form.errors:
@@ -742,6 +729,7 @@ def edit_project():
 
 def delete_project():
     db(db.project.id == request.vars.project_id).delete()
+    session.flash = DIV( H4(" You successfully deleted the project"),_class="alert alert-error")
     redirect(URL('profile','projects', args=request.vars.project_id), client_side=True)
 
 
@@ -769,6 +757,7 @@ def confirm_open_for_pledges():
 
         if form.process().accepted:
              project.update_record(status = "Open for Pledges", open_for_pledges_date = request.now)
+             session.flash = DIV( H4("You successfully opened '" + project.title + "' for pledges" ),_class="alert alert-success")
              redirect(URL('profile', 'projects', args=request.vars.project_id))
 
     return dict(form = form, user = user, project=project)
@@ -799,6 +788,7 @@ def close_from_pledges():
              else:
                  project.update_record(status = "Funded")
 
+             session.flash = DIV( H4("You successfully closed '" + project.title + "' for pledges" ),_class="alert alert-error")
              redirect(URL('profile', 'projects', args=request.vars.project_id))
 
     return dict(form = form, user = user, project = project)

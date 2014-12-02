@@ -3,12 +3,10 @@
 
 <div class="well">
 
-
+  {{=response.flash}}
 
   <div class="row">
-    {{if project is None:}}
-        {{=response.flash}}
-    {{else:}}
+
     <div class="span4">
         <h1>{{=project.title}} </h1>
         <img width="100%" class="img-rounded" src="{{=URL('default','download',args = project.image)}}"/>

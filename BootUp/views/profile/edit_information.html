@@ -4,15 +4,7 @@
 <div class="span8 offset2">
     <div class="well">
             {{if form_has_errors:}}
-            <div class="alert alert-error">
-                    <h5> The following fields have an error: </h5>
-                    <ul>
-                    {{for error in errors: }}
-                        <li> <a href="#{{=error[1]}}"> {{=error[0]}} </a> </li>
-                    {{pass}}
-
-                    </ul>
-            </div>
+                {{include "subviews/display_form_errors.html"}}
             {{pass}}
             {{=form}}
         </div>

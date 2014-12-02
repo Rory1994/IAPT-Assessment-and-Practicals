@@ -24,9 +24,11 @@ def project():
     pledge_user_made = None
     able_to_pledge = True
     status_message = ""
+    user_already_pledged_message = ""
     user_has_already_pledged =  False
     project_id = request.args(0)
     project = db(db.project.id == project_id).select().first()
+
 
     if project is None:
         redirect(URL('default','index'))
@@ -57,12 +59,13 @@ def project():
         if pledge.pledges.username == auth._get_user_id():
             user_has_already_pledged = True
             pledge_user_made = pledge.pledges.pledge_levels_id
-            response.flash = DIV("You've already pledged on this project", _class="alert alert-info")
+            user_already_pledged_message = DIV("You've already pledged on this project", _class="alert alert-info")
 
 
     return dict(project = project, percentage_completed = percentage_completed, pledge_levels = pledge_levels,
                 pledges_made_on_project = pledges_made_on_project, user_has_already_pledged = user_has_already_pledged,
-                able_to_pledge = able_to_pledge, status_message = status_message, pledge_user_made = pledge_user_made)
+                able_to_pledge = able_to_pledge, status_message = status_message, pledge_user_made = pledge_user_made,
+                user_already_pledged_message = user_already_pledged_message)
 
 
 def make_pledge():
@@ -97,6 +100,7 @@ def make_pledge():
             new_funding_raised = project.funding_raised - previous_pledge_amount + pledge_level.pledge_amount
             pledge_user_has_already_made.update_record(pledge_levels_id = pledge_level_id)
             project.update_record(funding_raised = new_funding_raised)
+            session.flash = DIV( H2("Congratulations, You successfully pledged on this project"),_class="alert alert-success")
             redirect(URL('projects', 'project', args=project.id))
 
         else:
@@ -104,6 +108,7 @@ def make_pledge():
             db.pledges.insert(username = auth._get_user_id(), pledge_levels_id = pledge_level_id)
             new_funding_raised = project.funding_raised + pledge_level.pledge_amount
             project.update_record(funding_raised = new_funding_raised)
+            session.flash = DIV( H2("Congratulations, You successfully pledged on this project"),_class="alert alert-success")
             redirect(URL('projects', 'project', args=project.id))
 
 
