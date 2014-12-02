@@ -224,7 +224,7 @@ def change_password():
     form = FORM(FIELDSET(
                         LEGEND('Change Password'),
                         DIV(
-                            LABEL('New Password:', _for='new_password'),INPUT(_id='new_password', _name='new_password', _type='password', _class='span4',requires=IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))),
+                            LABEL('New Password:', _for='new_password'),INPUT(_id='new_password', _name='new_password', _type='password', _class='span4',requires=[IS_NOT_EMPTY(error_message=T("Field cannot be left empty")), IS_LENGTH(minsize=6, error_message="Password must be at least 6 characters")]),
                             LABEL('Confirm New Password:', _for='confirm_new_password'),INPUT(_id='confirm_new_password', _name='confirm_new_password', _type='password', _class='span4'
                             , requires=[IS_EQUAL_TO(request.vars.confirm_new_password, error_message=T("Passwords do not match")), IS_NOT_EMPTY(error_message=T("Field cannot be left empty"))]),
                             _class='controls control-group'),
@@ -240,7 +240,7 @@ def change_password():
         response.flash = DIV('Password has been successfully changed', _class="alert alert-success")
 
     elif form.errors:
-         response.flash = DIV('Form not filled out successfully', _class="alert alert-error")
+         response.flash = DIV("Passwords either don't match or aren't long enough or don't match", _class="alert alert-error")
 
     user = (db(db.auth_user.id == auth._get_user_id()).select()).first()
 

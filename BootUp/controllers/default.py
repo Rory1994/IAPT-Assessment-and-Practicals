@@ -138,6 +138,11 @@ def register_validation(form):
     if form.vars.password == "":
         form.errors.password = "Password must be entered"
 
+    password_length_validator =  IS_LENGTH(minsize=6, error_message="Password must be at least 6 characters")
+
+    if password_length_validator(form.vars.password)[1] is not None:
+        form.errors.password = password_length_validator(form.vars.password)[1]
+
     if form.vars.confirm_password == "":
         form.errors.confirm_password = "Password must be entered"
 
